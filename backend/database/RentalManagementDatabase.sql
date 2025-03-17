@@ -1,9 +1,8 @@
 CREATE DATABASE RentalManagement;
 
-CREATE TABLE "user" (
+CREATE TABLE "User" (
     id INT,
-    username VARCHAR(64),
+    username VARCHAR(50),
     password VARCHAR(20)
-    )
+);
 
-SELECT * FROM "user"
