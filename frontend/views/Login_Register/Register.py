@@ -37,13 +37,10 @@ class LoginWindow(QMainWindow):
         self.sign_in_btn.setStyleSheet("background-color: white; color: #FF6B6B; font-weight: bold; border-radius: 20px;")
         self.sign_in_btn.clicked.connect(self.expand_window)
 
-        self.login_btn = QPushButton("LOGIN")
-        self.login_btn.setFixedSize(120, 40)
-        self.login_btn.setStyleSheet("background-color: white; color: #FF6B6B; font-weight: bold; border-radius: 20px;")
-        self.login_btn.clicked.connect(self.expand_window)
+
 
         left_layout.addWidget(self.sign_in_btn)
-        left_layout.addWidget(self.login_btn)
+
 
         self.main_layout.addWidget(self.left_frame)
 
@@ -78,10 +75,18 @@ class LoginWindow(QMainWindow):
 
         # Nút Login
         login_btn = QPushButton("LOGIN")
+
         login_btn.setFixedHeight(40)
         login_btn.setStyleSheet("""
             background-color: #FF6B6B; color: white; font-weight: bold; 
             border-radius: 20px;""")
+
+        #Nút thoát
+        exist_btn = QPushButton("Exist")
+        exist_btn.setFixedHeight(40)
+        exist_btn.setStyleSheet("""
+                    background-color: #4FBEEE; color: white; font-weight: bold; 
+                    border-radius: 20px;""")
 
         # Thêm vào layout
         right_layout.addWidget(logo_label)
@@ -89,18 +94,19 @@ class LoginWindow(QMainWindow):
         right_layout.addWidget(password_input)
         right_layout.addWidget(forgot_password)
         right_layout.addWidget(login_btn)
+        right_layout.addWidget(exist_btn)
 
         self.main_layout.addWidget(self.right_frame)
 
     def expand_window(self):
-        """📌 Khi nhấn vào LOGIN hoặc SIGN IN, cửa sổ mở rộng ra"""
+        """Khi nhấn vào LOGIN hoặc SIGN IN, cửa sổ mở rộng ra"""
         self.animation = QPropertyAnimation(self, b"geometry")
         self.animation.setDuration(500)  # Thời gian animation (ms)
         self.animation.setEasingCurve(QEasingCurve.Type.InOutQuad)
 
         # Lấy vị trí & kích thước hiện tại
         current_geometry = self.geometry()
-        new_width = 800  # 📌 Kích thước sau khi mở rộng
+        new_width = 800  # Kích thước sau khi mở rộng
 
         # Định nghĩa animation mở rộng cửa sổ
         self.animation.setStartValue(current_geometry)
