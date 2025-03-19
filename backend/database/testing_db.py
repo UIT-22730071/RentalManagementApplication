@@ -21,5 +21,3 @@ for row in rows:
     print(row)
 
 conn.close()
-
-# Testing Github - Try: 2
