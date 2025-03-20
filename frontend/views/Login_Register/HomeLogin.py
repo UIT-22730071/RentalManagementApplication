@@ -96,6 +96,7 @@ class LoginWindow(QWidget):
         login_btn = QPushButton("Đăng nhập")
         login_btn.setFixedHeight(40)
         login_btn.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
+        # TODO: Xử lý checklogin
         login_btn.clicked.connect(lambda: self.handle_login(email_input, password_input))
 
         exist_btn_login = QPushButton("Thoát")
@@ -145,7 +146,10 @@ class LoginWindow(QWidget):
         signup_btn = QPushButton("Đăng ký")
         signup_btn.setFixedHeight(40)
         signup_btn.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
-        signup_btn.clicked.connect(self.open_update_info)
+        #TODO: Xử lý lấy thông tin qua page Update thông tin
+        #TODO: Cần thêm 1 hàm check correct password , check đúng mới cho chuyển page
+        signup_btn.clicked.connect(lambda: self.handle_sign_up(username_input, password_input, confirm_password_input))
+
 
         exist_btn_signup = QPushButton("Thoát")
         exist_btn_signup.setFixedHeight(40)
@@ -171,10 +175,7 @@ class LoginWindow(QWidget):
         """Chuyển sang Workspace khi đăng nhập thành công"""
         self.main_window.switch_to_workspace()
 
-    def open_update_info(self):
-        """Chuyển sang form cập nhật thông tin"""
-        role = "Chủ trọ" if self.role_selection.isChecked() else "Người thuê trọ"
-        self.main_window.setCentralWidget(UpdateInfoAfterRegister(role))
+
 
 
     def expand_window(self, index):
