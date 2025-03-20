@@ -1,0 +1,6 @@
+DROP TABLE Users;
+DROP TABLE Admins;
+DROP TABLE Landlords;
+DROP TABLE Tenants;
+DROP TABLE Admins;
+
