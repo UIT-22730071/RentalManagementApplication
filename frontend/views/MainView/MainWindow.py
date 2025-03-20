@@ -10,7 +10,8 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Ứng dụng Quản lý")
-        self.setGeometry(200, 100, 800, 500)
+        self.setGeometry(200, 100, 300, 620)  # Ban đầu chỉ hiển thị khung trái
+        self.setStyleSheet("background-color: #202020; border-radius: 15px;")
 
         # Đặt giao diện đăng nhập làm trang chính
         self.setCentralWidget(LoginWindow(self))
