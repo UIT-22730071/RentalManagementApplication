@@ -9,18 +9,22 @@ from QLNHATRO.RentalManagementApplication.frontend.Component.InputTextUI import 
 from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.UpdateInfoAfterRegister import UpdateInfoAfterRegister
 
 
-
-class LoginWindow(QWidget):
-    def __init__(self, main_window):
+class LoginWindow(QMainWindow):
+    def __init__(self):
         super().__init__()
 
         self.login_controller = LoginController()
-        self.main_window = main_window  # Lưu lại để dùng cho chuyển trang
-        self.setStyleSheet("background-color: #202020; border-radius: 15px;")
-        # Layout chính (chứa 2 phần trái + phải)
-        # Layout chính
 
-        self.main_layout = QHBoxLayout(self)  # Đặt layout chính cho LoginWindow
+        self.setWindowTitle("Login & Sign Up")
+        self.setGeometry(200, 100, 300, 620)  # Ban đầu chỉ hiển thị khung trái
+        self.setStyleSheet("background-color: #202020; border-radius: 15px;")
+
+        # Widget chính
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+
+        # Layout chính (chứa 2 phần trái + phải)
+        self.main_layout = QHBoxLayout(self.central_widget)
 
         # Tạo Frame bên trái (Hiệu ứng nền + Nút)
         self.left_frame = QFrame()
@@ -55,8 +59,6 @@ class LoginWindow(QWidget):
         self.right_frame.setFixedWidth(500)
         self.right_frame.setVisible(False)  # Ẩn ban đầu
         self.right_layout = QVBoxLayout(self.right_frame)
-
-        self.right_frame.setLayout(self.right_layout)
 
         # **Tạo StackedWidget để chứa LOGIN và SIGN IN**
         self.stacked_widget = QStackedWidget()
@@ -167,21 +169,34 @@ class LoginWindow(QWidget):
 
         self.stacked_widget.addWidget(signup_page)
 
-    def go_to_workspace(self):
-        """Chuyển sang Workspace khi đăng nhập thành công"""
-        self.main_window.switch_to_workspace()
+
 
     def open_update_info(self):
-        """Chuyển sang form cập nhật thông tin"""
-        role = "Chủ trọ" if self.role_selection.isChecked() else "Người thuê trọ"
-        self.main_window.setCentralWidget(UpdateInfoAfterRegister(role))
+        """Xử lý chuyển sang Form cập nhật thông tin theo Role"""
+        selected_role = "Chủ trọ" if self.role_selection.isChecked() else "Người thuê trọ"
+        self.switch_to_update_form(selected_role)
 
+    def switch_to_update_form(self, role):
+        """Chuyển đổi right_frame sang form cập nhật thông tin theo role"""
+        update_info_widget = UpdateInfoAfterRegister(role)
+
+        if role == "Chủ trọ":
+            update_info_widget.initlandlotForm()
+        else:
+            update_info_widget.initTenantForm()
+
+        # Xóa frame cũ và thay thế bằng form mới
+        self.right_layout.removeWidget(self.stacked_widget)
+        self.stacked_widget.setParent(None)  # Xóa widget cũ
+        self.right_layout.addWidget(update_info_widget)
 
     def expand_window(self, index):
         """Khi nhấn vào LOGIN hoặc SIGN IN, cửa sổ mở rộng ra"""
         self.right_frame.setVisible(True)
         self.stacked_widget.setCurrentIndex(index)
 
-
-
-
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = LoginWindow()
+    window.show()
+    sys.exit(app.exec())

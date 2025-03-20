@@ -61,3 +61,4 @@ class ButtonUI:
     def login_register_button():
          #""" background-color: #FF6B6B; color: white; font-weight: bold;  border-radius: 20px;""")
         return ButtonUI(background="#FF6B6B", hover_bg="#FF9999", border_radius="20px", font_size="14px")
+
