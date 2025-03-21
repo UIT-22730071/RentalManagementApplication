@@ -2,6 +2,8 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QLabel, QStackedWidget
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordHome import LandlordHome
+from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordInfo import LandlordInfo
+from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.RoomList import RoomList
 
 
 class LandlordMenu(QWidget):
@@ -39,11 +41,11 @@ class LandlordMenu(QWidget):
 
         self.info_btn = QPushButton("👤 Thông tin chủ trọ")
         button_ui.apply_style(self.info_btn)
-        self.info_btn.clicked.connect(lambda: print("clicked Thông tin chủ trọ"))
+        self.info_btn.clicked.connect(lambda : self.set_right_frame(LandlordInfo))
 
         self.infor_list_room_btn = QPushButton("📂 Danh sách phòng trọ")
         button_ui.apply_style(self.infor_list_room_btn)
-        self.infor_list_room_btn.clicked.connect(lambda: print("clicked Danh sách phòng trọ"))
+        self.infor_list_room_btn.clicked.connect(lambda : self.set_right_frame(RoomList))
 
         self.create_new_room_btn = QPushButton("➕ Tạo phòng trọ mới")
         button_ui.apply_style(self.create_new_room_btn)
