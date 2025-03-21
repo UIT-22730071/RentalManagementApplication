@@ -10,7 +10,7 @@ class LandlordHome(QWidget):
 
         main_layout = QVBoxLayout()
         main_layout.setAlignment(Qt.AlignTop)
-        self.setStyleSheet("background-color: #2C2F33; border-radius: 15px; padding: 20px;")
+        self.setStyleSheet("background-color: #2c3e50; border-radius: 15px; padding: 20px;")
 
         # Tiêu đề chính
         title = QLabel("📊 THỐNG KÊ TỔNG QUAN")
@@ -28,6 +28,7 @@ class LandlordHome(QWidget):
             border-radius: 15px;
             font-size: 18px;
         """)
+
         chart_placeholder.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(chart_placeholder)
         '''
