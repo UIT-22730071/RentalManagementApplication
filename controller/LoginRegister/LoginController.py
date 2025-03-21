@@ -20,7 +20,12 @@ class LoginController():
 
     def go_to_sign_up(self, username, password, password_confirm, role):
         check = check_password_not_equal(password, password_confirm)
-        if check == TRUE:
+        if check == True:
             self.open_update_info(role, username, password)
 
+        else:
+            pass
 
+    def go_to_exsit(self,main_window):
+        main_window.close()
+        pass

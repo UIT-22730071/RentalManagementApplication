@@ -1,8 +1,11 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QLabel, QStackedWidget
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
+from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordCreateNewRoom import CreateNewRoom
+from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordFindNewTenant import FindNewTenant
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordHome import LandlordHome
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordInfo import LandlordInfo
+from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordListInvoices import ListInvoices
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.RoomList import RoomList
 
 
@@ -49,23 +52,23 @@ class LandlordMenu(QWidget):
 
         self.create_new_room_btn = QPushButton("➕ Tạo phòng trọ mới")
         button_ui.apply_style(self.create_new_room_btn)
-        self.create_new_room_btn.clicked.connect(lambda: print("clicked Tạo phòng trọ mới"))
+        self.create_new_room_btn.clicked.connect(lambda : self.set_right_frame(CreateNewRoom))
 
         self.infor_list_invoice_btn = QPushButton("🧾 Danh sách hóa đơn")
         button_ui.apply_style(self.infor_list_invoice_btn)
-        self.infor_list_invoice_btn.clicked.connect(lambda: print("clicked Danh sách hóa đơn"))
+        self.infor_list_invoice_btn.clicked.connect(lambda : self.set_right_frame(ListInvoices))
 
         self.add_adv_find_tenant_btn = QPushButton("🔍 Tìm người thuê mới")
         button_ui.apply_style(self.add_adv_find_tenant_btn)
-        self.add_adv_find_tenant_btn.clicked.connect(lambda: print("clicked Tìm người thuê mới"))
+        self.add_adv_find_tenant_btn.clicked.connect(lambda: self.set_right_frame(FindNewTenant))
 
         self.logout_btn = QPushButton("🚪 Đăng xuất")
         button_ui.apply_style(self.logout_btn)
-        self.logout_btn.clicked.connect(lambda: print("clicked Đăng xuất"))
+        self.logout_btn.clicked.connect(lambda: print("Clicked Logout" ))
 
         self.exist_btn = QPushButton("❌ Thoát")
         button_ui.apply_style(self.exist_btn)
-        self.exist_btn.clicked.connect(lambda: print("clicked Thoát"))
+        self.exist_btn.clicked.connect(lambda: self.main_window.go_to_exs(self.main_window))
 
         # Thêm tất cả các button vào layout
         left_layout.addWidget(self.home_btn)
