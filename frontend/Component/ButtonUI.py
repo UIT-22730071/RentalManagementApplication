@@ -17,13 +17,20 @@ class ButtonUI:
     def apply_style(self, widget):
         """Áp dụng style cho một QPushButton"""
         style = f"""
-            background-color: {self.background};
-            color: {self.text_color};
-            border: {self.border};
-            border-radius: {self.border_radius};
-            font-size: {self.font_size};
-            padding: {self.padding};
-            margin: {self.margin};
+            QPushButton {{
+                background-color: {self.background};
+                color: {self.text_color};
+                border: {self.border};
+                border-radius: {self.border_radius};
+                font-size: {self.font_size};
+                padding: {self.padding};
+                margin: {self.margin};
+                text-align: left;
+            }}
+            QPushButton::hover {{
+                background-color: {self.hover_bg};
+                color: {self.hover_text};
+            }}
         """
 
         if self.hover_bg or self.hover_text:
@@ -61,4 +68,21 @@ class ButtonUI:
     def login_register_button():
          #""" background-color: #FF6B6B; color: white; font-weight: bold;  border-radius: 20px;""")
         return ButtonUI(background="#FF6B6B", hover_bg="#FF9999", border_radius="20px", font_size="14px")
+
+    @staticmethod
+    def landlord_dashboard_button():
+        """Button chính cho dashboard chủ trọ: đều, căn trái, đổ bóng, bo góc"""
+        return ButtonUI(
+            background="#0E3958",
+            text_color="white",
+            border="none",
+            border_radius="10px",
+            font_size="16px",
+            padding="12px",
+            margin="8px",
+            hover_bg="#38ACFE",
+            hover_text="white"
+        )
+
+
 
