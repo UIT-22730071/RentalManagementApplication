@@ -23,25 +23,29 @@ class RoomList(QWidget):
                 font-family: Arial;
             }
             QPushButton {
-                background-color: #e67e22;
+                background-color: #1C0CFB;
                 color: white;
-                padding: 6px 10px;
-                border-radius: 6px;
+                padding: 10px 10px;
+                border-radius: 12px;
             }
             QPushButton:hover {
                 background-color: #d35400;
+                background-color: #0056b3;
             }
             QTableWidget {
                 background-color: #34495e;
                 gridline-color: #ecf0f1;
                 color: white;
                 font-size: 14px;
+                border: 2px solid #d35400;
+                border-radius: 8px; 
             }
             QHeaderView::section {
-                background-color: #e67e22;
+                background-color: #FFA07A;
                 color: white;
                 font-weight: bold;
-                padding: 5px;
+                padding: 6px;
+                border-radius: 2px;
                 border: 1px solid #d35400;
             }
         """)
