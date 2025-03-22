@@ -1,5 +1,5 @@
 CREATE TABLE Users (
-    UserID INT PRIMARY KEY UNIQUE NOT NULL,
+    UserID INT AUTOINCREMENT PRIMARY KEY UNIQUE  NOT NULL,
     Username NVARCHAR(30) UNIQUE NOT NULL,
     Password NVARCHAR(255) NOT NULL,
     Role NVARCHAR(12) NOT NULL,
@@ -20,8 +20,11 @@ CREATE TABLE Landlords (
     Fullname NVARCHAR(255) NOT NULL ,
     CCCD NVARCHAR(12) UNIQUE NOT NULL,
     PhoneNumber NVARCHAR(15),
+    Job NVARCHAR(30),
+    MaritalStatus NVARCHAR (30),
     UserID INT,
-    FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
+    FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE,
+    CONSTRAINT chk_martial_status CHECK ( Landlords.MaritalStatus IN ('Married', 'Single') )
 );
 
 CREATE TABLE Tenants (

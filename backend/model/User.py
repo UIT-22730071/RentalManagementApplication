@@ -1,17 +1,40 @@
+import sqlite3
+
+
 class User:
-    def __init__(self, username, password, role, user_id=None):
-        self.__username = username
-        self.__password = password
-        #self.__role = Role(role)
-        self.__user_id = user_id  # Lưu UserID sau khi tạo tài khoản
+    def __init__(self, username, password, role, user_id, is_active = 0):
+        self.username = username
+        self.password = password
+        self.role = role
+        self.user_id = user_id
+        self.is_active = is_active
 
+    @staticmethod
+    def add_user(self, username, password, role):
+        if self.check_duplicate_user(username):
+            print("User already exists")
+            return False
+        else:
+            conn = sqlite3.connect('rentalmanagement.sqlite')
+            cursor = conn.cursor()
+            cursor.execute("""
+            INSERT INTO Users (Username, Password, Role, IsActive) VALUES (?, ?, ?, ?, ?)""", (username,password, role, 0))
+            conn.commit()
+            conn.close()
+            return True if cursor.rowcount == 1 else False
 
-    # hàm này Staticmethod vì nó check 2 giá trị có gióng nhau hay không thoi chứ không updata
+    @staticmethod
+    def check_duplicate_user(self, username):
+        conn = sqlite3.connect('rentalmanagement.sqlite')
+        cursor = conn.cursor()
+        cursor.execute("""
+        SELECT * FROM Users WHERE Username = ?""", (username,))
+        if cursor.fetchone() is not None:
+            return True
+        else:
+            return False
 
-def check_password_not_equal(password_input, confirm_password_input):
-    if password_input == confirm_password_input:
-        return True
-    else:
-        return False
+    def checking_password(self, password_input, username):
+
 
 
