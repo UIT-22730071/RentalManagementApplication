@@ -9,6 +9,8 @@ class User:
         self.user_id = user_id
         self.is_active = is_active
 
+
+
     @staticmethod
     def add_user(self, username, password, role):
         if self.check_duplicate_user(username):
@@ -24,6 +26,13 @@ class User:
             return True if cursor.rowcount == 1 else False
 
     @staticmethod
+    def add_user_to_admin(self, username, password, user_id):
+        conn = sqlite3.connect('rentalmanagement.sqlite')
+        cursor = conn.cursor()
+
+
+
+    @staticmethod
     def check_duplicate_user(self, username):
         conn = sqlite3.connect('rentalmanagement.sqlite')
         cursor = conn.cursor()
@@ -34,7 +43,15 @@ class User:
         else:
             return False
 
-    def checking_password(self, password_input, username):
-
+    @staticmethod
+    def check_correct_password(password_input, username):
+        conn = sqlite3.connect('rentalmanagement.sqlite')
+        cursor = conn.cursor()
+        cursor.execute("""
+        SELECT Password FROM Users WHERE Username = ?""", (username,))
+        if cursor.fetchone() == password_input:
+            return True
+        else:
+            return False
 
 
