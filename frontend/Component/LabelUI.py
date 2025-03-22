@@ -24,3 +24,8 @@ class LabelUI(QWidget):
 
     def text(self):
         return self.label.text()
+
+class LabelDarkUI(LabelUI):
+    def __init__(self, label_text="", font_size=14):
+        # Gọi lại constructor của LabelUI nhưng đổi màu thành màu tối
+        super().__init__(label_text=label_text, font_size=font_size, color="#333")
