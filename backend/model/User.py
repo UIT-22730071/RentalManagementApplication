@@ -55,3 +55,13 @@ class User:
             return False
 
 
+    @staticmethod
+    def check_password_not_equal(password, password_confirm):
+        if password == password_confirm:
+            return True
+        else:
+            return False
+
+
+def check_password_not_equal():
+    return None

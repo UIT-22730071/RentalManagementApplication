@@ -24,7 +24,7 @@ class LandlordInfo(QWidget):
                 font-family: Arial;
             }
             QPushButton {
-                background-color: #e67e22;
+                background-color: #203BEC;
                 color: white;
                 padding: 6px 12px;
                 border-radius: 6px;

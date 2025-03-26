@@ -58,13 +58,13 @@ class CreateNewRoom(QWidget):
 
             if unit_text:
                 unit = QLabel(unit_text)
-                unit.setFixedWidth(60)
+                unit.setFixedWidth(80)
                 unit.setAlignment(Qt.AlignCenter)
                 unit.setStyleSheet("""
-                    background-color: #f0fbd6;
+                    background-color: #CCD2F4;
                     color: #333;
-                    padding: 6px 10px;
-                    font-size: 13px;
+                    padding: 6px 8px;
+                    font-size: 11px;
                     border-radius: 10px;
                 """)
                 layout.addWidget(unit)

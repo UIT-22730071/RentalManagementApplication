@@ -97,8 +97,8 @@ class LoginWindow(QWidget):
         login_btn.setFixedHeight(40)
         login_btn.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
         # TODO: Xử lý checklogin
-        login_btn.clicked.connect(lambda: self.handle_login(email_input, password_input))
-
+        #login_btn.clicked.connect(lambda: self.handle_login(email_input, password_input))
+        login_btn.clicked.connect(lambda : print("clicked login_btn"))
         exist_btn_login = QPushButton("Thoát")
         exist_btn_login.setFixedHeight(40)
         exist_btn_login.setStyleSheet("background-color: #4FBEEE; color: white; font-weight: bold; border-radius: 20px;")
