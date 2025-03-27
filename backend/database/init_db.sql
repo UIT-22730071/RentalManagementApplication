@@ -54,5 +54,15 @@ CREATE TABLE Rooms (
     FOREIGN KEY (LandlordID) REFERENCES Landlords(LandlordID) ON DELETE CASCADE
 );
 
+CREATE TABLE QuangCao (
+    id_advertisement INTEGER PRIMARY KEY AUTOINCREMENT,
+    RoomID INT,
+    Description TEXT,
+    Prioritize TEXT,
+    Picture TEXT,
+    DateCreate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
 
 
