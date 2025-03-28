@@ -1,0 +1,2 @@
+class TenantInvoices:
+    pass

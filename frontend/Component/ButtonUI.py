@@ -1,3 +1,6 @@
+from PyQt5.QtGui import QFont
+
+
 class ButtonUI:
     """Lớp quản lý thiết kế UI cho các Button trong PyQt6"""
 
@@ -83,6 +86,21 @@ class ButtonUI:
             hover_bg="#38ACFE",
             hover_text="white"
         )
-
-
+    @staticmethod
+    def tenant_dashboard_button():
+        """
+        Create a style configuration for tenant dashboard buttons
+        Similar to landlord_dashboard_button() but with a different color scheme
+        """
+        return ButtonUI(
+            background="#0192F4",  # Deep blue background
+            text_color="white",
+            border="none",
+            border_radius="10px",
+            font_size="16px",
+            padding="12px",
+            margin="8px",
+            hover_bg="#38ACFE",  # Lighter blue on hover
+            hover_text="white"
+        )
 

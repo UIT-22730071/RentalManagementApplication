@@ -1,0 +1,2 @@
+class TenantRoomInfo:
+    pass
