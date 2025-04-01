@@ -7,7 +7,7 @@ from PyQt6.QtCore import Qt, QPropertyAnimation, QEasingCurve
 from QLNHATRO.RentalManagementApplication.controller.LoginRegister.LoginController import LoginController
 from QLNHATRO.RentalManagementApplication.frontend.Component.InputTextUI import InputTextUI
 from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.UpdateInfoAfterRegister import UpdateInfoAfterRegister
-
+from QLNHATRO.RentalManagementApplication.controller.LoginRegister.LoginController import LoginController
 
 
 class LoginWindow(QWidget):
@@ -96,6 +96,7 @@ class LoginWindow(QWidget):
         login_btn = QPushButton("Đăng nhập")
         login_btn.setFixedHeight(40)
         login_btn.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
+
         # TODO: Xử lý checklogin
         #login_btn.clicked.connect(lambda: self.handle_login(email_input, password_input))
         login_btn.clicked.connect(lambda : print("clicked login_btn"))
@@ -146,15 +147,27 @@ class LoginWindow(QWidget):
         signup_btn = QPushButton("Đăng ký")
         signup_btn.setFixedHeight(40)
         signup_btn.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
+
         #TODO: Xử lý lấy thông tin qua page Update thông tin
         #TODO: Cần thêm 1 hàm check correct password , check đúng mới cho chuyển page
-        signup_btn.clicked.connect(lambda: self.handle_sign_up(username_input, password_input, confirm_password_input))
+
+        # TODO" đúng MVC  ==> qua controller ==> gọi hàm kiểm ở Backend ==> mở register
+
+        signup_btn.clicked.connect(lambda: self.login_controller.go_to_check_sign_up(
+            username_input.text(),
+            password_input.text(),
+            confirm_password_input.text(),
+            self.tenant_selection.isChecked(),
+            self.main_window  # thêm dòng này!
+        ))
+        # chỉ cần kiểm tra tenant selection là True hoặc Fall
 
 
         exist_btn_signup = QPushButton("Thoát")
         exist_btn_signup.setFixedHeight(40)
         exist_btn_signup.setStyleSheet("background-color: #4FBEEE; color: white; font-weight: bold; border-radius: 20px;")
-        exist_btn_signup.clicked.connect(self.close)
+        ## TODO: Xử lý nhẹ phương thức sau
+        exist_btn_signup.clicked.connect(lambda : self.close())
 
         signup_layout.addStretch()
         signup_layout.addWidget(signup_label)

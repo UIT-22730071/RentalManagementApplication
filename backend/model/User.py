@@ -10,7 +10,8 @@ class User:
         self.is_active = is_active
 
 
-
+    # Giá trị nạp vào role gồm:
+    # admin, landlord, tenant
     @staticmethod
     def add_user(self, username, password, role):
         if self.check_duplicate_user(username):
@@ -34,14 +35,18 @@ class User:
 
     @staticmethod
     def check_duplicate_user(self, username):
+        print("connect phát")
         conn = sqlite3.connect('rentalmanagement.sqlite')
+        print(" neu khong thay t là connect lỗi nha m")
         cursor = conn.cursor()
         cursor.execute("""
         SELECT * FROM Users WHERE Username = ?""", (username,))
         if cursor.fetchone() is not None:
+            print("duplicheck True nha ==> next")
             return True
         else:
             return False
+            print("duplicheck False nha ==> next")
 
     @staticmethod
     def check_correct_password(password_input, username):
