@@ -100,7 +100,20 @@ class ButtonUI:
             font_size="16px",
             padding="12px",
             margin="8px",
-            hover_bg="#38ACFE",  # Lighter blue on hover
+            hover_bg="#38ACFE",
             hover_text="white"
         )
 
+    @staticmethod
+    def room_menu_button():
+        return ButtonUI(
+            background="#0192F4",  # Deep blue background
+            text_color="white",
+            border="none",
+            border_radius="10px",
+            font_size="16px",
+            padding="12px",
+            margin="8px",
+            hover_bg="#38ACFE",
+            hover_text="white"
+        )
