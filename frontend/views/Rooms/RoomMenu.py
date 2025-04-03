@@ -54,6 +54,11 @@ class RoomMenu(QWidget):
         button_ui.apply_style(self.create_invoice_btn)
         self.create_invoice_btn.clicked.connect(lambda: print("Tạo hóa đơn"))
 
+        self.delete_room_btn = QPushButton("Xóa phòng")
+        button_ui.apply_style(self.delete_room_btn)
+        self.delete_room_btn.clicked.connect(lambda: print("Clicled Xóa phòng"))
+
+
         self.back_button = QPushButton("Quay lại")
         button_ui.apply_style(self.back_button)
         self.back_button.clicked.connect(lambda: self.main_window.go_to_exs())
@@ -64,6 +69,7 @@ class RoomMenu(QWidget):
         left_layout.addWidget(self.room_infor_btn)
         left_layout.addWidget(self.add_new_tenant_btn)
         left_layout.addWidget(self.create_invoice_btn)
+        left_layout.addWidget(self.delete_room_btn)
         left_layout.addWidget(self.back_button)
 
         # ------------ RIGHT CONTENT FRAME ------------
