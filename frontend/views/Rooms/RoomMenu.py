@@ -1,7 +1,9 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QPushButton
 
+from QLNHATRO.RentalManagementApplication.controller.RoomController.RoomMenuController import RoomMenuController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
+from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomUpdateTenantPage import RoomUpdateTenantPage
 
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomsHome import RoomsHome
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomsInfor import RoomsInfor
@@ -10,6 +12,7 @@ from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomsInfor import
 class RoomMenu(QWidget):
     def __init__(self, main_window, room_id):
         super().__init__()
+        self.controller = RoomMenuController()
         self.main_window = main_window
         self.room_id = room_id
         self.current_page = None
@@ -36,16 +39,17 @@ class RoomMenu(QWidget):
 
         self.home_btn = QPushButton("Trang chính")
         button_ui.apply_style(self.home_btn)
-        self.home_btn.clicked.connect(lambda: self.set_right_frame(RoomsHome))
+        self.home_btn.clicked.connect(lambda: self.controller.go_to_open_right_frame_room_home(self, self.main_window, self.room_id))
 
         self.room_infor_btn = QPushButton("Thông tin phòng")
         button_ui.apply_style(self.room_infor_btn)
-        self.room_infor_btn.clicked.connect(lambda: self.set_right_frame(RoomsInfor))
+        self.room_infor_btn.clicked.connect(lambda: self.controller.go_to_open_right_frame_rooms_infor(self, self.main_window, self.room_id))
 
         self.add_new_tenant_btn = QPushButton("Cập nhật người thuê")
         button_ui.apply_style(self.add_new_tenant_btn)
-        self.add_new_tenant_btn.clicked.connect(lambda: print("Cập nhật người thuê"))
-
+        self.add_new_tenant_btn.clicked.connect(
+            lambda: self.controller.go_to_open_right_frame_room_menu(self, self.main_window, self.room_id)
+        )
         self.create_invoice_btn = QPushButton("Tạo hóa đơn")
         button_ui.apply_style(self.create_invoice_btn)
         self.create_invoice_btn.clicked.connect(lambda: print("Tạo hóa đơn"))
@@ -68,17 +72,18 @@ class RoomMenu(QWidget):
         self.right_layout.setContentsMargins(0, 0, 0, 0)
 
         # Khởi tạo page mặc định
-        self.set_right_frame(RoomsHome)
+        self.controller.go_to_open_right_frame_room_home(self, self.main_window, self.room_id)
 
         self.main_layout.addWidget(self.left_frame)
         self.main_layout.addWidget(self.right_frame, 1)
 
-    def set_right_frame(self, PageClass):
-        """Thay đổi nội dung frame bên phải"""
+    def set_right_frame(self, PageClass, *args):
+        """Thay đổi nội dung frame bên phải với khả năng truyền nhiều tham số khác nhau"""
         if self.current_page:
             self.right_layout.removeWidget(self.current_page)
             self.current_page.deleteLater()
             self.current_page = None
 
-        self.current_page = PageClass(self.main_window, self.room_id)
+        self.current_page = PageClass(*args)
         self.right_layout.addWidget(self.current_page)
+
