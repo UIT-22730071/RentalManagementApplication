@@ -6,6 +6,7 @@ from QLNHATRO.RentalManagementApplication.frontend.Component.DashboardCard impor
 class LandlordHome(QWidget):
     def __init__(self, main_window):
         super().__init__()
+        print("[DEBUG] Khởi tạo LandlordHome")
         self.main_window = main_window
 
         main_layout = QVBoxLayout()

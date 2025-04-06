@@ -10,10 +10,11 @@ from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.RoomList impor
 
 
 class LandlordMenu(QWidget):
-    def __init__(self, main_window):
+    def __init__(self, main_window,id_lanlord):
         super().__init__()
         self.main_window = main_window
         self.current_page = None
+        self.id_lanlord = id_lanlord
 
         self.main_layout = QHBoxLayout()
 
@@ -68,7 +69,7 @@ class LandlordMenu(QWidget):
 
         self.exist_btn = QPushButton("❌ Thoát")
         button_ui.apply_style(self.exist_btn)
-        self.exist_btn.clicked.connect(lambda: self.main_window.go_to_exs(self.main_window))
+        self.exist_btn.clicked.connect(lambda: self.main_window.close())
 
         # Thêm tất cả các button vào layout
         left_layout.addWidget(self.home_btn)

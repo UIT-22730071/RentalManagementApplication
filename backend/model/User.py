@@ -11,7 +11,7 @@ class User:
 
 
     # Giá trị nạp vào role gồm:
-    # admin, landlord, tenant
+    # TODO: Role only have value (admin, landlord, tenant)
     @staticmethod
     def add_user(self, username, password, role):
         if self.check_duplicate_user(username):
@@ -68,5 +68,3 @@ class User:
             return False
 
 
-def check_password_not_equal():
-    return None

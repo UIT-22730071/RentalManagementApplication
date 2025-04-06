@@ -1,7 +1,6 @@
 import sys
 from PyQt6.QtWidgets import QApplication, QMainWindow
 
-
 from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.HomeLogin import LoginWindow
 
 

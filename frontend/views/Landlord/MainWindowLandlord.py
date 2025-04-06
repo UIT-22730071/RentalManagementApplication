@@ -1,36 +1,33 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLabel, QStackedWidget
+from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout
+
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordMenu import LandlordMenu
 
 
-# TODO: MainwindowLandlord được chuyển từ controller qua khi điều kiện checkuser thỏa mản
-#TODO:  __int__(self,User_landlord, landlord_infor)
-
-
-# MainWindowLandlord
 class MainWindowLandlord(QMainWindow):
-    def __init__(self):
+    print("mở MainWindowLandLord")
+    def __init__(self, main_window, id_lanlord):
         super().__init__()
+        print("[DEBUG] Bắt đầu tạo MainWindowLandlord 1 ")
+        self.main_window = main_window
+        self.id_landlord = id_lanlord
+
+        print("[DEBUG] Bắt đầu tạo MainWindowLandlord 2")
 
         self.setWindowTitle("Dashboard Chủ trọ")
         self.setGeometry(300, 100, 1000, 600)
+        self.setStyleSheet("""
+            background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);
+            border-radius: 15px;
+        """)
 
-        self.setStyleSheet("background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);"
-                           " border-radius: 15px;")
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
 
-        self.setCentralWidget(LandlordMenu(self))  # Nếu LandlordMenu cần MainWindowLandlord
+        main_layout = QVBoxLayout(central_widget)
 
-        #self.setCentralWidget()                    # Khung làm việc bên phải
+        print("[DEBUG] Trước khi tạo LandlordHome")
+        self.landlord_menu = LandlordMenu(self.main_window, self.id_landlord)
+        main_layout.addWidget(self.landlord_menu)
+
         def go_to_exs(self, main_window):
-            """
-            Method to handle exit functionality (placeholder)
-            In a real application, this might close the application or return to login screen
-            """
-            print("Exiting application")
             self.close()
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = MainWindowLandlord()
-    window.show()
-    sys.exit(app.exec_())

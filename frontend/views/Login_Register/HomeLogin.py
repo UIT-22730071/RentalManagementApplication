@@ -8,6 +8,7 @@ from QLNHATRO.RentalManagementApplication.controller.LoginRegister.LoginControll
 from QLNHATRO.RentalManagementApplication.frontend.Component.InputTextUI import InputTextUI
 from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.UpdateInfoAfterRegister import UpdateInfoAfterRegister
 from QLNHATRO.RentalManagementApplication.controller.LoginRegister.LoginController import LoginController
+from QLNHATRO.RentalManagementApplication.services.LoginService import LoginService
 
 
 class LoginWindow(QWidget):
@@ -93,13 +94,19 @@ class LoginWindow(QWidget):
         forgot_password.setOpenExternalLinks(True)
         forgot_password.setAlignment(Qt.AlignmentFlag.AlignRight)
 
+        change_password = QLabel('<a href="#">Change Password?</a>')
+        change_password.setStyleSheet("color: #FF6B6B; font-size: 12px;")
+        change_password.setOpenExternalLinks(True)
+        change_password.setAlignment(Qt.AlignmentFlag.AlignLeft)
+
         login_btn = QPushButton("Đăng nhập")
         login_btn.setFixedHeight(40)
         login_btn.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
 
-        # TODO: Xử lý checklogin
-        #login_btn.clicked.connect(lambda: self.handle_login(email_input, password_input))
-        login_btn.clicked.connect(lambda : print("clicked login_btn"))
+        #TODO đang xử lý lỗi ở đây
+        login_btn.clicked.connect(lambda: LoginService.check_login(self.main_window,email_input.text(), password_input.text()))
+
+
         exist_btn_login = QPushButton("Thoát")
         exist_btn_login.setFixedHeight(40)
         exist_btn_login.setStyleSheet("background-color: #4FBEEE; color: white; font-weight: bold; border-radius: 20px;")
@@ -108,7 +115,12 @@ class LoginWindow(QWidget):
         login_layout.addWidget(login_label)
         login_layout.addWidget(email_input)
         login_layout.addWidget(password_input)
-        login_layout.addWidget(forgot_password)
+
+        password_links_layout = QHBoxLayout()
+        password_links_layout.addWidget(change_password)
+        password_links_layout.addWidget(forgot_password)
+        login_layout.addLayout(password_links_layout)
+
         login_layout.addWidget(login_btn)
         login_layout.addWidget(exist_btn_login)
 

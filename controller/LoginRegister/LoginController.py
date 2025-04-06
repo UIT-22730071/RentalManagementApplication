@@ -1,3 +1,4 @@
+from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.MainWindowLandlord import MainWindowLandlord
 from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.UpdateInfoAfterRegister import \
     UpdateInfoAfterRegister
 
@@ -9,7 +10,9 @@ from QLNHATRO.RentalManagementApplication.backend.model.User import User
 class LoginController():
 
     def __init__(self):
+
         self.main_window = None
+        self.window = None
 
     def set_main_window(self, main_window):
         self.main_window = main_window
@@ -28,7 +31,7 @@ class LoginController():
     def go_to_exsit(self,main_window):
         main_window.close()
         pass
-
+    #TODO: chuyển check signUp qua LoginService
     def go_to_check_sign_up(self, username, password, password_confirm, role, main_window=None):
         # Kiểm tra main_window nếu chưa thiết lập
         if self.main_window is None and main_window is not None:
@@ -48,3 +51,14 @@ class LoginController():
 
             self.open_update_info(role_text, username, password)
             print(" t goi open update info")
+
+    def go_to_main_windown_lanlord(self,main_window ,id_lanlord):
+        print(f"[LoginController] sắp MainWindowLandlord với ID: {id_lanlord}")
+        try:
+            self.window = MainWindowLandlord(main_window, id_lanlord)
+        except:
+            print(f"lỗi ở đây: {id_lanlord}")
+
+        print(f"[LoginController] Đã tạo MainWindowLandlord với ID: {id_lanlord}")
+        self.main_window.setCentralWidget(self.window)
+        print(f"[LoginController] Đã setCentralWidget với ID: {id_lanlord}")
