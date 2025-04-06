@@ -55,7 +55,7 @@ class RoomsInfor(QWidget):
         # Title
         title = QLabel("📌 THÔNG TIN CHI TIẾT PHÒNG")
         title.setFont(QFont("Arial", 20, QFont.Bold))
-        title.setStyleSheet("color: #FF6B6B;")
+        title.setStyleSheet("color: white; background-color: #2C3E50; border-radius: 10px; padding: 10px;")
         title.setAlignment(Qt.AlignCenter)
         card_layout.addWidget(title)
 

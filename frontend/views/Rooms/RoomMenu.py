@@ -52,7 +52,7 @@ class RoomMenu(QWidget):
         )
         self.create_invoice_btn = QPushButton("Tạo hóa đơn")
         button_ui.apply_style(self.create_invoice_btn)
-        self.create_invoice_btn.clicked.connect(lambda: print("Tạo hóa đơn"))
+        self.create_invoice_btn.clicked.connect(lambda: self.controller.go_to_open_right_frame_ManagerInvoicePage(self, self.main_window, self.room_id))
 
         self.delete_room_btn = QPushButton("Xóa phòng")
         button_ui.apply_style(self.delete_room_btn)
