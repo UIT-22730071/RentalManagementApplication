@@ -1,102 +1,101 @@
 #TODO ?
 class Room:
     def __init__(self,
-                 id_room,
+                 room_id,
                  room_name,
-                 room_address,
+                 address,
                  room_type,
-                 room_status,
-                 room_area,
-                 room_floor,
-                 room_mezzanine,
-                 room_bathroom,
-                 room_kitchen,
-                 room_balcony,
-                 room_basic_furniture,
-                 room_appliances,
-                 room_amenities,
-                 room_rent_price,
-                 room_deposit,
-                 room_electricity_price,
-                 room_water_price,
-                 room_internet_price,
-                 room_other_fees,
-                 room_max_occupancy,
-                 room_pets_allowed,
-                 room_contact_name,
-                 room_contact_phone,
-                 room_available_date,
-                 room_image_path,
-                 current_electricity_num,
-                 current_water_num,
+                 status,
+                 area,
+                 floor,
+                 has_loft,
+                 bathroom,
+                 kitchen,
+                 balcony,
+                 furniture,
+                 appliances,
+                 utilities,
+                 rent_price,
+                 deposit,
+                 electricity_price,
+                 water_price,
+                 internet_price,
+                 other_fees,
+                 max_tenants,
+                 pets_allowed,
+                 contact_name,
+                 contact_phone,
+                 available_date,
+                 image_path,
+                 current_electricity,
+                 current_water,
                  tenant_id,
                  landlord_id,
                  ):
-    # tạo phương thức getter_setter
-        self.id_room = id_room
-        self.room_name = room_name
-        self.room_address = room_address
-        self.room_type = room_type
-        self.room_status = room_status
-        self.room_area = room_area
-        self.room_floor = room_floor
-        self.room_mezzanine = room_mezzanine
-        self.room_bathroom = room_bathroom
-        self.room_kitchen = room_kitchen
-        self.room_balcony = room_balcony
-        self.room_basic_furniture = room_basic_furniture
-        self.room_appliances = room_appliances
-        self.room_amenities = room_amenities
-        self.room_rent_price = room_rent_price
-        self.room_deposit = room_deposit
-        self.room_electricity_price = room_electricity_price
-        self.room_water_price = room_water_price
-        self.room_internet_price = room_internet_price
-        self.room_other_fees = room_other_fees
-        self.room_max_occupancy = room_max_occupancy
-        self.room_pets_allowed = room_pets_allowed
-        self.room_contact_name = room_contact_name
-        self.room_contact_phone = room_contact_phone
-        self.room_available_date = room_available_date
-        self.room_image_path = room_image_path
-        self.current_electricity_num = current_electricity_num
-        self.current_water_num = current_water_num
-        self.tenant_id = tenant_id
-        self.landlord_id = landlord_id
+        self.room_id = room_id              # Mã phòng
+        self.room_name = room_name          # Tên phòng
+        self.address = address              # Địa chỉ phòng
+        self.room_type = room_type          # Loại phòng (ví dụ: phòng trọ, căn hộ mini, studio,...)
+        self.status = status                # Trạng thái phòng (Đang thuê, Còn trống)
+        self.area = area                    # Diện tích phòng (đơn vị m²)
+        self.floor = floor                  # Tầng lầu
+        self.has_loft = has_loft            # Có gác lửng hay không (0 hoặc 1)
+        self.bathroom = bathroom            # Kiểu phòng tắm (riêng, chung,...)
+        self.kitchen = kitchen              # Mô tả nhà bếp (có bếp, bếp riêng,...)
+        self.balcony = balcony              # Có ban công không
+        self.furniture = furniture          # Nội thất cơ bản (giường, tủ,...)
+        self.appliances = appliances        # Thiết bị điện (máy lạnh, máy giặt,...)
+        self.utilities = utilities          # Tiện ích khác (Wifi, Camera,...)
+        self.rent_price = rent_price        # Giá thuê phòng (VNĐ/tháng)
+        self.deposit = deposit                      # Tiền cọc (VNĐ)
+        self.electricity_price = electricity_price  # Giá điện (VNĐ/kWh)
+        self.water_price = water_price              # Giá nước (VNĐ/người hoặc m³)
+        self.internet_price = internet_price        # Phí internet (VNĐ/tháng)
+        self.other_fees = other_fees                # Các loại phí khác (vệ sinh, rác,...)
+        self.max_tenants = max_tenants              # Số người tối đa có thể thuê
+        self.pets_allowed = pets_allowed            # Có cho phép nuôi thú cưng không ("Có"/"Không")
+        self.contact_name = contact_name            # Tên người liên hệ (thường là chủ trọ)
+        self.contact_phone = contact_phone          # Số điện thoại liên hệ
+        self.available_date = available_date        # Ngày có thể bắt đầu thuê (dạng YYYY-MM-DD)
+        self.image_path = image_path                # Đường dẫn ảnh minh họa căn phòng
+        self.current_electricity = current_electricity          # Chỉ số điện hiện tại
+        self.current_water = current_water                      # Chỉ số nước hiện tại
+        self.tenant_id = tenant_id                              # Mã người thuê hiện tại (nullable)
+        self.landlord_id = landlord_id                          # Mã chủ trọ quản lý phòng
 
     def to_dict(self):
-        """Trả về toàn bộ thông tin phòng dưới dạng dictionary"""
+        """Return full room data as dictionary"""
         return {
-            "id": self.id_room,
-            "ten_phong": self.room_name,
-            "dia_chi": self.room_address,
-            "loai_phong": self.room_type,
-            "trang_thai": self.room_status,
-            "dien_tich": self.room_area,
-            "tang": self.room_floor,
-            "gac_lung": self.room_mezzanine,
-            "phong_tam": self.room_bathroom,
-            "nha_bep": self.room_kitchen,
-            "ban_cong": self.room_balcony,
-            "noi_that": self.room_basic_furniture,
-            "thiet_bi_dien": self.room_appliances,
-            "tien_ich": self.room_amenities,
-            "gia_phong": self.room_rent_price,
-            "tien_coc": self.room_deposit,
-            "gia_dien": self.room_electricity_price,
-            "gia_nuoc": self.room_water_price,
-            "internet": self.room_internet_price,
-            "phi_khac": self.room_other_fees,
-            "so_nguoi_toi_da": self.room_max_occupancy,
-            "thu_cung": self.room_pets_allowed,
-            "chu_tro": self.room_contact_name,
-            "sdt": self.room_contact_phone,
-            "ngay_co_the_thue": self.room_available_date,
-            "hinh_anh": self.room_image_path,
-            "chi_so_dien": self.current_electricity_num,
-            "chi_so_nuoc": self.current_water_num,
-            "id_nguoithue": self.tenant_id,
-            "id_chutro": self.landlord_id
+            "id": self.room_id,
+            "room_name": self.room_name,
+            "address": self.address,
+            "room_type": self.room_type,
+            "status": self.status,
+            "area": self.area,
+            "floor": self.floor,
+            "has_loft": self.has_loft,
+            "bathroom": self.bathroom,
+            "kitchen": self.kitchen,
+            "balcony": self.balcony,
+            "furniture": self.furniture,
+            "appliances": self.appliances,
+            "utilities": self.utilities,
+            "rent_price": self.rent_price,
+            "deposit": self.deposit,
+            "electricity_price": self.electricity_price,
+            "water_price": self.water_price,
+            "internet_price": self.internet_price,
+            "other_fees": self.other_fees,
+            "max_tenants": self.max_tenants,
+            "pets_allowed": self.pets_allowed,
+            "contact_name": self.contact_name,
+            "contact_phone": self.contact_phone,
+            "available_date": self.available_date,
+            "image_path": self.image_path,
+            "current_electricity": self.current_electricity,
+            "current_water": self.current_water,
+            "tenant_id": self.tenant_id,
+            "landlord_id": self.landlord_id
         }
     '''
     @staticmethod

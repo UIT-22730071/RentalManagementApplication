@@ -1,9 +1,10 @@
 from PyQt5.QtWidgets import (
     QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout,
-    QHBoxLayout, QMessageBox, QGridLayout, QGroupBox, QDialog, QScrollArea, QFrame, QComboBox
+    QHBoxLayout, QMessageBox, QGridLayout, QGroupBox, QScrollArea, QComboBox
 )
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
+from QLNHATRO.RentalManagementApplication.controller.InvoiceController.InvoiceController import InvoiceController
 
 
 class InvoiceInputPage(QWidget):
@@ -385,15 +386,16 @@ class InvoiceInputPage(QWidget):
         # Validate inputs
         try:
             # Check if fields are not empty
-            if not self.dien_input.text() or not self.nuoc_input.text() or not self.songuoi_input.text():
+            if not self.dien_input.text() or not self.nuoc_input.text():
                 QMessageBox.warning(self, "Thiếu thông tin",
                                     "Vui lòng nhập đầy đủ thông tin chỉ số điện, nước và số người ở.")
                 return
 
-            chi_so_dien = float(self.dien_input.text())
-            chi_so_nuoc = float(self.nuoc_input.text())
-            phi_khac = float(self.phi_khac_input.text() or self.selected_room.get('phi_khac', 20000))
 
+            chi_so_dien = float(self.dien_input.text()) # chir soos dieenj moiws
+            chi_so_nuoc = float(self.nuoc_input.text()) # chỉ số nước mới nhập
+            phi_khac = float(self.phi_khac_input.text() or self.selected_room.get('phi_khac', 20000))
+            # TODO: lấy số điện và số nước từ hóa đoơn cũ, nễu không có trả về 0
             # Additional validation
             old_dien = float(self.selected_room.get('chi_so_dien', 0))
             old_nuoc = float(self.selected_room.get('chi_so_nuoc', 0))
@@ -414,8 +416,17 @@ class InvoiceInputPage(QWidget):
             'tenant': self.selected_tenant,
             'chi_so_dien': chi_so_dien,
             'chi_so_nuoc': chi_so_nuoc,
-
             'phi_khac': phi_khac
         }
+        invoice_data_update_database = {
+                'id_room': self.selected_room['id'],
+                'id_tenant': self.selected_tenant['id'],
+                'chi_so_dien': chi_so_dien,
+                'chi_so_nuoc': chi_so_nuoc
+            }
+        # Create an invoice controller instance
+        self.invoice_controller = InvoiceController()
 
-        self.go_to_preview_callback(invoice_data)
+        # Later when calling the method:
+        self.invoice_controller.go_to_update_database(invoice_data_update_database)
+        self.go_to_preview_callback(invoice_data)  # Hiển thị giao diện hóa đơn

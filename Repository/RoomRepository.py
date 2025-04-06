@@ -1,3 +1,6 @@
+from QLNHATRO.RentalManagementApplication.backend.model.Rooms import Room
+
+
 class RoomRepository:
     @staticmethod
     def get_all_rooms():
@@ -35,37 +38,37 @@ class RoomRepository:
 
     @staticmethod
     def get_room_by_id(room_id):
-        """Lấy thông tin phòng từ id"""
+        """Retrieve room data by ID (stub version)"""
         # TODO: Thay thế bằng truy vấn SQL thực tế
         room = Room(
-            id_room="P101",
-            room_name="Phòng 101",
-            room_address="123 Đường ABC",
-            room_type="Trong dãy trọ",
-            room_status="Đang thuê",
-            room_area=25,
-            room_floor=1,
-            room_mezzanine="Có",
-            room_bathroom="Khép kín",
-            room_kitchen="Có bếp",
-            room_balcony="Có",
-            room_basic_furniture="Giường, Tủ",
-            room_appliances="Máy lạnh, Nước nóng",
-            room_amenities="Wifi, Camera",
-            room_rent_price=3500000,
-            room_deposit=3500000,
-            room_electricity_price=3800,
-            room_water_price=100000,
-            room_internet_price=100000,
-            room_other_fees=20000,
-            room_max_occupancy=2,
-            room_pets_allowed="Không",
-            room_contact_name="Cô Ba",
-            room_contact_phone="090x xxx xxx",
-            room_available_date="2025-04-06",
-            room_image_path="images/p101.png",
-            current_electricity_num=245,
-            current_water_num=32,
+            room_id="P101",
+            room_name="Room 101",
+            address="123 ABC Street",
+            room_type="Boarding Room",
+            status="Occupied",
+            area=25,
+            floor=1,
+            has_loft="Yes",
+            bathroom="Private",
+            kitchen="With kitchen",
+            balcony="Yes",
+            furniture="Bed, Closet",
+            appliances="Air Conditioner, Water Heater",
+            utilities="Wi-Fi, Camera",
+            rent_price=3500000,
+            deposit=3500000,
+            electricity_price=3800,
+            water_price=100000,
+            internet_price=100000,
+            other_fees=20000,
+            max_tenants=2,
+            pets_allowed="No",
+            contact_name="Ms. Ba",
+            contact_phone="090x xxx xxx",
+            available_date="2025-04-06",
+            image_path="images/p101.png",
+            current_electricity=245,
+            current_water=32,
             tenant_id="TNT001",
             landlord_id="CT001"
         )
