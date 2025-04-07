@@ -2,6 +2,15 @@ from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import L
 
 
 class LanlordService:
+    def __init__(self):  # Đúng
+        pass
+
+
+    @staticmethod
+    def update_field(id_lanlord, field, value):
+        print(f"[Service] Cập nhật {field} = {value} cho landlord {id_lanlord}")
+        LanlordRepository.update_field(id_lanlord, field, value)
+
     @staticmethod
     def handle_data_for_home_page(id_lanlord):
         #prepare data
@@ -30,3 +39,7 @@ class LanlordService:
 
         return information_data,chart
 
+    @staticmethod
+    def handle_data_infor_page(id_lanlord):
+        information_data = LanlordRepository.get_infor_lanlord(id_lanlord)
+        return information_data

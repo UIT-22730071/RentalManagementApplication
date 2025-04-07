@@ -63,10 +63,10 @@ class LandlordHome(QWidget):
         stats_layout = QHBoxLayout()
 
         # Thẻ Dashboard
-        income_card = DashboardCard("Tổng thu nhập", str(information_data['total_income']) + " VNĐ", str(information_data['percent_grow_total_income']), "icons/money.png")
-        growth_card = DashboardCard("Tỉ lệ tăng thu nhập", str(information_data['percent_total_income_month']), str(information_data['percent_total_income_month']), "icons/growth.png")
-        unpaid_card = DashboardCard("Phòng chưa đóng tiền", str(information_data['total_number_invoice']), str(information_data['percent_grow_total_not_invoice']), "icons/warning.png")
-        due_soon_card = DashboardCard("Phòng trống", str(information_data['total_number_room_not_teant']), str(information_data['percent_grow_total_not_tenant']), "icons/clock.png")
+        income_card = DashboardCard("Tổng thu nhập", str(information_data['total_income']) + " VNĐ", str(information_data['percent_grow_total_income']))
+        growth_card = DashboardCard("Tỉ lệ tăng thu nhập", str(information_data['percent_total_income_month']), str(information_data['percent_total_income_month']))
+        unpaid_card = DashboardCard("Phòng chưa đóng tiền", str(information_data['total_number_invoice']), str(information_data['percent_grow_total_not_invoice']))
+        due_soon_card = DashboardCard("Phòng trống", str(information_data['total_number_room_not_teant']), str(information_data['percent_grow_total_not_tenant']))
 
         stats_layout.addWidget(income_card)
         stats_layout.addWidget(growth_card)

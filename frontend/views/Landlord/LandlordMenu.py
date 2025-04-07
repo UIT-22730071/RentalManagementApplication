@@ -7,7 +7,6 @@ from QLNHATRO.RentalManagementApplication.controller.LandlordController.Landlord
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordCreateNewRoom import CreateNewRoom
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordFindNewTenant import FindNewTenant
-from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordInfo import LandlordInfo
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordListInvoices import ListInvoices
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.RoomList import RoomList
 
@@ -57,7 +56,7 @@ class LandlordMenu(QWidget):
 
         self.info_btn = QPushButton("👤 Thông tin chủ trọ")
         button_ui.apply_style(self.info_btn)
-        self.info_btn.clicked.connect(lambda : self.set_right_frame(LandlordInfo))
+        self.info_btn.clicked.connect(lambda : LandlordController.go_to_info_page(self, self.id_lanlord))
 
         self.infor_list_room_btn = QPushButton("📂 Danh sách phòng trọ")
         button_ui.apply_style(self.infor_list_room_btn)

@@ -1,4 +1,4 @@
-from torchvision.models.detection import retinanet_resnet50_fpn
+
 
 
 class LanlordRepository:
@@ -31,7 +31,7 @@ class LanlordRepository:
         id_lanlord = '1'
         return id_lanlord
 
-
+    #-------------Lanlord Home --------------
     #TODO: sau khi có dữ liệu ảo thống kê sẽ vẽ biểu đồ
     '''return của hàm sẽ là 1 char'''
     @staticmethod
@@ -70,3 +70,24 @@ class LanlordRepository:
         total_number_room_not_teant = 2
         total_rooms_not_tenant_last_month = 3
         return total_number_room_not_teant,total_rooms_not_tenant_last_month
+    # -------------Lanlord Infor --------------
+    @staticmethod
+    def get_infor_lanlord(id_lanlord):
+        #TODO tạo 1 hàm select infor lanlord gom cac thong tin
+        infor_lanlord = {
+            'name': 'Nguyễn Văn A',
+            'birth':'13/12/1998',
+            'cccd': '012345678901',
+            'sex': 'Nam',
+            'job': 'Sinh viện',
+            'phone': '0901234567',
+            'marriage': 'Độc thân',
+            'password': '**********'}
+        return infor_lanlord
+
+    @staticmethod
+    def update_field(id_lanlord, field, value):
+        # TODO: Viết truy vấn SQL update database
+        print(f"[Repository] Update field `{field}` = {value} cho landlord {id_lanlord}")
+        # Ví dụ (giả lập):
+        # UPDATE landlords SET field = value WHERE id = id_lanlord;

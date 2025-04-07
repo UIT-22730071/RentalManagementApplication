@@ -1,25 +1,34 @@
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordCreateNewRoom import CreateNewRoom
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordFindNewTenant import FindNewTenant
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordHome import LandlordHome
-from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordInfo import LandlordInfo
+
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordListInvoices import ListInvoices
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.RoomList import RoomList
 from QLNHATRO.RentalManagementApplication.services.LanlordService import LanlordService
 
 
 class LandlordController:
+    def __init__(self):
+        pass
 
+    @staticmethod
+    def update_landlord_field(id_lanlord, field, value):
+        LanlordService.update_field(id_lanlord, field, value)
 
     @staticmethod
     def go_to_home_page(view, id_lanlord):
         information_data, chart = LanlordService.handle_data_for_home_page(id_lanlord)
         print("đây là information",information_data)
-        landlord_home = LandlordHome(view.main_window, id_lanlord, information_data, chart)
-        view.set_right_frame(lambda *_: landlord_home)  # ✅ truyền widget đã tạo
+        lanlord_home = LandlordHome(view.main_window, id_lanlord, information_data, chart)
+        view.set_right_frame(lambda *_: lanlord_home)  # ✅ truyền widget đã tạo
 
     @staticmethod
-    def go_to_info_page(view):
-        view.set_right_frame(LandlordInfo)
+    def go_to_info_page(view,id_lanlord):
+        information_data = LanlordService.handle_data_infor_page(id_lanlord)
+        print("đây là information của infor",information_data)
+        from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordInfo import LandlordInfo
+        lanlord_infor = LandlordInfo(view.main_window,id_lanlord ,information_data)
+        view.set_right_frame(lambda *_: lanlord_infor)
 
     @staticmethod
     def go_to_room_list(view):
@@ -36,3 +45,4 @@ class LandlordController:
     @staticmethod
     def go_to_find_tenant(view):
         view.set_right_frame(FindNewTenant)
+
