@@ -1,0 +1,1 @@
+#TODO cần tạo 1 table cho database để lưu các thông tin đã phân tích

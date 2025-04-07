@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
+import os
 
 
 class DashboardCard(QWidget):
@@ -48,12 +49,13 @@ class DashboardCard(QWidget):
 
         # Icon bên phải (nếu có)
         icon_label = QLabel()
-        if icon_path:
-            pixmap = QPixmap(icon_path)
-            if not pixmap.isNull():
+        if icon_path and os.path.exists(icon_path):
+            try:
+                pixmap = QPixmap(icon_path)
                 icon_label.setPixmap(pixmap.scaled(40, 40, Qt.KeepAspectRatio, Qt.SmoothTransformation))
-            else:
-                icon_label.setText("💼")  # Nếu icon không tồn tại, hiển thị icon mặc định
+            except Exception as e:
+                print(f"[WARNING] Lỗi khi load icon {icon_path}: {e}")
+                icon_label.setText("💼")
         else:
             icon_label.setText("💼")
 

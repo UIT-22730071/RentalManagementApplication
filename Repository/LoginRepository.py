@@ -21,3 +21,9 @@ class LoginRepository:
         # giả lập truy vấn cho ra kết quả
         role = 'landlord'
         return role
+
+    @staticmethod
+    def get_role_from_user_id(user_id):
+        # TODO: Thay thế bằng truy ván SQL thực tế
+        role = 'landlord'
+        return role

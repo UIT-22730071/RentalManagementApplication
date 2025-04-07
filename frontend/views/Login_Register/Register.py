@@ -1,9 +1,9 @@
 import sys
-from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QLabel, QLineEdit, QPushButton,
-    QVBoxLayout, QHBoxLayout, QFrame
-)
-from PyQt6.QtCore import Qt, QPropertyAnimation, QEasingCurve
+
+from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve
+from PyQt5.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QFrame, QVBoxLayout, QPushButton, QLabel, QLineEdit, \
+    QApplication
+
 
 class LoginWindow(QMainWindow):
     def __init__(self):

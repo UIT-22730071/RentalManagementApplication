@@ -1,12 +1,9 @@
 
 import sys
-from PyQt6.QtWidgets import (
-    QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QMessageBox,
-    QHBoxLayout, QComboBox, QDateEdit, QGridLayout, QFrame, QSizePolicy
-)
-from PyQt6.QtWidgets import QScrollArea
 
-from PyQt6.QtGui import QFont, QIcon
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLabel, QFrame, QVBoxLayout
+
 
 # Custom input field component
 class InputFieldUI(QWidget):

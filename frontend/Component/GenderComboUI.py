@@ -1,4 +1,5 @@
-from PyQt6.QtWidgets import QComboBox
+from PyQt5.QtWidgets import QComboBox
+
 from QLNHATRO.RentalManagementApplication.frontend.Component.InputFieldUI import InputFieldUI
 
 class GenderComboUI(InputFieldUI):

@@ -1,8 +1,7 @@
 from PyQt5.QtWidgets import QMessageBox
 
+from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
 from QLNHATRO.RentalManagementApplication.Repository.LoginRepository import LoginRepository
-from QLNHATRO.RentalManagementApplication.controller.LoginRegister.LoginController import LoginController
-from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.MainWindowLandlord import MainWindowLandlord
 
 
 class LoginService:
@@ -11,36 +10,34 @@ class LoginService:
 
     landlord_window = None  # thuộc tính class-level
 
+
+    # xử lý 1 vấn đề là check user tồn tại và password đúng
     @staticmethod
     #"admin" "admin"
-    def check_login(main_window,username, password):
+    def check_login(username, password):
         # giả lập truy vấn cho ra kết quả
         print("login được gọi")
         user = LoginRepository.get_user(username)
         print(user)
         if username == user['username'] and password == user['password']:
-            print("Thực hiện câu lệnh if ")
-            print("đã mở Q Mess")
-            LoginService.open_dashboard_window(main_window,user['role'],user['user_id'])
-
+            print("user và passowrd đúng rồi")
+            #LoginService.open_dashboard_window_and_close_login(login_window, user['role'], int(user['user_id']))
+            return True
         else:
             QMessageBox.information(None, 'Thông báo', 'Sai tên tài khoản hoặc mật khẩu!')
+            return False
+
 
     @staticmethod
-    def open_dashboard_window(main_window,role, user_id):
-        print(f"[DEBUG] mở dashboard với role={role}, id={user_id}")
-        if role == "landlord":
-            print(" mở landlord")
-            controller = LoginController()
-            print("đã mở controller")
-            controller.set_main_window(main_window)  # truyền vào controller
-            print("đã truyện vào controller")
-            controller.go_to_main_windown_lanlord(main_window,user_id)
-            print("đợi lanlord")
-        elif role == "tenant":
-            # controller Điều hướng đến MainWwindowTenant
-            print("đợi Tenant")
-        else:
-            # controller Điều hướng đến MainWwindowAdmin
-            print("đợi Admin")
+    def get_role_user(user_id):
+        role = LoginRepository.get_role_from_user_id(user_id)   # giả sủ role = landlord
+        print(f"[DEBUG] mở dashboard với, id={user_id}")
+        return role
 
+    @staticmethod
+    def open_dashboard_window_and_close_login(role, user_id):
+        pass
+
+    @staticmethod
+    def close_main_window(main_window):
+        main_window.close()

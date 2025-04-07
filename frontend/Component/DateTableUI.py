@@ -1,5 +1,6 @@
-from PyQt6.QtWidgets import QDateEdit
-from PyQt6.QtCore import QDate
+from PyQt5.QtCore import QDate
+from PyQt5.QtWidgets import QDateEdit
+
 from QLNHATRO.RentalManagementApplication.frontend.Component.InputFieldUI import InputFieldUI
 
 

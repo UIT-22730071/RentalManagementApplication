@@ -1,26 +1,23 @@
 import sys
-from PyQt6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QLabel, QLineEdit, QPushButton,
-    QVBoxLayout, QHBoxLayout, QFrame, QStackedWidget, QRadioButton, QMessageBox
-)
-from PyQt6.QtCore import Qt, QPropertyAnimation, QEasingCurve
-from QLNHATRO.RentalManagementApplication.controller.LoginRegister.LoginController import LoginController
+
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QWidget, QHBoxLayout, QFrame, QVBoxLayout, QPushButton, QStackedWidget, QLabel, QLineEdit, \
+    QRadioButton
+
 from QLNHATRO.RentalManagementApplication.frontend.Component.InputTextUI import InputTextUI
-from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.UpdateInfoAfterRegister import UpdateInfoAfterRegister
-from QLNHATRO.RentalManagementApplication.controller.LoginRegister.LoginController import LoginController
-from QLNHATRO.RentalManagementApplication.services.LoginService import LoginService
+
 
 
 class LoginWindow(QWidget):
     def __init__(self, main_window):
         super().__init__()
 
-        self.login_controller = LoginController()
+
         self.main_window = main_window  # Lưu lại để dùng cho chuyển trang
         self.setStyleSheet("background-color: #202020; border-radius: 15px;")
         # Layout chính (chứa 2 phần trái + phải)
         # Layout chính
-
+        #self.login_controller = LoginController()
         self.main_layout = QHBoxLayout(self)  # Đặt layout chính cho LoginWindow
 
         # Tạo Frame bên trái (Hiệu ứng nền + Nút)
@@ -64,12 +61,14 @@ class LoginWindow(QWidget):
         self.right_layout.addWidget(self.stacked_widget)
 
         # Gọi hàm để thêm trang LOGIN và SIGN UP vào stacked_widget
-        self.Form_Login()
+        self.Form_Login(self.main_window)
+        #TODO: tương tự formlogin và fix sau
         self.Form_sign_up()
 
         self.main_layout.addWidget(self.right_frame)
+        self.expand_window(0)  # Hiển thị ngay trang Login
 
-    def Form_Login(self):
+    def Form_Login(self, main_window):
         """Trang 1: Form Đăng nhập"""
         login_page = QWidget()
         login_layout = QVBoxLayout(login_page)
@@ -78,16 +77,16 @@ class LoginWindow(QWidget):
         login_label.setStyleSheet("font-size: 24px; font-weight: bold;")
         login_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        email_input = QLineEdit()
-        InputTextUI.default_input().apply_style(email_input)
-        email_input.setPlaceholderText("  Email")
-        email_input.setFixedHeight(40)
+        self.email_input = QLineEdit()
+        InputTextUI.default_input().apply_style(self.email_input)
+        self.email_input.setPlaceholderText("  Email")
+        self.email_input.setFixedHeight(40)
 
-        password_input = QLineEdit()
-        InputTextUI.default_input().apply_style(password_input)
-        password_input.setPlaceholderText("  Password")
-        password_input.setFixedHeight(40)
-        password_input.setEchoMode(QLineEdit.EchoMode.Password)
+        self.password_input = QLineEdit()
+        InputTextUI.default_input().apply_style(self.password_input)
+        self.password_input.setPlaceholderText("  Password")
+        self.password_input.setFixedHeight(40)
+        self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
 
         forgot_password = QLabel('<a href="#">Forgot Password?</a>')
         forgot_password.setStyleSheet("color: #FF6B6B; font-size: 12px;")
@@ -104,8 +103,9 @@ class LoginWindow(QWidget):
         login_btn.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
 
         #TODO đang xử lý lỗi ở đây
-        login_btn.clicked.connect(lambda: LoginService.check_login(self.main_window,email_input.text(), password_input.text()))
 
+        #login_btn.clicked.connect(lambda: LoginController.go_to_check_login_window(main_window,self,email_input.text(), password_input.text()))
+        login_btn.clicked.connect(self.on_click_btn_login)
 
         exist_btn_login = QPushButton("Thoát")
         exist_btn_login.setFixedHeight(40)
@@ -113,8 +113,8 @@ class LoginWindow(QWidget):
         exist_btn_login.clicked.connect(self.close)
 
         login_layout.addWidget(login_label)
-        login_layout.addWidget(email_input)
-        login_layout.addWidget(password_input)
+        login_layout.addWidget(self.email_input)
+        login_layout.addWidget(self.password_input)
 
         password_links_layout = QHBoxLayout()
         password_links_layout.addWidget(change_password)
@@ -164,14 +164,16 @@ class LoginWindow(QWidget):
         #TODO: Cần thêm 1 hàm check correct password , check đúng mới cho chuyển page
 
         # TODO" đúng MVC  ==> qua controller ==> gọi hàm kiểm ở Backend ==> mở register
-
+        '''
+        def go_to_check_sign_up(self, username, password, password_confirm, role, main_window=None):    
         signup_btn.clicked.connect(lambda: self.login_controller.go_to_check_sign_up(
             username_input.text(),
             password_input.text(),
             confirm_password_input.text(),
             self.tenant_selection.isChecked(),
             self.main_window  # thêm dòng này!
-        ))
+        ))'''
+
         # chỉ cần kiểm tra tenant selection là True hoặc Fall
 
 
@@ -196,18 +198,12 @@ class LoginWindow(QWidget):
 
         self.stacked_widget.addWidget(signup_page)
 
-    def go_to_workspace(self):
-        """Chuyển sang Workspace khi đăng nhập thành công"""
-        self.main_window.switch_to_workspace()
-
-
-
-
     def expand_window(self, index):
         """Khi nhấn vào LOGIN hoặc SIGN IN, cửa sổ mở rộng ra"""
         self.right_frame.setVisible(True)
         self.stacked_widget.setCurrentIndex(index)
 
 
-
-
+    def on_click_btn_login(self):
+        from QLNHATRO.RentalManagementApplication.controller.LoginRegister.LoginController import LoginController
+        LoginController.on_click_btn_login_test_new(self.main_window, self.email_input.text(), self.password_input.text())

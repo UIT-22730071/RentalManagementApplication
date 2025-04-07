@@ -1,13 +1,31 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QSizePolicy
 from PyQt5.QtCore import Qt
+
 from QLNHATRO.RentalManagementApplication.frontend.Component.DashboardCard import DashboardCard
 
 
 class LandlordHome(QWidget):
-    def __init__(self, main_window):
+    def __init__(self, main_window=None, id_lanlord=None, information_data=None,chart = None):
         super().__init__()
+        if information_data is None:
+            information_data = {
+                "total_income": str(0)+" VNĐ",
+                "percent_total_income_month": str(0)+" %",
+                "total_number_invoice": 0,
+                "total_number_room_not_teant": 0,
+                "percent_grow_total_income": str(0)+" %",
+                "percent_grow_total_not_invoice": str(0)+" %",
+                "percent_grow_total_not_tenant": str(0)+" %"
+            }
+            print("kiểm tra information data None")
+        else:
+            print("information data không None")
+            self.information_data = information_data
+
+        self.chart = chart
         print("[DEBUG] Khởi tạo LandlordHome")
         self.main_window = main_window
+        self.id_lanlord = id_lanlord
 
         main_layout = QVBoxLayout()
         main_layout.setAlignment(Qt.AlignTop)
@@ -37,6 +55,7 @@ class LandlordHome(QWidget):
         # Thay thế Placeholder bằng biểu đồ thực tế
         chart_widget = ChartWidget()
         main_layout.addWidget(chart_widget)
+        # TODO: nhét chart vào đây
         '''
 
 
@@ -44,10 +63,10 @@ class LandlordHome(QWidget):
         stats_layout = QHBoxLayout()
 
         # Thẻ Dashboard
-        income_card = DashboardCard("Tổng thu nhập", "1.04M VNĐ", "+15%", "icons/money.png")
-        growth_card = DashboardCard("Tỉ lệ tăng thu nhập", "+15%", "+15%", "icons/growth.png")
-        unpaid_card = DashboardCard("Phòng chưa đóng tiền", "3", "-2.5%", "icons/warning.png")
-        due_soon_card = DashboardCard("Phòng sắp đến hạn", "2", "+1%", "icons/clock.png")
+        income_card = DashboardCard("Tổng thu nhập", str(information_data['total_income']) + " VNĐ", str(information_data['percent_grow_total_income']), "icons/money.png")
+        growth_card = DashboardCard("Tỉ lệ tăng thu nhập", str(information_data['percent_total_income_month']), str(information_data['percent_total_income_month']), "icons/growth.png")
+        unpaid_card = DashboardCard("Phòng chưa đóng tiền", str(information_data['total_number_invoice']), str(information_data['percent_grow_total_not_invoice']), "icons/warning.png")
+        due_soon_card = DashboardCard("Phòng trống", str(information_data['total_number_room_not_teant']), str(information_data['percent_grow_total_not_tenant']), "icons/clock.png")
 
         stats_layout.addWidget(income_card)
         stats_layout.addWidget(growth_card)

@@ -1,13 +1,11 @@
-import sys
-# Thành:
-from PyQt6.QtWidgets import QScrollArea
 
-from PyQt6.QtWidgets import (
-    QApplication, QWidget, QLabel, QPushButton, QVBoxLayout, QMessageBox,
-    QHBoxLayout, QComboBox, QDateEdit, QGridLayout, QFrame, QSizePolicy
-)
-from PyQt6.QtCore import Qt, QDate, pyqtSignal
-from PyQt6.QtGui import QFont, QIcon
+
+from PyQt5.QtCore import pyqtSignal, Qt
+from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QVBoxLayout, QWidget, QMessageBox, QScrollArea, QFrame, QLabel, QHBoxLayout, QPushButton
+
+# Thành:
+
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.DateTableUI import DateTableUI
 from QLNHATRO.RentalManagementApplication.frontend.Component.GenderComboUI import GenderComboUI
@@ -380,7 +378,7 @@ class UpdateInfoAfterRegister(QWidget):
         # TODO: Save data to database
 
         # Emit the signal with form data
-        self.info_updated.emit(form_data)
+        #self.info_updated.emit(form_data)
 
         # TODO: Switch to main workspace screen
         # self.main_window.switch_to_workspace()

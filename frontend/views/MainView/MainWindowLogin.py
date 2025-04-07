@@ -1,5 +1,6 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QMainWindow
+
+from PyQt5.QtWidgets import QLabel, QApplication, QMainWindow
 
 from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.HomeLogin import LoginWindow
 
@@ -10,16 +11,28 @@ class MainWindow(QMainWindow):
 
         self.setWindowTitle("Ứng dụng Quản lý")
         self.setGeometry(200, 100, 300, 620)  # Ban đầu chỉ hiển thị khung trái
+        #self.setGeometry(300, 100, 1000, 600)
         self.setStyleSheet("background-color: #202020; border-radius: 15px;")
 
         # Đặt giao diện đăng nhập làm trang chính
-        self.setCentralWidget(LoginWindow(self))
+        #self.setCentralWidget(LoginWindow(self))
+        # Trang khởi đầu
+        # Sửa lại dòng này:
+        self.switch_to_page(LoginWindow)
 
-    def switch_to_workspace(self):
-        """Chuyển sang giao diện Workspace sau khi đăng nhập"""
-        #from WorkspacePage import WorkspacePage  # Import tại đây để tránh circular import
-        #self.setCentralWidget(WorkspacePage(self))
-        pass
+    def switch_to_page(self, PageClass, *args):
+        try:
+            #print(f"[MainWindow] Đang tạo {PageClass.__name__} với args={args}")
+            widget = PageClass(self, *args)
+            #print(f"[MainWindow] Tạo {PageClass.__name__} thành công")
+        except Exception as e:
+            #print(f"[❌ MainWindow] Lỗi tạo {PageClass.__name__}: {e}")
+            import traceback
+            traceback.print_exc()
+            widget = QLabel("⚠️ Không thể hiển thị trang")
+
+        self.setCentralWidget(widget)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
