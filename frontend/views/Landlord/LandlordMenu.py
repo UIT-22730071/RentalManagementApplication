@@ -60,7 +60,7 @@ class LandlordMenu(QWidget):
 
         self.infor_list_room_btn = QPushButton("📂 Danh sách phòng trọ")
         button_ui.apply_style(self.infor_list_room_btn)
-        self.infor_list_room_btn.clicked.connect(lambda : self.set_right_frame(RoomList))
+        self.infor_list_room_btn.clicked.connect(lambda : LandlordController.go_to_room_list(self, self.id_lanlord))
 
         self.create_new_room_btn = QPushButton("➕ Tạo phòng trọ mới")
         button_ui.apply_style(self.create_new_room_btn)

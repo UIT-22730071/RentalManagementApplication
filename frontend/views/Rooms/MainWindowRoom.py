@@ -10,7 +10,7 @@ class MainWindowRoom(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Dashboard Chủ trọ")
-        self.setGeometry(300, 100, 1000, 600)
+        self.setGeometry(300, 100, 860, 600)
 
         self.setStyleSheet(
             "background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);"
@@ -27,9 +27,10 @@ class MainWindowRoom(QMainWindow):
         print("Exiting application")
         self.close()
 
-
+'''
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindowRoom(room_id="001")
     window.show()
     sys.exit(app.exec())
+'''

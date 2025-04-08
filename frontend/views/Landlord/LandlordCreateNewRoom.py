@@ -1,17 +1,20 @@
 from PyQt5.QtWidgets import (
     QWidget, QLabel, QLineEdit, QComboBox, QPushButton,
-    QVBoxLayout, QHBoxLayout, QFormLayout
+    QVBoxLayout, QHBoxLayout, QFormLayout, QMessageBox
 )
 from PyQt5.QtCore import Qt
 
-from QLNHATRO.RentalManagementApplication.frontend.Component.InputTextUI import InputTextUI
+from QLNHATRO.RentalManagementApplication.controller.RoomController.RoomMenuController import RoomMenuController
 from QLNHATRO.RentalManagementApplication.frontend.Component.LabelUI import LabelUI, LabelDarkUI
+from QLNHATRO.RentalManagementApplication.services.RoomService import RoomService
 
 
 class CreateNewRoom(QWidget):
     def __init__(self, main_window=None):
         super().__init__()
         self.setStyleSheet("background-color: #d4a9a9; padding: 24px;")
+        self.create_data_for_update ={}
+        self.id_lanlord = None
         main_layout = QVBoxLayout(self)
 
         # NỀN TRẮNG CHỨA NỘI DUNG
@@ -72,7 +75,7 @@ class CreateNewRoom(QWidget):
 
         # Input Widgets
         self.input_name_room = style_input(QLineEdit())
-        self.input_code_room = style_input(QLineEdit())
+        self.input_number_people_room = style_input(QLineEdit())
         self.input_address_room = style_input(QLineEdit())
 
         self.input_type_room = QComboBox()
@@ -93,7 +96,7 @@ class CreateNewRoom(QWidget):
 
         # THÊM VÀO CỘT TRÁI
         form_left.addRow(LabelDarkUI("Tên phòng:"), self.input_name_room)
-        form_left.addRow(LabelDarkUI("Mã phòng:"), self.input_code_room)
+        form_left.addRow(LabelDarkUI("Số nguoif tối đa:"), self.input_number_people_room)
         form_left.addRow(LabelDarkUI("Địa chỉ:"), self.input_address_room)
         form_left.addRow(LabelDarkUI("Loại phòng:"), self.input_type_room)
         form_left.addRow(LabelDarkUI("Trạng thái:"), self.input_status_room)
@@ -126,9 +129,37 @@ class CreateNewRoom(QWidget):
             transition: 0.3s ;
         """)
 
-        btn_create.clicked.connect(lambda : print("Clicked create room button"))
+
+        btn_create.clicked.connect(self.handle_create_room)
         content_layout.addSpacing(20)
         content_layout.addWidget(btn_create, alignment=Qt.AlignCenter)
 
         # Thêm nội dung vào main
         main_layout.addWidget(content)
+
+    def handle_create_room(self):
+        create_data = RoomService.collect_data_create_room(
+                id_landlord=self.id_lanlord,
+                room_name=self.input_name_room.text(),
+                number_people=self.input_number_people_room.text(),
+                address=self.input_address_room.text(),
+                type_room=self.input_type_room.currentText(),
+                status=self.input_status_room.currentText(),
+                other_infor=self.input_infor_more.text(),
+                area=self.input_area.text(),
+                price_rent=self.input_price_room.text(),
+                electric_price=self.input_price_electric.text(),
+                water_price=self.input_price_water.text(),
+                num_electric=self.input_number_electric.text(),
+                num_water=self.input_number_water.text(),
+            )
+
+        print("[DEBUG] Dữ liệu tạo phòng:", create_data)
+        RoomMenuController.go_to_handel_data_for_create_room(self.id_lanlord, create_data)
+        # Xuất hộp thoại thông báo
+        QMessageBox.information(
+            self,
+            "Tạo phòng thành công",
+            "Phòng trọ đã được thêm vào hệ thống thành công!",
+            QMessageBox.StandardButton.Ok
+        )

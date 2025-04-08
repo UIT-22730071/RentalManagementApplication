@@ -85,3 +85,35 @@ class RoomRepository:
         """Cập nhật chỉ số điện nước cho phòng"""
         # TODO: Thực hiện truy vấn SQL UPDATE
         print(f"✅ Cập nhật chỉ số điện {electricity_num}, nước {water_num} cho phòng {room_id}")
+
+    @staticmethod
+    def get_infor_number_room_of_tenant(lanlord_id):
+        # TODO: Thực hiện truy vấn SQL SELECT
+        print(f"✅ Lấy thống tin phòng cơ bản của người thuê {lanlord_id}")
+        room_list = [
+            {
+                'id_room': 'P101',
+                'room_name': "Phòng 101",
+                'tenant_name': "Nguyen Van A",
+                'price_rent': 3500000,
+                'number_electric': 25,
+                'number_water': 28,
+                'status_invoice': 'Chưa thanh toán'
+            },
+            {
+                'id_room': 'P102',
+                'room_name': "Phòng 102",
+                'tenant_name': "Tran Thi B",
+                'price_rent': 3200000,
+                'number_electric': 20,
+                'number_water': 22,
+                'status_invoice': 'Đã thanh toán'
+            }
+            # Bạn có thể thêm các phòng khác ở đây
+        ]
+        return room_list
+    @staticmethod
+    def create_new_room(id_landlord, room_create_data):
+        # TODO: Thực hiện truy vấn SQL INSERT
+
+        print(f"✅ Tạo phòng mô tả {room_create_data} cho người thuê {id_landlord}")
