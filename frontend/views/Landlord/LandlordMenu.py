@@ -68,7 +68,7 @@ class LandlordMenu(QWidget):
 
         self.infor_list_invoice_btn = QPushButton("🧾 Danh sách hóa đơn")
         button_ui.apply_style(self.infor_list_invoice_btn)
-        self.infor_list_invoice_btn.clicked.connect(lambda : self.set_right_frame(ListInvoices))
+        self.infor_list_invoice_btn.clicked.connect(lambda : LandlordController.go_to_invoice_list(self,self.id_lanlord))
 
         self.add_adv_find_tenant_btn = QPushButton("🔍 Tìm người thuê mới")
         button_ui.apply_style(self.add_adv_find_tenant_btn)
@@ -76,11 +76,11 @@ class LandlordMenu(QWidget):
 
         self.logout_btn = QPushButton("🚪 Đăng xuất")
         button_ui.apply_style(self.logout_btn)
-        #self.logout_btn.clicked.connect(lambda: print("Clicked Logout" ))
+        self.logout_btn.clicked.connect(lambda: LandlordController.handle_logout(self))
 
         self.exist_btn = QPushButton("❌ Thoát")
         button_ui.apply_style(self.exist_btn)
-        #self.exist_btn.clicked.connect(lambda: self.main_window.close())
+        self.exist_btn.clicked.connect(lambda: LandlordController.handle_exit(self))
 
         # Thêm tất cả các button vào layout
         left_layout.addWidget(self.home_btn)

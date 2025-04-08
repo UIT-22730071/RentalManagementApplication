@@ -6,11 +6,14 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 
+
+
+
 class FindNewTenant(QWidget):
     def __init__(self, main_window, ds_phong=None):
         super().__init__()
         self.main_window = main_window
-        self.setStyleSheet("background-color: #d4a9a9; padding: 20px;")
+        self.setStyleSheet("background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);")
 
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -18,7 +21,7 @@ class FindNewTenant(QWidget):
         layout_main.addWidget(scroll)
 
         container = QWidget()
-        container.setStyleSheet("background-color: white; border-radius: 16px; padding: 32px;")
+        container.setStyleSheet("background-color: #EAF9F6; border-radius: 20px; padding: 32px;")
         scroll.setWidget(container)
 
         layout = QVBoxLayout(container)
@@ -36,16 +39,31 @@ class FindNewTenant(QWidget):
         self.combo_phong = QComboBox()
         self.combo_phong.addItems(ds_phong or ["Phòng A1", "Phòng B2"])
         self.combo_phong.setFixedHeight(34)
+        self.combo_phong.setFixedWidth(250)
         self.combo_phong.setStyleSheet("""
             QComboBox {
-                background-color: white;
+                background-color: #DBF7F1;
                 color: black;
                 font-size: 16px;
                 border: 1.5px solid #ccc;
                 border-radius: 8px;
                 padding: 4px 8px;
             }
+
+            QComboBox QAbstractItemView {
+                background-color: #DBF7F1;
+                selection-background-color: #FFA07A;  /* khi chọn */
+                selection-color: black;
+                font-size: 15px;
+            }
+
+            QComboBox::item:hover {
+                background-color: #f0f0f0;  /* khi hover */
+                color: black;
+                
+            }
         """)
+
         layout_chonphong.addWidget(label_phong)
         layout_chonphong.addWidget(self.combo_phong)
         layout.addLayout(layout_chonphong)
@@ -180,6 +198,7 @@ class FindNewTenant(QWidget):
             )
             self.preview_image.setPixmap(scaled)
 
+
     def submit_quangcao(self):
         phong = self.combo_phong.currentText()
         mota = self.txt_mota.toPlainText()
@@ -188,11 +207,19 @@ class FindNewTenant(QWidget):
         if self.check_nu.isChecked(): uu_tien.append("Nữ")
         if self.check_o_ghep.isChecked(): uu_tien.append("Ở ghép")
         image = getattr(self, "file_image_path", None)
+        from QLNHATRO.RentalManagementApplication.controller.AdvertisementController.AdvertisementController import \
+            AdvertisementController
+        AdvertisementController.handle_submit_ad(
+            room_name=phong,
+            description=mota,
+            image_path=image,
+            preferences=uu_tien,
+            view=self  # truyền view để gọi show_error/show_success
+        )
 
-        print("==> Đăng quảng cáo:")
-        print("Phòng:", phong)
-        print("Mô tả:", mota)
-        print("Ưu tiên:", uu_tien)
-        print("Hình ảnh:", image)
+    def show_error(self, message):
+        QMessageBox.critical(self, "Lỗi", message)
 
-        QMessageBox.information(self, "Thành công", "🎉 Quảng cáo phòng trọ đã được đăng!")
+    def show_success(self, message):
+        QMessageBox.information(self, "Thành công", message)
+

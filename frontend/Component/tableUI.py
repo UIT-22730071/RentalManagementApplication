@@ -63,9 +63,10 @@ class TableUI(QTableWidget):
     def populate(self, data: list[dict], has_button=False, button_column_name="Chi tiết", button_callback=None):
         self.setRowCount(max(len(data), 10))
         for row, row_data in enumerate(data):
-            for col, (key, value) in enumerate(row_data.items()):
+            for col, header in enumerate(self.horizontalHeaderItem(i).text() for i in range(self.columnCount())):
+                value = row_data.get(header, "")
                 item = QTableWidgetItem(str(value))
-                item.setTextAlignment(Qt.AlignCenter)  # ✅ Căn giữa nội dung
+                item.setTextAlignment(Qt.AlignCenter)
                 self.setItem(row, col, item)
 
             if has_button:

@@ -1,21 +1,28 @@
 # LandlordListInvoices.py
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame, QMessageBox
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.tableUI import TableUI
 
 
 class ListInvoices(QWidget):
-    def __init__(self, main_window):
+    def __init__(self, main_window,invoice_list, id_lanlord):
         super().__init__()
         self.main_window = main_window
 
-        self.invoices = [
-            {"STT": "1", "ID Phòng": "01", "Tiền nhà": "2500000 VNĐ", "Tiền điện": "100000 VNĐ",
-             "Tiền nước": "100000 VNĐ", "Tiền rác": "30000 VNĐ", "Tổng chi phí": "400000 VNĐ",
-             "Ngày xuất hóa đơn": "01/01/2025","Chi tiết":""}
-        ]
+        # Khởi tạo danh sách hóa đơn
+        self.invoices = invoice_list if invoice_list is not None else [{
+            "STT": "1",
+            "Tên Phòng": "None",
+            "Tiền nhà": "None VNĐ",
+            "Tiền điện": "None VNĐ",
+            "Tiền nước": "None VNĐ",
+            "Tiền rác": "None VNĐ",
+            "Tổng chi phí": "None VNĐ",
+            "Ngày xuất hóa đơn": "01/01/2025",
+            "Chi tiết hóa đơn": "Xem"
+        }]
 
         main_layout = QVBoxLayout()
         self.setStyleSheet("background-color: #ecf0f1;")
@@ -38,7 +45,7 @@ class ListInvoices(QWidget):
         #frame_layout = QVBoxLayout(frame)
 
         headers = [
-            "STT", "ID Phòng", "Tiền nhà", "Tiền điện",
+            "STT", "Tên Phòng", "Tiền nhà", "Tiền điện",
             "Tiền nước", "Tiền rác", "Tổng chi phí", "Ngày xuất hóa đơn", "Chi tiết hóa đơn"
         ]
 
@@ -48,7 +55,21 @@ class ListInvoices(QWidget):
         #frame_layout.addWidget(self.table)
         main_layout.addWidget(self.table)
         main_layout.addWidget(frame)
+
         self.setLayout(main_layout)
+
     ## TODO: cần viết lại hàm show_detail khi có model
+    ## TODO: khi nào hoàn thành cái Bill rồi thì liên kết bấm mở bill
     def show_detail(self, row):
-        print(f"🔍 Chi tiết hóa đơn dòng {row + 1}: {self.invoices[row]}")
+        try:
+            invoice = self.invoices[row]
+            id_invoice = invoice.get("id_invoice", None)
+            if id_invoice:
+                print(f"🧾 ID hóa đơn được chọn: {id_invoice}")
+                # TODO: Tùy vào mục đích: mở trang mới, lấy dữ liệu DB, in hóa đơn...
+                # self.main_window.show_invoice_detail_page(id_invoice)  # Ví dụ: chuyển trang
+            else:
+                print("⚠️ Không tìm thấy ID hóa đơn.")
+        except IndexError:
+            print("❌ Không tìm thấy dòng hóa đơn.")
+

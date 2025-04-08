@@ -1,9 +1,13 @@
+from PyQt5.QtWidgets import QApplication
+
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordCreateNewRoom import CreateNewRoom
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordFindNewTenant import FindNewTenant
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordHome import LandlordHome
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordListInvoices import ListInvoices
+from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
 from QLNHATRO.RentalManagementApplication.services.LanlordService import LanlordService
 from QLNHATRO.RentalManagementApplication.services.RoomService import RoomService
+from QLNHATRO.TestErrorUI.MainWindowLogin import MainWindow
 
 
 class LandlordController:
@@ -38,14 +42,24 @@ class LandlordController:
         view.set_right_frame(lambda *_: room_list_view)
 
     @staticmethod
-    def go_to_create_room(view):
-        view.set_right_frame(CreateNewRoom)
+    def go_to_invoice_list(view, id_lanlord):
+        invoice_list = InvoiceService.handle_data_for_invoice_list_page(id_lanlord)
+        print("đây là invoice list", invoice_list)
+        invoice_list_view = ListInvoices(view.main_window, invoice_list, id_lanlord)
+        view.set_right_frame(lambda *_: invoice_list_view)
+
 
     @staticmethod
-    def go_to_invoice_list(view):
-        view.set_right_frame(ListInvoices)
+    def handle_logout(view):
+        """Quay về màn hình đăng nhập"""
+        print("[INFO] Đăng xuất khỏi dashboard landlord...")
+        main_window = view.main_window
+        login_window = MainWindow()
+        main_window.setCentralWidget(login_window)
+
 
     @staticmethod
-    def go_to_find_tenant(view):
-        view.set_right_frame(FindNewTenant)
-
+    def handle_exit(view):
+        """Đóng toàn bộ chương trình"""
+        print("[INFO] Đóng ứng dụng")
+        QApplication.quit()
