@@ -45,7 +45,7 @@ class TableUI(QTableWidget):
 
             QTableWidget::item:selected {
                 background-color: #4AA1C6;
-                color: white;
+                color: black;
             }
 
             QPushButton {
@@ -60,11 +60,22 @@ class TableUI(QTableWidget):
             }
         """)
 
-    def populate(self, data: list[dict], has_button=False, button_column_name="Chi tiết", button_callback=None):
+    def populate(
+            self,
+            data: list[dict],
+            has_button=False,
+            button_column_name="Chi tiết",
+            button_callback=None,
+            header_to_key: dict = None
+    ):
         self.setRowCount(max(len(data), 10))
+        headers = [self.horizontalHeaderItem(i).text() for i in range(self.columnCount())]
+
         for row, row_data in enumerate(data):
-            for col, header in enumerate(self.horizontalHeaderItem(i).text() for i in range(self.columnCount())):
-                value = row_data.get(header, "")
+            for col, header in enumerate(headers):
+                # Nếu có ánh xạ key → dùng, không thì lấy header làm key
+                key = header_to_key.get(header, header) if header_to_key else header
+                value = row_data.get(key, "")
                 item = QTableWidgetItem(str(value))
                 item.setTextAlignment(Qt.AlignCenter)
                 self.setItem(row, col, item)
@@ -74,3 +85,5 @@ class TableUI(QTableWidget):
                 if button_callback:
                     btn.clicked.connect(lambda _, r=row: button_callback(r))
                 self.setCellWidget(row, self.columnCount() - 1, btn)
+
+

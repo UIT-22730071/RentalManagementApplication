@@ -50,6 +50,7 @@ class ListInvoices(QWidget):
         ]
 
         self.table = TableUI(headers)
+        # Nếu key trong dict trùng hoàn toàn với header, không cần truyền header_to_key
         self.table.populate(self.invoices, has_button=True, button_callback=self.show_detail)
 
         #frame_layout.addWidget(self.table)

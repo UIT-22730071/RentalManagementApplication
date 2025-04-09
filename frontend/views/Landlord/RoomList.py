@@ -55,7 +55,19 @@ class RoomList(QWidget):
             "STT", "Tên phòng", "Người thuê", "Giá", "Số điện", "Số nước", "Tình trạng hóa đơn", "Xem chi tiết"
         ]
         self.table = TableUI(headers)
-        self.table.populate(self.room_list, has_button=True, button_callback=self.show_room_details)
+
+        header_to_key = {
+            "STT": "stt",
+            "Tên phòng": "ten_phong",
+            "Người thuê": "nguoi_thue",
+            "Giá": "gia",
+            "Số điện": "so_dien",
+            "Số nước": "so_nuoc",
+            "Tình trạng hóa đơn": "hoa_don"
+        }
+
+        self.table.populate(self.room_list, has_button=True, button_callback=self.show_room_details,
+                            header_to_key=header_to_key)
 
 
         main_layout.addWidget(self.table)

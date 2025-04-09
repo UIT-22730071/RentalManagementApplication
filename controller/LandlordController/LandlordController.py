@@ -1,7 +1,6 @@
 from PyQt5.QtWidgets import QApplication
 
-from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordCreateNewRoom import CreateNewRoom
-from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordFindNewTenant import FindNewTenant
+
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordHome import LandlordHome
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordListInvoices import ListInvoices
 from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
