@@ -5,12 +5,13 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 
 class RoomsInfor(QWidget):
-    def __init__(self, main_window, room_id):
+    def __init__(self, main_window, room_id,data_room_infor):
         super().__init__()
         self.main_window = main_window
         self.room_id = room_id
-        self.room_data = {
-            "Mã phòng": "P101",
+        self.room_data = data_room_infor
+        '''{
+            "Tên phòng": "P101",
             "Địa chỉ": "123 Đường ABC, Phường XYZ, Quận Bình Thạnh, TP. Hồ Chí Minh",
             "Loại phòng": "Phòng trọ trong dãy trọ",
             "Trạng thái": "Còn trống",
@@ -38,7 +39,7 @@ class RoomsInfor(QWidget):
             "Chủ trọ": "Cô Ba Chủ Trọ",
             "SĐT": "090x xxx xxx"
         }
-
+        '''
         self.setStyleSheet("QWidget { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #FFDEE9, stop:1 #B5FFFC); }")
 
         main_layout = QVBoxLayout(self)

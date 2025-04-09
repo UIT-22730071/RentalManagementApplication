@@ -3,6 +3,8 @@ from QLNHATRO.RentalManagementApplication.Repository.RoomRepository import RoomR
 
 class InvoiceRepository:
     @staticmethod
+
+
     def save_invoice(invoice_data):
         """Lưu hóa đơn vào database"""
         # TODO: Thay thế bằng truy vấn SQL INSERT
@@ -17,21 +19,7 @@ class InvoiceRepository:
 
         return True
 
-    @staticmethod
-    def update_invoice_to_database(invoice_data_update_database):
-        # TODO: Thay thế bằng truy vấn SQL UPDATE
-        '''
-        invoice_data_update_database = {
-            'id_room': self.selected_room['id'],
-            'id_tenant': self.selected_tenant['id'],
-            'chi_so_dien': chi_so_dien,
-            'chi_so_nuoc': chi_so_nuoc
-        }
-        '''
 
-        print(f"✅ Đã cập nhật hóa đơn:")
-
-        return True
     @staticmethod
     #TODO: tạo truy vấn SQL lấy id hóa đơn mới nhất của phòng
     def get_new_id_invoice(room_id, tenant_id):

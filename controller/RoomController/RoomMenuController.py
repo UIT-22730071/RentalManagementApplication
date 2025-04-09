@@ -1,4 +1,4 @@
-
+from QLNHATRO.RentalManagementApplication.Repository.RoomRepository import RoomRepository
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.ManageInvoicePage import InvoiceInputPage
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomUpdateTenantPage import RoomUpdateTenantPage
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomsHome import RoomsHome
@@ -41,9 +41,17 @@ class RoomMenuController:
             room_id
         )
     def go_to_open_right_frame_rooms_infor(self, room_menu_instance, main_window, room_id):
-        room_menu_instance.set_right_frame(RoomsInfor, main_window, room_id)
+        #Xử lý dữ liệu ở service
+        data_room_infor = RoomService.get_translated_room_info(room_id)
+        # Chỉnh sửa hàm và call hàm thêm biến vào
+        room_menu_instance.set_right_frame(RoomsInfor, main_window, room_id,data_room_infor)
+
+
     def go_to_open_right_frame_room_home(self, room_menu_instance, main_window, room_id):
-        room_menu_instance.set_right_frame(RoomsHome, main_window, room_id)
+        # xử lý dữ liệu từ service
+        data_room_home = RoomService.handle_data_for_room_home(room_id)
+        # truyền dữ liệu vào RoomHomes data_home
+        room_menu_instance.set_right_frame(RoomsHome, main_window, room_id,data_room_home)
 
     def go_to_open_right_frame_ManagerInvoicePage(self, room_menu_instance, main_window, room_id):
         room_data_list = self.get_room_data_list()  # tất cả các phòng

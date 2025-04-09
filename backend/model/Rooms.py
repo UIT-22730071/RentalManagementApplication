@@ -20,6 +20,7 @@ class Room:
                  electricity_price,
                  water_price,
                  internet_price,
+                 garbage_price,
                  other_fees,
                  max_tenants,
                  pets_allowed,
@@ -50,7 +51,8 @@ class Room:
         self.deposit = deposit                      # Tiền cọc (VNĐ)
         self.electricity_price = electricity_price  # Giá điện (VNĐ/kWh)
         self.water_price = water_price              # Giá nước (VNĐ/người hoặc m³)
-        self.internet_price = internet_price        # Phí internet (VNĐ/tháng)
+        self.internet_price = internet_price
+        self.garbage_price = garbage_price# Phí internet (VNĐ/tháng)
         self.other_fees = other_fees                # Các loại phí khác (vệ sinh, rác,...)
         self.max_tenants = max_tenants              # Số người tối đa có thể thuê
         self.pets_allowed = pets_allowed            # Có cho phép nuôi thú cưng không ("Có"/"Không")
@@ -85,6 +87,7 @@ class Room:
             "electricity_price": self.electricity_price,
             "water_price": self.water_price,
             "internet_price": self.internet_price,
+            'garbage_price' : self.garbage_price,
             "other_fees": self.other_fees,
             "max_tenants": self.max_tenants,
             "pets_allowed": self.pets_allowed,

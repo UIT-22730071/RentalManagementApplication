@@ -117,3 +117,57 @@ class RoomRepository:
         # TODO: Thực hiện truy vấn SQL INSERT
 
         print(f"✅ Tạo phòng mô tả {room_create_data} cho người thuê {id_landlord}")
+
+    @staticmethod
+    def get_data_for_handle_room_home(room_id):
+        #TODO tạo hàm select lấy dũ liệu số điện số nước use room_id
+        #room_id = room_id
+        #old_electricity,old_water,old_electricity_price,old_water_price truy cập hóa đơn kỳ trước
+        data_room_home = {
+            'current_electricity':356,
+            'current_water':20,
+            'electricity_price':3800,
+            'water_price':100000,
+            'old_electricity': 256,
+            'old_water': 256,
+            'old_electricity_price':3800,
+            'old_water_price': 100000,
+        }
+        return  data_room_home
+
+    @staticmethod
+    def get_data_for_handle_room_infor(room_id):
+        #TODO tạo truy cấp SQL để select các thông tin cần thiết
+        # bên dưới là giả lập dữ liệu cần
+        room_data = {
+            "room_name": "P101",
+            "address": "123 Đường ABC, Phường XYZ, Quận Bình Thạnh, TP. Hồ Chí Minh",
+            "room_type": "Phòng trọ trong dãy trọ",
+            "status": "Còn trống",
+            "area": 25.5,
+            "floor": "1",
+            "has_loft": "Có",
+            "bathroom": "Riêng trong phòng",
+            "kitchen": "Khu bếp riêng",
+            "balcony": "Có",
+            "furniture": "Giường, Tủ quần áo, Bàn học",
+            "appliances": "Điều hòa, Máy nước nóng",
+            "utilities": "Wifi, Camera, Chỗ để xe, Giờ giấc tự do",
+            "current_electricity": "365 KWH",
+            "current_water": 365,
+            "rent_price": 3500000,
+            "deposit": 3500000,
+            "electricity_price": 3800,
+            "water_price": 100000 ,
+            "internet_price": 100000,
+            "garbage_price": 50000,
+            "other_fees": 20000,
+            "max_tenants": 2,
+            "pets_allowed": "Không",
+            "available_date": "2025-04-05",
+            "lanlord_name": "Cô Ba Chủ Trọ",
+            "phone_lanlord": "032 5575 333"
+        }
+        # lanlord_name, lanlord_name  lấy từ tenant tooong qua id_tenant có trong room
+
+        return room_data

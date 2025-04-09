@@ -72,3 +72,106 @@ class RoomService:
         }
 
         return room_create_data
+
+    @staticmethod
+    def handle_data_for_room_home(room_id):
+        data_room_home = RoomRepository.get_data_for_handle_room_home(room_id)
+        new_data = {}
+        '''
+            'current_electricity':356,
+            'current_water':20,
+            'electricity_price':3800,
+            'water_price':100000,
+            'old_electricity': 256,
+            'old_water': 256,
+            'old_electricity_price':3800,
+            'old_water_price': 100000,
+        '''
+        percent_grow_num_electricity = RoomService.percent_two_num(data_room_home['current_electricity'], data_room_home['old_electricity'])
+        percent_grow_num_water = RoomService.percent_two_num(data_room_home['current_water'],data_room_home['old_water'])
+        percent_grow_electricity_price = RoomService.percent_two_num(data_room_home['electricity_price'],data_room_home['old_electricity'])
+        percent_grow_water_price = RoomService.percent_two_num(data_room_home['water_price'],data_room_home['old_water_price'])
+
+        new_data['current_electricity'] = str(data_room_home['current_electricity'])+" KWH"
+        new_data['current_water'] = str(data_room_home['current_water']) + " m³"
+        new_data['electricity_price'] = str(data_room_home['electricity_price']) + " VNĐ/KWH"
+        new_data['water_price'] = str(data_room_home['water_price']) + " VNĐ/m³"
+
+        new_data['percent_grow_num_electricity'] = str(percent_grow_num_electricity) + " %"
+        new_data['percent_grow_num_water'] = str(percent_grow_num_water) + " %"
+        new_data['percent_grow_electricity_price'] = str(percent_grow_electricity_price) + " %"
+        new_data['percent_grow_water_price'] = str(percent_grow_water_price) + " %"
+
+        return  new_data
+
+    @staticmethod
+    def percent_two_num(a,b):
+        percent = (a - b)/a
+        percent = percent*100
+        return round(percent,2)
+
+    @staticmethod
+    def get_translated_room_info(room_id):
+        """Chuyển đổi key tiếng Anh → tiếng Việt để dùng trong giao diện RoomsInfor"""
+        room_data = RoomRepository.get_data_for_handle_room_infor(room_id)
+        mapping = {
+            "room_name": "Tên phòng",
+            "address": "Địa chỉ",
+            "room_type": "Loại phòng",
+            "status": "Trạng thái",
+            "area": "Diện tích",
+            "floor": "Tầng",
+            "has_loft": "Gác lửng",
+            "bathroom": "Phòng tắm",
+            "kitchen": "Nhà bếp",
+            "balcony": "Ban công",
+            "furniture": "Nội thất cơ bản",
+            "appliances": "Thiết bị điện",
+            "utilities": "Tiện ích",
+            "current_electricity": "Số điện",
+            "current_water": "Số nước",
+            "rent_price": "Giá thuê",
+            "deposit": "Tiền đặt cọc",
+            "electricity_price": "Giá điện",
+            "water_price": "Giá nước",
+            "internet_price": "Internet",
+            "garbage_price": "Phí rác",
+            "other_fees": "Phí khác",
+            "max_tenants": "Số người tối đa",
+            "pets_allowed": "Thú cưng",
+            "available_date": "Ngày có thể thuê",
+            "lanlord_name": "Chủ trọ",
+            "phone_lanlord": "SĐT"
+        }
+
+        translated = {}
+        for en_key, vi_key in mapping.items():
+            if en_key in room_data:
+                value = room_data[en_key]
+                # ✅ ép kiểu về string và xử lý đơn vị nếu cần
+                if isinstance(value, float):
+                    value = f"{value:.1f}"  # 1 chữ số thập phân
+                elif isinstance(value, int):
+                    value = f"{value:,}"  # format 3 chữ số một
+                elif isinstance(value, (str,)):
+                    value = str(value)
+                elif isinstance(value, (bytes,)):
+                    value = value.decode('utf-8')
+                elif en_key == "available_date":
+                    value = str(value)  # hoặc format thời gian
+
+                # Thêm đơn vị nếu cần
+                if en_key == "area":
+                    value += " m²"
+                if en_key == "current_water":
+                    value += " m³"
+                if en_key == "current_electricity":
+                    value = str(value) if isinstance(value, str) else f"{value} KWH"
+                if en_key == "rent_price" or en_key == "deposit":
+                    value += " VNĐ/tháng"
+                if en_key in ["electricity_price", "internet_price", "water_price", "garbage_price", "other_fees"]:
+                    value += " VNĐ"
+
+                translated[vi_key] = value
+
+        return translated
