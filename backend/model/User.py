@@ -1,8 +1,7 @@
 import sqlite3
 
-
 class User:
-    def __init__(self, username, password, role, user_id, is_active = 0):
+    def __init__(self, username, password, role, user_id=None, is_active = 0):
         self.username = username
         self.password = password
         self.role = role
@@ -10,43 +9,34 @@ class User:
         self.is_active = is_active
 
 
-    # Giá trị nạp vào role gồm:
-    # TODO: Role only have value (admin, landlord, tenant)
     @staticmethod
     def add_user(self, username, password, role):
         if self.check_duplicate_user(username):
-            print("User already exists")
-            return False
+            print(f"User with username: '{username}' already exists")
+            return None
         else:
             conn = sqlite3.connect('rentalmanagement.sqlite')
             cursor = conn.cursor()
-            cursor.execute("""
-            INSERT INTO Users (Username, Password, Role, IsActive) VALUES (?, ?, ?, ?, ?)""", (username,password, role, 0))
+            cursor.execute("""INSERT INTO Users(Username, Password, Role, IsActive) VALUES (?, ?, ?, ?)""", (username, password, role, 1 if role == "admin" else 0))
+            user_id = cursor.lastrowid
             conn.commit()
             conn.close()
-            return True if cursor.rowcount == 1 else False
-
-    @staticmethod
-    def add_user_to_admin(self, username, password, user_id):
-        conn = sqlite3.connect('rentalmanagement.sqlite')
-        cursor = conn.cursor()
-
+            print(f"User with username: '{username}' added to database successfully with ID: {user_id}")
+            return User(username, password, role, user_id)
 
 
     @staticmethod
     def check_duplicate_user(self, username):
-        print("connect phát")
         conn = sqlite3.connect('rentalmanagement.sqlite')
-        print(" neu khong thay t là connect lỗi nha m")
         cursor = conn.cursor()
-        cursor.execute("""
-        SELECT * FROM Users WHERE Username = ?""", (username,))
-        if cursor.fetchone() is not None:
-            print("duplicheck True nha ==> next")
-            return True
-        else:
-            return False
-            print("duplicheck False nha ==> next")
+        cursor.execute("""SELECT * FROM Users WHERE Username = ?""", (username,))
+        return cursor.fetchone() is not None
+
+    @staticmethod
+    def get_user_by_username(username):
+        conn = sqlite3.connect('rentalmanagement.sqlite')
+        cursor = conn.cursor()
+        cursor.execute("""SELECT UserID, """)
 
     @staticmethod
     def check_correct_password(password_input, username):
