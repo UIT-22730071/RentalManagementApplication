@@ -1,4 +1,4 @@
-from QLNHATRO.RentalManagementApplication.Repository.RoomRepository import RoomRepository
+
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.ManageInvoicePage import InvoiceInputPage
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomUpdateTenantPage import RoomUpdateTenantPage
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomsHome import RoomsHome
@@ -20,6 +20,7 @@ class RoomMenuController:
     def get_room_data_list(self):
         """Lấy danh sách thông tin phòng"""
         return self.room_service.get_all_rooms()
+
     # TODO : Call hàm lấy thông tin người thuê từ CCCD ==> Dictionary
     def find_tenant_by_cccd(self, cccd):
         """Tìm người thuê theo CCCD"""
@@ -27,9 +28,21 @@ class RoomMenuController:
     def update_tenant_for_room(self, room_id, tenant_id):
         """Cập nhật người thuê cho phòng"""
         return self.room_service.update_room_tenant(room_id, tenant_id)
+
+    ## Xử lý nạp dữ liệu cho RoomUpdateTenant page
     def go_to_open_right_frame_room_menu(self, room_menu_instance, main_window, room_id):
+        # Xử lý nạp data cho room list
+        # đi ngược về Service ơ==> repository
         room_data_list = self.get_room_data_list()
         tenant_callback = self.find_tenant_by_cccd
+        '''
+        data_tenant_show = {
+                    'name_tenant': tenant['name'],
+                    'cccd': tenant['cccd'],
+                    'phone': tenant['sdt'],
+                    'email': tenant['email'],
+                }
+        '''
         update_callback = self.update_tenant_for_room
 
         room_menu_instance.set_right_frame(
@@ -68,7 +81,7 @@ class RoomMenuController:
             })
             print("✅ Đã tạo hóa đơn:", invoice)
             self.go_to_open_right_frame_room_home(room_menu_instance, main_window, room_id)
-
+        # Nạp dữ liệu cho room_data_list
         room_menu_instance.set_right_frame(
             InvoiceInputPage,
             main_window,

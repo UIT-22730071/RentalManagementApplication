@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 
+from QLNHATRO.RentalManagementApplication.services.RoomService import RoomService
 
 
 class RoomUpdateTenantPage(QWidget):
@@ -70,7 +71,7 @@ class RoomUpdateTenantPage(QWidget):
 
         self.cccd_input = QLineEdit()
         self.cccd_input.setFixedWidth(250)
-        self.cccd_input.setPlaceholderText("VD: 123456789")
+        self.cccd_input.setPlaceholderText("VD: 082098013220")
         self.cccd_input.setStyleSheet("padding: 5px; border-radius: 5px; background-color: white;")
 
         self.find_tenant_btn = QPushButton("Tìm người thuê")
@@ -119,7 +120,7 @@ class RoomUpdateTenantPage(QWidget):
         layout.addWidget(self.update_btn, alignment=Qt.AlignCenter)
 
         self.display_room_info()
-
+    # xử lý nạp dữ liệu room
     def display_room_info(self):
         room = self.room_combo.currentData()
         if room:
@@ -144,8 +145,8 @@ class RoomUpdateTenantPage(QWidget):
         if tenant:
             self.found_tenant = tenant
             self.tenant_info_label.setText(
-                f"Họ tên: {tenant['ho_ten']}\n"
-                f"SĐT: {tenant['sdt']}\n"
+                f"Họ tên: {tenant['name_tenant']}\n"
+                f"SĐT: {tenant['phone']}\n"
                 f"CCCD: {tenant['cccd']}\n"
                 f"Email: {tenant['email']}"
             )
@@ -157,7 +158,9 @@ class RoomUpdateTenantPage(QWidget):
         if not self.selected_room or not self.found_tenant:
             QMessageBox.warning(self, "Lỗi", "Vui lòng chọn phòng và tìm người thuê.")
             return
+        # gọi cái hàm lấy data từ UI gửi đi update
+        call_update = RoomService.get_data_send_to_update_tenant_rent_room(self.selected_room['id'], self.found_tenant['id'])
         confirm = QMessageBox.question(self, "Xác nhận", "Bạn chắc chắn muốn cập nhật người thuê vào phòng?")
-        if confirm == QMessageBox.Yes:
+        if confirm == QMessageBox.Yes & call_update==True:
             self.update_tenant_callback(self.selected_room['id'], self.found_tenant['id'])
             QMessageBox.information(self, "Thành công", "Đã cập nhật người thuê vào phòng thành công.")

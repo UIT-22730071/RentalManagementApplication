@@ -394,7 +394,7 @@ class InvoiceInputPage(QWidget):
 
             chi_so_dien = float(self.dien_input.text()) # chir soos dieenj moiws
             chi_so_nuoc = float(self.nuoc_input.text()) # chỉ số nước mới nhập
-            phi_khac = float(self.phi_khac_input.text() or self.selected_room.get('phi_khac', 20000))
+            phi_khac = float(self.phi_khac_input.text() or self.selected_room.get('phi_khac', 0))
             # TODO: lấy số điện và số nước từ hóa đoơn cũ, nễu không có trả về 0
             # Additional validation
             old_dien = float(self.selected_room.get('chi_so_dien', 0))

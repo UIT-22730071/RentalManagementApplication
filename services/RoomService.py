@@ -2,6 +2,7 @@ from QLNHATRO.RentalManagementApplication.Repository.RoomRepository import RoomR
 
 
 class RoomService:
+
     @staticmethod
     def get_all_rooms():
         """Lấy danh sách phòng có xử lý logic nếu cần"""
@@ -175,3 +176,16 @@ class RoomService:
                 translated[vi_key] = value
 
         return translated
+
+    @staticmethod
+    def get_data_send_to_update_tenant_rent_room(room_id, tenant_id):
+        # goi reposolity ddeer upate
+        # Đúng ra thì cái return phải trả về true_ false để còn truy ngược về hiển thị cập nhật ok
+        # cập nhật cái id_tenant vào id_room là
+        is_update = RoomRepository.update_room_tenant(room_id, tenant_id)
+        if is_update == True:
+            print("cap nhat thanh cong")
+            return True
+        else:
+            print("cap nhat khong thanh cong")
+            return False
