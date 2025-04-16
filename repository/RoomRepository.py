@@ -171,3 +171,9 @@ class RoomRepository:
         # lanlord_name, lanlord_name  lấy từ tenant tooong qua id_tenant có trong room
 
         return room_data
+
+    @staticmethod
+    def update_tenant_rent_room(room_id, tenant_id):
+        #TODO Tao hàm truy vấn update data
+        print(f"✅ Cập nhật người thuê {tenant_id} vào phòng {room_id}")
+        return True

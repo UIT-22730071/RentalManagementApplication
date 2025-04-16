@@ -1,3 +1,6 @@
+from PyQt5.QtWidgets import QMessageBox
+
+
 class TenantRepository:
     @staticmethod
     def get_all_tenants():
@@ -27,6 +30,9 @@ class TenantRepository:
     def get_tenant_by_id(tenant_id):
         """Lấy thông tin người thuê từ id"""
         # TODO: Thay thế bằng truy vấn SQL thực tế
+
+        # tenant chỉ chưa các thông tin của tenant dạng dict để truy vấn
+
         for tenant in TenantRepository.get_all_tenants():
             if tenant['id'] == tenant_id:
                 return tenant
@@ -36,10 +42,14 @@ class TenantRepository:
     def get_tenant_by_cccd(cccd):
         """Lấy thông tin người thuê từ số CCCD"""
         # TODO: Thay thế bằng truy vấn SQL thực tế
-        for tenant in TenantRepository.get_all_tenants():
-            if tenant['cccd'] == cccd:
-                return tenant
-        return None
+        tenant = {
+            'name': "Phúc",
+            'cccd': "082098013220",
+            'phone': "0325575333",
+            'email': "hoangphuc@gmail.com",
+        }
+
+        return tenant
 
     @staticmethod
     def get_tenant_by_room_id(room_id):
