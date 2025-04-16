@@ -1,8 +1,7 @@
 from PyQt5.QtWidgets import QMessageBox
 
-from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import InvoiceRepository
+from QLNHATRO.RentalManagementApplication.backend.Repository import InvoiceRepository
 from QLNHATRO.RentalManagementApplication.frontend.views.Invoices.InvoiceView import InvoiceSentToTenantView
-from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
 
 
 class InvoiceController:

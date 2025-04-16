@@ -1,10 +1,10 @@
 from PyQt5.QtWidgets import (
     QWidget, QLabel, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit,
-    QPushButton, QMessageBox, QFrame
+    QPushButton, QMessageBox
 )
 from PyQt5.QtCore import Qt
 
-from QLNHATRO.RentalManagementApplication.services.RoomService import RoomService
+from QLNHATRO.RentalManagementApplication.backend.services import RoomService
 
 
 class RoomUpdateTenantPage(QWidget):

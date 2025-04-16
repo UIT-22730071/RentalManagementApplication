@@ -1,7 +1,7 @@
 
-from QLNHATRO.RentalManagementApplication.Repository.LoginRepository import LoginRepository
+from QLNHATRO.RentalManagementApplication.backend.Repository.LoginRepository import LoginRepository
 
-from QLNHATRO.RentalManagementApplication.services.LoginService import LoginService
+from QLNHATRO.RentalManagementApplication.backend.services.LoginService import LoginService
 
 
 class LoginController:

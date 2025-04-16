@@ -1,4 +1,4 @@
-from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
+from QLNHATRO.RentalManagementApplication.backend.Repository.TenantRepository import TenantRepository
 
 
 class TenantService:

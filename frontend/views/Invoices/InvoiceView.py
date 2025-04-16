@@ -15,7 +15,7 @@ class InvoiceView(QWidget):
     # Bổ sung thêm các giá trị tiền thuê khác nếu có, chi phí internet,... bla bla
     # Thoong tin người mua bổ sung thêm sđt, bỏ phần hình thức thanh toán
     # Nếu ổn tạo phương thức thanh toán qua qét mã QR trong teanat thì quá Oke la rồi
-
+    #
     def __init__(self, main_window=None, invoice_data=None, landlord_data=None, tenant_data=None, room_data=None):
         super().__init__()
         self.main_window = main_window
