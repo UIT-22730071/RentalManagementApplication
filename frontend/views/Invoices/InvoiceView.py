@@ -1,10 +1,10 @@
 # InvoiceView.py
 from PyQt5.QtWidgets import (QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
                              QScrollArea, QFrame, QGridLayout, QGroupBox, QTableWidget,
-                             QTableWidgetItem, QHeaderView, QSpacerItem, QSizePolicy)
+                             QTableWidgetItem, QHeaderView)
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QFont
-from datetime import datetime
+
 
 
 class InvoiceView(QWidget):
