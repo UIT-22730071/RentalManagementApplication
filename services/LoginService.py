@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QMessageBox
 
-from QLNHATRO.RentalManagementApplication.backend.Repository.LoginRepository import LoginRepository
+from QLNHATRO.RentalManagementApplication.Repository.LoginRepository import LoginRepository
 
 
 class LoginService:

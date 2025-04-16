@@ -7,7 +7,6 @@ from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantHome impor
 from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantInfo import TenantInfo
 from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantRoomInfo import TenantRoomInfo
 from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantInvoiceList import TenantInvoiceList
-from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantPayment import TenantPayment
 from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantMaintenanceRequest import TenantMaintenanceRequest
 
 

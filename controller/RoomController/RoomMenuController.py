@@ -3,10 +3,9 @@ from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.ManageInvoicePage
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomUpdateTenantPage import RoomUpdateTenantPage
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomsHome import RoomsHome
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomsInfor import RoomsInfor
-
-from QLNHATRO.RentalManagementApplication.backend.services.InvoiceService import InvoiceService
-from QLNHATRO.RentalManagementApplication.backend.services import RoomService
-from QLNHATRO.RentalManagementApplication.backend.services.TenantService import TenantService
+from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
+from QLNHATRO.RentalManagementApplication.services.RoomService import RoomService
+from QLNHATRO.RentalManagementApplication.services.TenantService import TenantService
 
 
 class RoomMenuController:

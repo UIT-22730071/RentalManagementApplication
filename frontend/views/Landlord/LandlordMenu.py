@@ -7,8 +7,7 @@ from QLNHATRO.RentalManagementApplication.controller.LandlordController.Landlord
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordCreateNewRoom import CreateNewRoom
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordFindNewTenant import FindNewTenant
-from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordListInvoices import ListInvoices
-from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.RoomList import RoomList
+
 
 
 class LandlordMenu(QWidget):

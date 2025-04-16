@@ -1,6 +1,8 @@
 import sqlite3
 
 class User:
+    User = None
+
     def __init__(self, username, password, role, user_id=None, is_active = 0):
         self.username = username
         self.password = password

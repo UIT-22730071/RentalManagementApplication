@@ -1,4 +1,4 @@
-from QLNHATRO.RentalManagementApplication.backend.services.AdvertisementService import AdvertisementService
+from QLNHATRO.RentalManagementApplication.services.AdvertisementService import AdvertisementService
 
 class AdvertisementController:
     @staticmethod

@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QGridLayout, QGroupBox, QSizePolicy, QScrollArea, \
     QFrame
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont, QPixmap
+
 
 
 class TenantRoomInfo(QWidget):

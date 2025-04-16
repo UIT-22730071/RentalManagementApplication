@@ -1,4 +1,4 @@
-from QLNHATRO.RentalManagementApplication.backend.Repository import InvoiceRepository
+from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import InvoiceRepository
 
 
 class InvoiceService:

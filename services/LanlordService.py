@@ -1,4 +1,4 @@
-from QLNHATRO.RentalManagementApplication.backend.Repository.LandlordRepository import LanlordRepository
+from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
 
 
 class LanlordService:

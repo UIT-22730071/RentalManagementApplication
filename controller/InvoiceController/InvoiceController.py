@@ -1,7 +1,6 @@
 from PyQt5.QtWidgets import QMessageBox
 
-from QLNHATRO.RentalManagementApplication.backend.Repository import InvoiceRepository
-from QLNHATRO.RentalManagementApplication.frontend.views.Invoices.InvoiceView import InvoiceSentToTenantView
+from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import InvoiceRepository
 
 
 class InvoiceController:
@@ -13,16 +12,16 @@ class InvoiceController:
         id_room = invoice_data_update_database['id_room']
         id_tenant = invoice_data_update_database['id_tenant']
 
-        success = InvoiceRepository.update_invoice_to_database(invoice_data_update_database)
-
+        #success = InvoiceRepository.update_invoice_to_database(invoice_data_update_database)
+        success = True
         if success:
             QMessageBox.information(None, "Thành công", "Hóa đơn đã được thêm vào hệ thống.")
 
             invoice_id = InvoiceRepository.get_new_id_invoice(id_room, id_tenant)
 
             # Create and store window reference in the existing instance
-            self.invoice_window = InvoiceSentToTenantView(invoice_id, id_room)
-            self.invoice_window.show()
+            #self.invoice_window = InvoiceSentToTenantView(invoice_id, id_room)
+            #self.invoice_window.show()
 
             return invoice_id
         else:

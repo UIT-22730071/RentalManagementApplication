@@ -1,5 +1,4 @@
-
-from QLNHATRO.RentalManagementApplication.backend.Repository.AdvertisementRepository import AdvertisementRepository
+from QLNHATRO.RentalManagementApplication.Repository.AdvertisementRepository import AdvertisementRepository
 from QLNHATRO.RentalManagementApplication.backend.model.Advertisement import Advertisement
 
 

@@ -1,5 +1,6 @@
-from backend.model import User
-from backend.model import Admin
+from QLNHATRO.RentalManagementApplication.backend.model.Admin import Admin
+from QLNHATRO.RentalManagementApplication.backend.model.User import User
+
 
 class RegisterController:
     def __init__(self):

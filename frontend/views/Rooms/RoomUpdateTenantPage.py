@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 
-from QLNHATRO.RentalManagementApplication.backend.services import RoomService
+from QLNHATRO.RentalManagementApplication.services.RoomService import RoomService
 
 
 class RoomUpdateTenantPage(QWidget):

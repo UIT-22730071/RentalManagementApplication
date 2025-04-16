@@ -6,7 +6,7 @@ from PyQt5.QtCore import Qt
 
 from QLNHATRO.RentalManagementApplication.controller.RoomController.RoomMenuController import RoomMenuController
 from QLNHATRO.RentalManagementApplication.frontend.Component.LabelUI import LabelDarkUI
-from QLNHATRO.RentalManagementApplication.backend.services import RoomService
+from QLNHATRO.RentalManagementApplication.services.RoomService import RoomService
 
 
 class CreateNewRoom(QWidget):

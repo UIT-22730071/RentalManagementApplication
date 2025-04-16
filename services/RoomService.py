@@ -1,4 +1,4 @@
-from QLNHATRO.RentalManagementApplication.backend.Repository.RoomRepository import RoomRepository
+from QLNHATRO.RentalManagementApplication.Repository.RoomRepository import RoomRepository
 
 
 class RoomService:

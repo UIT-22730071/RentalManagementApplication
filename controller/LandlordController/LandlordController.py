@@ -3,9 +3,10 @@ from PyQt5.QtWidgets import QApplication
 
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordHome import LandlordHome
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordListInvoices import ListInvoices
-from QLNHATRO.RentalManagementApplication.backend.services.InvoiceService import InvoiceService
-from QLNHATRO.RentalManagementApplication.backend.services.LanlordService import LanlordService
-from QLNHATRO.RentalManagementApplication.backend.services import RoomService
+from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
+from QLNHATRO.RentalManagementApplication.services.LanlordService import LanlordService
+from QLNHATRO.RentalManagementApplication.services.RoomService import RoomService
+
 from QLNHATRO.TestErrorUI.MainWindowLogin import MainWindow
 
 

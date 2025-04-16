@@ -21,6 +21,9 @@ class InvoiceView(QWidget):
         self.main_window = main_window
 
         # Set default data if not provided
+        #invoice_code viết hàm tạo mã số ngẫu hiên cho phần ký hiệu hóa đơn (string)
+        # số hóa đơn lấy id hóa đơn (int)
+        # date - hiển thị ngày today()
         self.invoice_data = invoice_data or {
             'invoice_id': 123,
             'invoice_code': '1C21TAA',
@@ -31,26 +34,23 @@ class InvoiceView(QWidget):
             'curr_water': 0,
             'room_price': 0,
             'electric_price': 0,
+            'internet_fee':0,
             'water_price': 0,
-            'garbage_fee': 0,
-            'discount': 0
+            'garbage_fee': 0
         }
 
         self.landlord_data = landlord_data or {
             'name': 'Chưa có dữ liệu',
-            'tax_code': 'Đang cập nhật',
+            'cccd': 'Đang cập nhật',
             'address': 'Khu Phố 6, Phường Linh Trung, Thành phố Thủ Đức, TP Hồ Chí Minh',
-            'phone': 'Chưa có dữ liệu',
-            'bank_account': '314.100.01210304 - Vietcombank'
+            'phone': 'Chưa có dữ liệu'
         }
 
         self.tenant_data = tenant_data or {
             'full_name': 'Chưa có dữ liệu',
             'citizen_id': 'Chưa có dữ liệu',
             'address': 'Khu Phố 6, Phường Linh Trung, Thành phố Thủ Đức, TP Hồ Chí Minh',
-            'payment_method': 'Chuyển khoản',
-            'bank_account': 'Chưa có dữ liệu',
-            'currency': 'VNĐ'
+            'phone': 'Chưa có dữ liệu'
         }
 
         self.room_data = room_data or {
@@ -124,7 +124,7 @@ class InvoiceView(QWidget):
         header_layout = QGridLayout()
         header_layout.addWidget(QLabel(""), 0, 0)
 
-        invoice_code = QLabel(f"Ký hiệu: {self.invoice_data['invoice_code']}")
+        invoice_code = QLabel(f"Ký hiệu: {self.invoice_data['invoice_code']}") # hiển thị ký hiệu
         invoice_code.setStyleSheet("font-weight: bold; font-size: 14px;")
         invoice_code.setAlignment(Qt.AlignRight)
         header_layout.addWidget(invoice_code, 0, 1)
@@ -184,9 +184,9 @@ class InvoiceView(QWidget):
 
         # Tax code
         tax_layout = QHBoxLayout()
-        tax_label = QLabel("Mã số thuế:")
+        tax_label = QLabel("Mã số CCCD:")
         tax_label.setStyleSheet("font-weight: bold;")
-        tax_value = QLabel(self.landlord_data['tax_code'])
+        tax_value = QLabel(self.landlord_data['cccd'])
         tax_layout.addWidget(tax_label)
         tax_layout.addWidget(tax_value)
         tax_layout.addStretch()
@@ -211,11 +211,12 @@ class InvoiceView(QWidget):
         contact_layout.addWidget(phone_value)
         contact_layout.addStretch()
 
-        bank_label = QLabel("Số tài khoản:")
-        bank_label.setStyleSheet("font-weight: bold;")
-        bank_value = QLabel(self.landlord_data['bank_account'])
-        contact_layout.addWidget(bank_label)
-        contact_layout.addWidget(bank_value)
+        #bank_label = QLabel("Số tài khoản:")
+        #bank_label.setStyleSheet("font-weight: bold;")
+        #bank_value = QLabel(self.landlord_data['bank_account'])
+
+        #contact_layout.addWidget(bank_label)
+        #contact_layout.addWidget(bank_value)
 
         seller_layout.addLayout(contact_layout)
         parent_layout.addWidget(seller_group)
@@ -249,7 +250,7 @@ class InvoiceView(QWidget):
 
         # ID
         id_layout = QHBoxLayout()
-        id_label = QLabel("Mã số thuế/CCCD:")
+        id_label = QLabel("Mã số CCCD:")
         id_label.setStyleSheet("font-weight: bold;")
         id_value = QLabel(self.tenant_data['citizen_id'])
         id_layout.addWidget(id_label)
@@ -271,23 +272,24 @@ class InvoiceView(QWidget):
         payment_layout = QHBoxLayout()
         payment_method_label = QLabel("Hình thức thanh toán:")
         payment_method_label.setStyleSheet("font-weight: bold;")
-        payment_method_value = QLabel(self.tenant_data['payment_method'])
+        payment_method_value = QLabel("Tiền mặt")
         payment_layout.addWidget(payment_method_label)
         payment_layout.addWidget(payment_method_value)
         payment_layout.addStretch()
 
-        bank_label = QLabel("Số tài khoản:")
-        bank_label.setStyleSheet("font-weight: bold;")
-        bank_value = QLabel(self.tenant_data['bank_account'])
-        payment_layout.addWidget(bank_label)
-        payment_layout.addWidget(bank_value)
-        payment_layout.addStretch()
+        # Mở chức năng này khi thuực heinej được thanh toán online
+        #bank_label = QLabel("Số tài khoản:")
+        #bank_label.setStyleSheet("font-weight: bold;")
+        #bank_value = QLabel(self.tenant_data['bank_account'])
+        #payment_layout.addWidget(bank_label)
+        #payment_layout.addWidget(bank_value)
+        #payment_layout.addStretch()
 
-        currency_label = QLabel("Đồng tiền thanh toán:")
-        currency_label.setStyleSheet("font-weight: bold;")
-        currency_value = QLabel(self.tenant_data['currency'])
-        payment_layout.addWidget(currency_label)
-        payment_layout.addWidget(currency_value)
+        #currency_label = QLabel("Đồng tiền thanh toán:")
+        #currency_label.setStyleSheet("font-weight: bold;")
+        #currency_value = QLabel(self.tenant_data['currency'])
+        #payment_layout.addWidget(currency_label)
+        #payment_layout.addWidget(currency_value)
 
         buyer_layout.addLayout(payment_layout)
         parent_layout.addWidget(buyer_group)
@@ -327,7 +329,7 @@ class InvoiceView(QWidget):
         self.invoice_table.setColumnCount(9)
 
         # Set headers
-        headers = ["STT", "Tên hàng hóa, dịch vụ", "Đơn vị tính", "Số lượng", "Đơn giá",
+        headers = ["STT", "Tên dịch vụ", "Đơn vị tính", "Số lượng", "Đơn giá",
                    "Thành tiền chưa thuế", "Thuế suất", "Tiền thuế GTGT", "Tổng cộng"]
         self.invoice_table.setHorizontalHeaderLabels(headers)
 
@@ -346,12 +348,13 @@ class InvoiceView(QWidget):
 
     def populateInvoiceTable(self):
         # Calculate values
+        # TODO nếu nạp dữ liệu từ service thì chỉnh sửa phần này lại
         electric_used = self.invoice_data['curr_electric'] - self.invoice_data['prev_electric']
         water_used = self.invoice_data['curr_water'] - self.invoice_data['prev_water']
 
         # Row 1: Room Fee
         self.setTableItem(0, 0, "1")
-        self.setTableItem(0, 1, f"Tiền thuê phòng {self.room_data['room_name']}")
+        self.setTableItem(0, 1, f"Tiền thuê {self.room_data['room_name']}")
         self.setTableItem(0, 2, "Tháng")
         self.setTableItem(0, 3, "1")
         self.setTableItem(0, 4, f"{self.invoice_data['room_price']:,.0f}")
@@ -412,6 +415,22 @@ class InvoiceView(QWidget):
         self.setTableItem(3, 6, "10%")
         self.setTableItem(3, 7, f"{garbage_fee_tax:,.0f}")
         self.setTableItem(3, 8, f"{garbage_fee_total:,.0f}")
+
+        # Row 5: Garbage Fee
+        self.setTableItem(4, 0, "5")
+        self.setTableItem(4, 1, "Phí Internet")
+        self.setTableItem(4, 2, "Tháng")
+        self.setTableItem(4, 3, "1")
+        self.setTableItem(4, 4, f"{self.invoice_data['internet_fee']:,.0f}")
+
+        internet_fee_base = self.invoice_data['internet_fee']
+        internet_fee_tax = internet_fee_base
+        garbage_fee_total = internet_fee_tax
+
+        self.setTableItem(4, 5, f"{internet_fee_base:,.0f}")
+        self.setTableItem(4, 6, "10%")
+        self.setTableItem(4, 7, f"{internet_fee_tax:,.0f}")
+        self.setTableItem(4, 8, f"{garbage_fee_total:,.0f}")
 
     def setTableItem(self, row, col, text):
         item = QTableWidgetItem(str(text))
@@ -771,7 +790,7 @@ def main():
     # Sample landlord data
     landlord_data = {
         'name': 'Nguyễn Văn An',
-        'tax_code': '8234567890',
+        'cccd': '8234567890',
         'address': 'Khu Phố 6, Phường Linh Trung, Thành phố Thủ Đức, TP Hồ Chí Minh',
         'phone': '0901234567',
         'bank_account': '314.100.01210304 - Vietcombank'
@@ -782,9 +801,8 @@ def main():
         'full_name': 'Trần Thị Bình',
         'citizen_id': '079201012345',
         'address': '123 Đường Nguyễn Văn Cừ, Quận 5, TP Hồ Chí Minh',
-        'payment_method': 'Chuyển khoản',
-        'bank_account': '0123456789 - Agribank',
-        'currency': 'VNĐ'
+        'phone': '098565341',
+
     }
 
     # Sample room data

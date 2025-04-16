@@ -2,6 +2,8 @@ import sqlite3
 #TODO ?
 
 class Admin:
+    Admin = None
+
     def __init__(self, admin_id, fullname, user_id):
         self.admin_id = admin_id
         self.fullname = fullname
