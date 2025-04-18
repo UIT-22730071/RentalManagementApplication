@@ -1,7 +1,24 @@
-from PyQt5.QtWidgets import QMessageBox
+
 
 
 class TenantRepository:
+
+
+    @staticmethod
+    def get_tenant_data_for_invoice_view(tenant_id):
+        # TODO: Thay thế bằng truy vấn SQL thực tế
+        tenant_data = {
+            'full_name': 'Chưa có dữ liệu',
+            'citizen_id': 'Chưa có dữ liệu',
+            'address': 'Khu Phố 6, Phường Linh Trung, Thành phố Thủ Đức, TP Hồ Chí Minh',
+            'phone': 'Chưa có dữ liệu'
+        }
+        return tenant_data
+
+
+
+
+
     @staticmethod
     def get_all_tenants():
         """Lấy danh sách tất cả các người thuê từ database"""

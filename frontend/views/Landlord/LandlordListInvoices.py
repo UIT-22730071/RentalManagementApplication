@@ -3,10 +3,12 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame, QMessageBox
 
+from QLNHATRO.RentalManagementApplication.controller.InvoiceController.InvoiceController import InvoiceController
 from QLNHATRO.RentalManagementApplication.frontend.Component.tableUI import TableUI
+from QLNHATRO.RentalManagementApplication.frontend.views.Invoices.InvoiceView import InvoiceView
 
 
-class ListInvoices(QWidget):
+class   ListInvoices(QWidget):
     def __init__(self, main_window,invoice_list, id_lanlord):
         super().__init__()
         self.main_window = main_window
@@ -67,8 +69,21 @@ class ListInvoices(QWidget):
             id_invoice = invoice.get("id_invoice", None)
             if id_invoice:
                 print(f"🧾 ID hóa đơn được chọn: {id_invoice}")
-                # TODO: Tùy vào mục đích: mở trang mới, lấy dữ liệu DB, in hóa đơn...
-                # self.main_window.show_invoice_detail_page(id_invoice)  # Ví dụ: chuyển trang
+
+                # Gọi controller để chuẩn bị dữ liệu
+                invoice_data, landlord_data, tenant_data, room_data = InvoiceController.open_view_invoice(
+                    id_invoice)
+
+                # Tạo giao diện hóa đơn và hiển thị
+                view = InvoiceView(
+                    main_window=self.main_window,
+                    invoice_data=invoice_data,
+                    landlord_data=landlord_data,
+                    tenant_data=tenant_data,
+                    room_data=room_data
+                )
+
+                self.main_window.setCentralWidget(view)
             else:
                 print("⚠️ Không tìm thấy ID hóa đơn.")
         except IndexError:

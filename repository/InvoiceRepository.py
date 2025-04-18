@@ -1,10 +1,13 @@
+from datetime import datetime
+
 from QLNHATRO.RentalManagementApplication.Repository.RoomRepository import RoomRepository
+
+
 # Thực hiên CRUD
 
 class InvoiceRepository:
+
     @staticmethod
-
-
     def save_invoice(invoice_data):
         """Lưu hóa đơn vào database"""
         # TODO: Thay thế bằng truy vấn SQL INSERT
@@ -19,6 +22,33 @@ class InvoiceRepository:
 
         return True
 
+
+    @staticmethod
+    def get_id_lanlord_from_id_invoice(invoice_id):
+        #TODO: tạo truy vấn SQL lấy id lanlord
+        pass
+    @staticmethod
+    def get_id_room_from_id_invoice(invoice_id):
+        #TODO tạo truy vấn SQL lấy id phòng
+        pass
+    @staticmethod
+    def get_id_tenant_from_id_invoice(invoice_id):
+        #TODO: tạo truy vấn SQL lấy id người thuê
+        pass
+    @staticmethod
+    def get_invoice_data_for_invoice_view(invoice_id):
+        #TODO: tạo truy vấn SQL lấy dữ liệu hóa đơn
+        invoice_data = {
+            'invoice_id': 123,
+            'invoice_code': '1C21TAA',
+            'date': datetime.now().strftime('%d/%m/%Y'),
+            'prev_electric': 0,
+            'curr_electric': 0,
+            'prev_water': 0,
+            'curr_water': 0,
+            'discount': 0  # Added default discount value
+        }
+        return invoice_data
 
     @staticmethod
     #TODO: tạo truy vấn SQL lấy id hóa đơn mới nhất của phòng

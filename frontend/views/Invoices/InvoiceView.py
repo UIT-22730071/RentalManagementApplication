@@ -1,21 +1,22 @@
 # InvoiceView.py
+from datetime import datetime
+
 from PyQt5.QtWidgets import (QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
                              QScrollArea, QFrame, QGridLayout, QGroupBox, QTableWidget,
                              QTableWidgetItem, QHeaderView)
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QFont
 
+from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
 
 
 class InvoiceView(QWidget):
     invoice_saved = pyqtSignal(int)  # Signal to emit when invoice is saved
 
-    #TODO : có nhiều lỗi UI
-    # giới hạn kích thươc view Chữ ký xác nhận và từng vị trí view bên trong
-    # Bổ sung thêm các giá trị tiền thuê khác nếu có, chi phí internet,... bla bla
+    #TODO:
     # Thoong tin người mua bổ sung thêm sđt, bỏ phần hình thức thanh toán
     # Nếu ổn tạo phương thức thanh toán qua qét mã QR trong teanat thì quá Oke la rồi
-    #
+
     def __init__(self, main_window=None, invoice_data=None, landlord_data=None, tenant_data=None, room_data=None):
         super().__init__()
         self.main_window = main_window
@@ -32,11 +33,7 @@ class InvoiceView(QWidget):
             'curr_electric': 0,
             'prev_water': 0,
             'curr_water': 0,
-            'room_price': 0,
-            'electric_price': 0,
-            'internet_fee':0,
-            'water_price': 0,
-            'garbage_fee': 0
+            'discount': 0  # Added default discount value
         }
 
         self.landlord_data = landlord_data or {
@@ -54,7 +51,13 @@ class InvoiceView(QWidget):
         }
 
         self.room_data = room_data or {
-            'room_name': 'Chưa có dữ liệu'
+            'room_name': 'Chưa có dữ liệu',
+            'room_price': 0,
+            'electric_price': 0,
+            'internet_fee': 0,
+            'another_fee': 0,
+            'water_price': 0,
+            'garbage_fee': 0,
         }
 
         self.initUI()
@@ -69,7 +72,6 @@ class InvoiceView(QWidget):
             "QWidget { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #FFDEE9, stop:1 #B5FFFC); }")
 
         main_layout = QVBoxLayout(self)
-
         # Create scroll area
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -116,6 +118,7 @@ class InvoiceView(QWidget):
         # Title
         title = QLabel("📝 HÓA ĐƠN GIÁ TRỊ GIA TĂNG")
         title.setFont(QFont("Arial", 20, QFont.Bold))
+        title.setFixedHeight(50)
         title.setStyleSheet("color: white; background-color: #2C3E50; border-radius: 10px; padding: 10px;")
         title.setAlignment(Qt.AlignCenter)
         parent_layout.addWidget(title)
@@ -125,6 +128,7 @@ class InvoiceView(QWidget):
         header_layout.addWidget(QLabel(""), 0, 0)
 
         invoice_code = QLabel(f"Ký hiệu: {self.invoice_data['invoice_code']}") # hiển thị ký hiệu
+        invoice_code.setFixedHeight(40)
         invoice_code.setStyleSheet("font-weight: bold; font-size: 14px;")
         invoice_code.setAlignment(Qt.AlignRight)
         header_layout.addWidget(invoice_code, 0, 1)
@@ -132,6 +136,7 @@ class InvoiceView(QWidget):
         header_layout.addWidget(QLabel(""), 1, 0)
 
         invoice_number = QLabel(f"Số: {self.invoice_data['invoice_id']}")
+        invoice_number.setFixedHeight(40)
         invoice_number.setStyleSheet("font-weight: bold; font-size: 14px;")
         invoice_number.setAlignment(Qt.AlignRight)
         header_layout.addWidget(invoice_number, 1, 1)
@@ -141,6 +146,7 @@ class InvoiceView(QWidget):
         # Date
         date_layout = QHBoxLayout()
         date_label = QLabel(f"Ngày: {self.invoice_data['date']}")
+        date_label.setFixedHeight(40)
         date_label.setStyleSheet("font-weight: bold; font-size: 14px;")
         date_label.setAlignment(Qt.AlignCenter)
         date_layout.addStretch()
@@ -157,6 +163,7 @@ class InvoiceView(QWidget):
 
     def createSellerSection(self, parent_layout):
         seller_group = QGroupBox("📋 Thông tin người bán")
+        seller_group.setFixedHeight(160)
         seller_group.setStyleSheet("""
             QGroupBox {
                 font-weight: bold; border: 1px solid #3498db;
@@ -223,6 +230,7 @@ class InvoiceView(QWidget):
 
     def createBuyerSection(self, parent_layout):
         buyer_group = QGroupBox("👥 Thông tin người mua")
+        buyer_group.setFixedHeight(160)
         buyer_group.setStyleSheet("""
             QGroupBox {
                 font-weight: bold; border: 1px solid #3498db;
@@ -296,36 +304,37 @@ class InvoiceView(QWidget):
 
     def createInvoiceTable(self, parent_layout):
         table_group = QGroupBox("🧾 Chi tiết hóa đơn")
+        table_group.setFixedHeight(340)
         table_group.setStyleSheet("""
-            QGroupBox {
-                font-weight: bold; border: 1px solid #3498db;
-                border-radius: 10px; margin-top: 15px; padding-top: 15px;
-                background-color: #f2f9fb;
-            }
-            QGroupBox::title {
-                subcontrol-origin: margin; left: 10px;
-                padding: 0 10px; font-size: 16px;
-                background-color: white; border-radius: 5px; color: #2c3e50;
-            }
-            QTableWidget {
-                background-color: white;
-                gridline-color: #d0d0d0;
-                border-radius: 5px;
-            }
-            QHeaderView::section {
-                background-color: #3498db;
-                color: white;
-                padding: 6px;
-                font-weight: bold;
-                border: 1px solid #2980b9;
-            }
-        """)
+               QGroupBox {
+                   font-weight: bold; border: 1px solid #3498db;
+                   border-radius: 10px; margin-top: 15px; padding-top: 15px;
+                   background-color: #f2f9fb;
+               }
+               QGroupBox::title {
+                   subcontrol-origin: margin; left: 10px;
+                   padding: 0 10px; font-size: 16px;
+                   background-color: white; border-radius: 5px; color: #2c3e50;
+               }
+               QTableWidget {
+                   background-color: white;
+                   gridline-color: #d0d0d0;
+                   border-radius: 5px;
+               }
+               QHeaderView::section {
+                   background-color: #3498db;
+                   color: white;
+                   padding: 6px;
+                   font-weight: bold;
+                   border: 1px solid #2980b9;
+               }
+           """)
 
         table_layout = QVBoxLayout(table_group)
 
         # Create table
         self.invoice_table = QTableWidget()
-        self.invoice_table.setRowCount(4)  # Room price, electric, water, garbage
+        self.invoice_table.setRowCount(6)  # Room price, electric, water, garbage
         self.invoice_table.setColumnCount(9)
 
         # Set headers
@@ -357,9 +366,9 @@ class InvoiceView(QWidget):
         self.setTableItem(0, 1, f"Tiền thuê {self.room_data['room_name']}")
         self.setTableItem(0, 2, "Tháng")
         self.setTableItem(0, 3, "1")
-        self.setTableItem(0, 4, f"{self.invoice_data['room_price']:,.0f}")
+        self.setTableItem(0, 4, f"{self.room_data['room_price']:,.0f}")
 
-        room_fee_base = self.invoice_data['room_price']
+        room_fee_base = self.room_data['room_price']
         room_fee_tax = room_fee_base * 0.1
         room_fee_total = room_fee_base + room_fee_tax
 
@@ -373,9 +382,9 @@ class InvoiceView(QWidget):
         self.setTableItem(1, 1, "Tiền điện")
         self.setTableItem(1, 2, "kWh")
         self.setTableItem(1, 3, f"{electric_used}")
-        self.setTableItem(1, 4, f"{self.invoice_data['electric_price']:,.0f}")
+        self.setTableItem(1, 4, f"{self.room_data['electric_price']:,.0f}")
 
-        electric_fee_base = electric_used * self.invoice_data['electric_price']
+        electric_fee_base = electric_used * self.room_data['electric_price']
         electric_fee_tax = electric_fee_base * 0.1
         electric_fee_total = electric_fee_base + electric_fee_tax
 
@@ -389,9 +398,9 @@ class InvoiceView(QWidget):
         self.setTableItem(2, 1, "Tiền nước")
         self.setTableItem(2, 2, "m³")
         self.setTableItem(2, 3, f"{water_used}")
-        self.setTableItem(2, 4, f"{self.invoice_data['water_price']:,.0f}")
+        self.setTableItem(2, 4, f"{self.room_data['water_price']:,.0f}")
 
-        water_fee_base = water_used * self.invoice_data['water_price']
+        water_fee_base = water_used * self.room_data['water_price']
         water_fee_tax = water_fee_base * 0.1
         water_fee_total = water_fee_base + water_fee_tax
 
@@ -405,9 +414,9 @@ class InvoiceView(QWidget):
         self.setTableItem(3, 1, "Phí rác")
         self.setTableItem(3, 2, "Tháng")
         self.setTableItem(3, 3, "1")
-        self.setTableItem(3, 4, f"{self.invoice_data['garbage_fee']:,.0f}")
+        self.setTableItem(3, 4, f"{self.room_data['garbage_fee']:,.0f}")
 
-        garbage_fee_base = self.invoice_data['garbage_fee']
+        garbage_fee_base = self.room_data['garbage_fee']
         garbage_fee_tax = garbage_fee_base * 0.1
         garbage_fee_total = garbage_fee_base + garbage_fee_tax
 
@@ -416,21 +425,50 @@ class InvoiceView(QWidget):
         self.setTableItem(3, 7, f"{garbage_fee_tax:,.0f}")
         self.setTableItem(3, 8, f"{garbage_fee_total:,.0f}")
 
-        # Row 5: Garbage Fee
+        # Row 5: Internet Fee
         self.setTableItem(4, 0, "5")
         self.setTableItem(4, 1, "Phí Internet")
         self.setTableItem(4, 2, "Tháng")
         self.setTableItem(4, 3, "1")
-        self.setTableItem(4, 4, f"{self.invoice_data['internet_fee']:,.0f}")
 
-        internet_fee_base = self.invoice_data['internet_fee']
-        internet_fee_tax = internet_fee_base
-        garbage_fee_total = internet_fee_tax
+        # Sử dụng .get() để lấy giá trị an toàn
+        internet_fee = self.room_data.get('internet_fee', 0)
+        self.setTableItem(4, 4, f"{internet_fee:,.0f}")
+
+        internet_fee_base = internet_fee
+        internet_fee_tax = 0  # 0% thuế cho internet
+        internet_fee_total = internet_fee_base + internet_fee_tax
 
         self.setTableItem(4, 5, f"{internet_fee_base:,.0f}")
-        self.setTableItem(4, 6, "10%")
+        self.setTableItem(4, 6, "0%")
         self.setTableItem(4, 7, f"{internet_fee_tax:,.0f}")
-        self.setTableItem(4, 8, f"{garbage_fee_total:,.0f}")
+        self.setTableItem(4, 8, f"{internet_fee_total:,.0f}")
+
+        # Row 6: another Fee
+        self.setTableItem(5, 0, "6")
+        self.setTableItem(5, 1, "Phí Khác")
+        self.setTableItem(5, 2, "Tháng")
+        self.setTableItem(5, 3, "1")
+
+        # Sử dụng .get() để lấy giá trị an toàn - FIX HERE
+        another_fee = self.room_data.get('another_fee', 0)
+        self.setTableItem(5, 4, f"{another_fee:,.0f}")
+
+        another_fee_base = another_fee
+        another_fee_tax = another_fee_base * 0.1
+        another_fee_total = another_fee_base + another_fee_tax
+
+        self.setTableItem(5, 5, f"{another_fee_base:,.0f}")
+        self.setTableItem(5, 6, "10%")
+        self.setTableItem(5, 7, f"{another_fee_tax:,.0f}")
+        self.setTableItem(5, 8, f"{another_fee_total:,.0f}")
+
+
+    def setTableItem(self, row, col, text):
+        item = QTableWidgetItem(str(text))
+        item.setTextAlignment(Qt.AlignCenter)
+        self.invoice_table.setItem(row, col, item)
+
 
     def setTableItem(self, row, col, text):
         item = QTableWidgetItem(str(text))
@@ -442,6 +480,7 @@ class InvoiceView(QWidget):
         self.calculateTotals()
 
         totals_group = QGroupBox("💰 Tổng cộng")
+        totals_group.setFixedHeight(200)
         totals_group.setStyleSheet("""
             QGroupBox {
                 font-weight: bold; border: 1px solid #3498db;
@@ -470,12 +509,13 @@ class InvoiceView(QWidget):
         base_layout.addWidget(base_value)
         totals_layout.addLayout(base_layout)
 
-        # Discount
-        if self.invoice_data['discount'] > 0:
+        # Discount - using .get() for safety
+        discount = self.invoice_data.get('discount', 0)
+        if discount > 0:
             discount_layout = QHBoxLayout()
             discount_label = QLabel("Giảm giá:")
             discount_label.setStyleSheet("font-weight: bold; color: #27ae60;")
-            discount_value = QLabel(f"-{self.invoice_data['discount']:,.0f} VNĐ")
+            discount_value = QLabel(f"-{discount:,.0f} VNĐ")
             discount_value.setStyleSheet("color: #27ae60;")
             discount_layout.addWidget(discount_label)
             discount_layout.addStretch()
@@ -507,7 +547,8 @@ class InvoiceView(QWidget):
         words_layout = QHBoxLayout()
         words_label = QLabel("Số tiền viết bằng chữ:")
         words_label.setStyleSheet("font-weight: bold;")
-        words_value = QLabel("...")  # This would need a separate function to convert number to words
+        words_value = QLabel(InvoiceService.number_to_words(int(self.total_amount)))  # Convert total to words
+        words_value.setWordWrap(True)
         words_layout.addWidget(words_label)
         words_layout.addWidget(words_value, 1)
         totals_layout.addLayout(words_layout)
@@ -515,32 +556,15 @@ class InvoiceView(QWidget):
         parent_layout.addWidget(totals_group)
 
     def calculateTotals(self):
-        # Calculate values for invoice table
-        electric_used = self.invoice_data['curr_electric'] - self.invoice_data['prev_electric']
-        water_used = self.invoice_data['curr_water'] - self.invoice_data['prev_water']
+        result = InvoiceService.calculate_totals(self.invoice_data, self.room_data)
+        self.total_base = result['total_base']
+        self.total_tax = result['total_tax']
+        self.total_amount = result['total_amount']
 
-        # Calculate base amounts
-        room_fee_base = self.invoice_data['room_price']
-        electric_fee_base = electric_used * self.invoice_data['electric_price']
-        water_fee_base = water_used * self.invoice_data['water_price']
-        garbage_fee_base = self.invoice_data['garbage_fee']
-
-        # Calculate tax amounts
-        room_fee_tax = room_fee_base * 0.1
-        electric_fee_tax = electric_fee_base * 0.1
-        water_fee_tax = water_fee_base * 0.1
-        garbage_fee_tax = garbage_fee_base * 0.1
-
-        # Calculate totals
-        self.total_base = room_fee_base + electric_fee_base + water_fee_base + garbage_fee_base
-        self.total_tax = room_fee_tax + electric_fee_tax + water_fee_tax + garbage_fee_tax
-
-        # Apply discount
-        discount = self.invoice_data['discount'] if 'discount' in self.invoice_data else 0
-        self.total_amount = self.total_base + self.total_tax - discount
 
     def createSignatureSection(self, parent_layout):
         signature_group = QGroupBox("✍️ Chữ ký xác nhận")
+        signature_group.setFixedHeight(300)
         signature_group.setStyleSheet("""
             QGroupBox {
                 font-weight: bold; border: 1px solid #3498db;
@@ -559,10 +583,12 @@ class InvoiceView(QWidget):
         # Buyer signature
         buyer_sign = QVBoxLayout()
         buyer_label1 = QLabel("Người mua hàng")
+        buyer_label1.setFixedHeight(40)
         buyer_label1.setAlignment(Qt.AlignCenter)
         buyer_label1.setStyleSheet("font-weight: bold;")
 
         buyer_label2 = QLabel("(Ký, ghi rõ họ tên)")
+        buyer_label2.setFixedHeight(40)
         buyer_label2.setAlignment(Qt.AlignCenter)
 
         buyer_sign.addWidget(buyer_label1)
@@ -574,15 +600,19 @@ class InvoiceView(QWidget):
         seller_sign = QVBoxLayout()
         seller_label1 = QLabel("Người bán hàng")
         seller_label1.setAlignment(Qt.AlignCenter)
+        seller_label1.setFixedHeight(40)
         seller_label1.setStyleSheet("font-weight: bold;")
 
         seller_label2 = QLabel("(Ký, ghi rõ họ tên)")
+        seller_label2.setFixedHeight(40)
         seller_label2.setAlignment(Qt.AlignCenter)
 
         seller_label3 = QLabel(" ")
+        seller_label3.setFixedHeight(60)
         seller_label3.setAlignment(Qt.AlignCenter)
 
         seller_label4 = QLabel("(đã ký)")
+        seller_label4.setFixedHeight(40)
         seller_label4.setAlignment(Qt.AlignCenter)
         seller_label4.setStyleSheet("font-style: italic;")
 
@@ -623,7 +653,7 @@ class InvoiceView(QWidget):
         exit_btn.clicked.connect(self.close)
 
         # Save button
-        save_btn = QPushButton("Xuất hóa đơn")
+        save_btn = QPushButton("Lưu hóa đơn")
         save_btn.setFixedSize(120, 40)
         save_btn.setStyleSheet("""
             QPushButton {
@@ -700,67 +730,9 @@ class InvoiceView(QWidget):
             except Exception as e:
                 QMessageBox.critical(self, "Lỗi", f"Đã xảy ra lỗi khi lưu hóa đơn: {str(e)}")
 
-    def numberToWords(self, number):
-        """Chuyển đổi số thành chữ tiếng Việt"""
-        if number == 0:
-            return "Không đồng"
-
-        units = ["", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"]
-        teens = ["", "mười một", "mười hai", "mười ba", "mười bốn", "mười lăm", "mười sáu", "mười bảy", "mười tám",
-                 "mười chín"]
-        tens = ["", "mười", "hai mươi", "ba mươi", "bốn mươi", "năm mươi", "sáu mươi", "bảy mươi", "tám mươi",
-                "chín mươi"]
-
-        def readGroup(num):
-            result = ""
-            hundred = num // 100
-            remainder = num % 100
-
-            if hundred > 0:
-                result += units[hundred] + " trăm "
-
-            if remainder > 0:
-                if remainder < 10:
-                    if hundred > 0:  # Nếu có hàng trăm
-                        result += "lẻ "
-                    result += units[remainder]
-                elif remainder < 20:
-                    result += teens[remainder - 10]
-                else:
-                    ten = remainder // 10
-                    unit = remainder % 10
-                    result += tens[ten]
-                    if unit > 0:
-                        if unit == 1:
-                            result += " mốt"
-                        elif unit == 5:
-                            result += " lăm"
-                        else:
-                            result += " " + units[unit]
-
-            return result.strip()
-
-        result = ""
-        billion = number // 1000000000
-        million = (number % 1000000000) // 1000000
-        thousand = (number % 1000000) // 1000
-        remainder = number % 1000
-
-        if billion > 0:
-            result += readGroup(billion) + " tỷ "
-
-        if million > 0:
-            result += readGroup(million) + " triệu "
-
-        if thousand > 0:
-            result += readGroup(thousand) + " nghìn "
-
-        if remainder > 0:
-            result += readGroup(remainder)
-
-        return result.strip() + " đồng"
 
 
+'''
 # main.py
 import sys
 from PyQt5.QtWidgets import QApplication
@@ -780,10 +752,6 @@ def main():
         'curr_electric': 1420,
         'prev_water': 45,
         'curr_water': 52,
-        'room_price': 3500000,
-        'electric_price': 3500,
-        'water_price': 25000,
-        'garbage_fee': 50000,
         'discount': 100000
     }
 
@@ -793,7 +761,6 @@ def main():
         'cccd': '8234567890',
         'address': 'Khu Phố 6, Phường Linh Trung, Thành phố Thủ Đức, TP Hồ Chí Minh',
         'phone': '0901234567',
-        'bank_account': '314.100.01210304 - Vietcombank'
     }
 
     # Sample tenant data
@@ -807,7 +774,13 @@ def main():
 
     # Sample room data
     room_data = {
-        'room_name': 'P201'
+        'room_name': 'P201',
+        'room_price': 3500000,
+        'electric_price': 3500,
+        'water_price': 25000,
+        'internet_fee': 200000,
+        'garbage_fee': 50000,
+        'another_fee': 0,
     }
 
     # Create and show the invoice view
@@ -834,3 +807,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+'''

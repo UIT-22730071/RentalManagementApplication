@@ -1,4 +1,7 @@
 from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import InvoiceRepository
+from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
+from QLNHATRO.RentalManagementApplication.Repository.RoomRepository import RoomRepository
+from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
 
 
 class InvoiceService:
@@ -107,3 +110,112 @@ class InvoiceService:
                 print(f"[ERROR] Key không tồn tại trong dữ liệu hóa đơn: {e}")
         return mapped
 
+    @staticmethod
+    def get_full_invoice_data(invoice_id):
+        return InvoiceRepository.get_invoice_data(invoice_id)
+
+    @staticmethod
+    def get_invoice_data_for_invoice_view(invoice_id):
+        """Lấy dữ liệu hóa đơn đầy đủ để truyền vào giao diện InvoiceView"""
+        id_lanlord = InvoiceRepository.get_id_lanlord_from_id_invoice(invoice_id)
+        id_room = InvoiceRepository.get_id_room_from_id_invoice(invoice_id)
+        id_tenant = InvoiceRepository.get_id_tenant_from_id_invoice(invoice_id)
+
+        invoice_data = InvoiceRepository.get_invoice_data_for_invoice_view(invoice_id)
+        landlord_data = LanlordRepository.get_landlord_data_for_invoice_view(id_lanlord)
+        tenant_data = TenantRepository.get_tenant_data_for_invoice_view(id_tenant)
+        room_data = RoomRepository.get_room_data_for_invoice_view(id_room)
+        total_data_invoice_view = {'invoice_data': invoice_data, 'landlord_data': landlord_data, 'tenant_data': tenant_data, 'room_data': room_data}
+
+        # chuẩn hóa hoặc xử lý thêm nếu cần
+        return total_data_invoice_view
+
+    @staticmethod
+    def calculate_totals(invoice_data: dict, room_data: dict) -> dict:
+        electric_used = invoice_data['curr_electric'] - invoice_data['prev_electric']
+        water_used = invoice_data['curr_water'] - invoice_data['prev_water']
+
+        room_fee_base = room_data['room_price']
+        electric_fee_base = electric_used * room_data['electric_price']
+        water_fee_base = water_used * room_data['water_price']
+        garbage_fee_base = room_data['garbage_fee']
+        internet_fee_base = room_data.get('internet_fee', 0)
+        another_fee_base = room_data.get('another_fee', 0)
+
+        room_fee_tax = room_fee_base * 0.1
+        electric_fee_tax = electric_fee_base * 0.1
+        water_fee_tax = water_fee_base * 0.1
+        garbage_fee_tax = garbage_fee_base * 0.1
+        internet_fee_tax = 0
+        another_fee_tax = another_fee_base * 0.1
+
+        total_base = (room_fee_base + electric_fee_base + water_fee_base +
+                      garbage_fee_base + internet_fee_base + another_fee_base)
+        total_tax = (room_fee_tax + electric_fee_tax + water_fee_tax +
+                     garbage_fee_tax + internet_fee_tax + another_fee_tax)
+
+        discount = invoice_data.get('discount', 0)
+        total_amount = total_base + total_tax - discount
+
+        return {
+            'total_base': total_base,
+            'total_tax': total_tax,
+            'total_amount': total_amount
+        }
+
+    @staticmethod
+    def number_to_words(number: int) -> str:
+        if number == 0:
+            return "Không đồng"
+
+        units = ["", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"]
+        teens = ["", "mười một", "mười hai", "mười ba", "mười bốn", "mười lăm", "mười sáu", "mười bảy", "mười tám",
+                 "mười chín"]
+        tens = ["", "mười", "hai mươi", "ba mươi", "bốn mươi", "năm mươi", "sáu mươi", "bảy mươi", "tám mươi",
+                "chín mươi"]
+
+        def read_group(num):
+            result = ""
+            hundred = num // 100
+            remainder = num % 100
+
+            if hundred > 0:
+                result += units[hundred] + " trăm "
+
+            if remainder > 0:
+                if remainder < 10:
+                    if hundred > 0:
+                        result += "lẻ "
+                    result += units[remainder]
+                elif remainder < 20:
+                    result += teens[remainder - 10]
+                else:
+                    ten = remainder // 10
+                    unit = remainder % 10
+                    result += tens[ten]
+                    if unit > 0:
+                        if unit == 1:
+                            result += " mốt"
+                        elif unit == 5:
+                            result += " lăm"
+                        else:
+                            result += " " + units[unit]
+
+            return result.strip()
+
+        result = ""
+        billion = number // 1000000000
+        million = (number % 1000000000) // 1000000
+        thousand = (number % 1000000) // 1000
+        remainder = number % 1000
+
+        if billion > 0:
+            result += read_group(billion) + " tỷ "
+        if million > 0:
+            result += read_group(million) + " triệu "
+        if thousand > 0:
+            result += read_group(thousand) + " nghìn "
+        if remainder > 0:
+            result += read_group(remainder)
+
+        return result.strip() + " đồng"
