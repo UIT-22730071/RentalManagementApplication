@@ -3,6 +3,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QLabel
 
+from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
 from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import LandlordController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordCreateNewRoom import CreateNewRoom
@@ -11,13 +12,13 @@ from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordFindNe
 
 
 class LandlordMenu(QWidget):
-    def __init__(self, main_window=None, id_lanlord=None):
+    def __init__(self, main_window=None, user_id=None):
         super().__init__()
         print("[DEBUG] LandlordMenu khởi tạo")
 
         self.main_window = main_window
         self.current_page = None
-        self.id_lanlord = id_lanlord
+        self.id_lanlord = LanlordRepository.get_id_landlord_from_user_id(user_id)
 
         self.main_window.setWindowTitle("Dashboard Chủ trọ")
         self.main_window.setGeometry(300, 100, 1000, 600)

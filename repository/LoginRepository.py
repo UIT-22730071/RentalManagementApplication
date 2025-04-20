@@ -7,10 +7,12 @@ class LoginRepository:
         # TODO: Thay thế bằng truy ván SQL thực tế lấy đối tượng user
         print("getuser được gọi")
         # giả lập truy vấn cho ra kết quả
-        username = 'admin'
+
         user = {'username': 'admin', 'password':'admin' ,'role': 'landlord','user_id': 1}
+        user_tenant = {'username': 'tenant', 'password':'tenant' ,'role': 'tenant','user_id': 2}
         print(" dã lấy được truy vấn" + user['username'] + user['password'] + user['role'])
-        return user
+
+        return user_tenant
 
     @staticmethod
     def get_role_from_username(username):

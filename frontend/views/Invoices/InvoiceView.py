@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import (QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLay
 from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QFont
 
+from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import InvoiceRepository
 from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
 
 
@@ -20,7 +21,7 @@ class InvoiceView(QWidget):
     def __init__(self, main_window=None, invoice_data=None, landlord_data=None, tenant_data=None, room_data=None):
         super().__init__()
         self.main_window = main_window
-
+        self.id_lanlord = InvoiceRepository.get_id_lanlord_from_id_invoice(invoice_data['invoice_id'])
         # Set default data if not provided
         #invoice_code viết hàm tạo mã số ngẫu hiên cho phần ký hiệu hóa đơn (string)
         # số hóa đơn lấy id hóa đơn (int)
@@ -650,7 +651,7 @@ class InvoiceView(QWidget):
                 background-color: #a33025;
             }
         """)
-        exit_btn.clicked.connect(self.close)
+        exit_btn.clicked.connect(self.go_back_to_landlord_menu)
 
         # Save button
         save_btn = QPushButton("Lưu hóa đơn")
@@ -730,6 +731,19 @@ class InvoiceView(QWidget):
             except Exception as e:
                 QMessageBox.critical(self, "Lỗi", f"Đã xảy ra lỗi khi lưu hóa đơn: {str(e)}")
 
+    def go_back_to_landlord_menu(self):
+        from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordMenu import LandlordMenu
+        from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import \
+            LandlordController
+
+        # Tạo lại dashboard chủ trọ
+        landlord_menu = LandlordMenu(main_window=self.main_window, id_lanlord=self.id_lanlord)
+
+        # Gọi hiển thị trang danh sách hóa đơn
+        LandlordController.go_to_invoice_list(landlord_menu, self.id_lanlord)
+
+        # Quay lại dashboard
+        self.main_window.setCentralWidget(landlord_menu)
 
 
 '''

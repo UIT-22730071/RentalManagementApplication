@@ -5,9 +5,30 @@ from QLNHATRO.RentalManagementApplication.frontend.Component.DashboardCard impor
 
 
 class TenantHome(QWidget):
-    def __init__(self, main_window):
+    def __init__(self, main_window=None, id_tenant=None, information_data=None, chart=None):
         super().__init__()
         self.main_window = main_window
+        self.id_tenant = id_tenant
+        ''' information_data được trả về
+                "tien_dien": data_this_month['tien_dien'],
+                    "tien_nuoc": data_this_month['tien_nuoc'],
+                    "tong_chi_phi": data_this_month['tong_chi_phi'],
+                    "ngay_den_han": data_this_month['ngay_den_han'],
+                    "percent_dien": percent_electric,
+                    "percent_nuoc": percent_water,
+                    "percent_total": percent_total
+                '''
+        self.information_data = information_data or {
+
+                    "tien_dien":  str(500000)+" VNĐ",
+                        "tien_nuoc":  str(0)+" VNĐ",
+                        "tong_chi_phi":  str(0)+" VNĐ",
+                        "ngay_den_han":  "0",
+                        "percent_dien": str(0)+" %",
+                        "percent_nuoc": str(0)+" %",
+                        "percent_total": str(0)+" %"
+        }
+        self.chart = chart
 
         main_layout = QVBoxLayout()
         main_layout.setAlignment(Qt.AlignTop)
@@ -43,12 +64,16 @@ class TenantHome(QWidget):
         # Layout chứa các card thống kê
         stats_layout = QHBoxLayout()
 
+
         # Thẻ Dashboard cho người thuê
-        electricity_card = DashboardCard("Tiền điện", "320.000 VNĐ", "+5%", "icons/electricity.png")
-        water_card = DashboardCard("Tiền nước", "85.000 VNĐ", "-3%", "icons/water.png")
-        total_cost_card = DashboardCard("Tổng chi phi", "2.500.000 VNĐ", "0%", "icons/wifi.png")
-        # Thay đổi từ "" sang "0%" để tránh lỗi chuyển đổi
-        due_date_card = DashboardCard("Ngày đến hạn", "25/04/2025", "0%", "icons/calendar.png")
+        electricity_card = DashboardCard("Tiền điện", f"{self.information_data['tien_dien']} VNĐ",
+                                         f"{self.information_data['percent_dien']}%", "icons/electricity.png")
+        water_card = DashboardCard("Tiền nước", f"{self.information_data['tien_nuoc']} VNĐ",
+                                   f"{self.information_data['percent_nuoc']}%", "icons/water.png")
+        total_cost_card = DashboardCard("Tổng chi phi", f"{self.information_data['tong_chi_phi']} VNĐ",
+                                        f"{self.information_data['percent_total']}%", "icons/wifi.png")
+
+        due_date_card = DashboardCard("Ngày đến hạn", str(self.information_data['ngay_den_han']),  str(self.information_data['percent_total']), "icons/calendar.png")
 
         stats_layout.addWidget(electricity_card)
         stats_layout.addWidget(water_card)

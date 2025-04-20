@@ -36,7 +36,8 @@ class LoginController:
                 #print("[LoginController] Đã chuyển sang giao diện LandlordMenu")
 
             elif role == 'tenant':
-                print("[LoginController] Tạm thời chưa có giao diện Tenant")
+                from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantMenu import TenantMenu
+                main_window.switch_to_page(TenantMenu, user_id)
 
             elif role == 'admin':
                 print("[LoginController] Tạm thời chưa có giao diện Admin")
