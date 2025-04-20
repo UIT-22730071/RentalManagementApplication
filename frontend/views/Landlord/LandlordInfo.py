@@ -82,6 +82,8 @@ class LandlordInfo(QWidget):
                 self.label_fields.append(label_ui)
 
                 update_btn = QPushButton("Cập nhật")
+                update_btn.setFixedHeight(30)
+                update_btn.setFixedWidth(30)
                 update_btn.clicked.connect(lambda _, index=i: self.update_field(index))
 
                 hbox.addWidget(label)

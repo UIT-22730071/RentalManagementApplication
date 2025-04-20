@@ -2,6 +2,19 @@
 
 
 class LanlordRepository:
+
+    @staticmethod
+    def get_landlord_data_for_invoice_view(id_lanlord):
+        # TODO: Tao truy vấn SLQ select * from landlords where id
+        landlord_data = {
+            'name': 'Chưa có dữ liệu',
+            'cccd': 'Đang cập nhật',
+            'address': 'Khu Phố 6, Phường Linh Trung, Thành phố Thủ Đức, TP Hồ Chí Minh',
+            'phone': 'Chưa có dữ liệu'
+        }
+        return landlord_data
+
+
     @staticmethod
     def get_all_landlords():
         #TODO: Tao truy vấn SLQ select * from landlords

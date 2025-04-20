@@ -2,6 +2,22 @@ from QLNHATRO.RentalManagementApplication.backend.model.Rooms import Room
 
 
 class RoomRepository:
+
+
+    @staticmethod
+    def get_room_data_for_invoice_view(room_id):
+        # TODO: Thay thế bằng truy vấn SQL thực tế
+        room_data = {
+            'room_name': 'Chưa có dữ liệu',
+            'room_price': 0,
+            'electric_price': 0,
+            'internet_fee': 0,
+            'another_fee': 0,
+            'water_price': 0,
+            'garbage_fee': 0,
+        }
+        return room_data 
+
     @staticmethod
     def get_all_rooms():
         """Lấy danh sách tất cả các phòng từ database"""

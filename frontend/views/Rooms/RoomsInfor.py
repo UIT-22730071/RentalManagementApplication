@@ -91,7 +91,8 @@ class RoomsInfor(QWidget):
             self.value_labels[key] = val_lbl
 
             edit_btn = QPushButton("Thay đổi")
-            edit_btn.setFixedWidth(80)  # Hoặc 70 tùy font
+            edit_btn.setFixedWidth(100)  # Hoặc 70 tùy font
+            edit_btn.setFixedHeight(40)
             edit_btn.setStyleSheet("""
                 QPushButton {
                     background-color: #4FBEEE;
