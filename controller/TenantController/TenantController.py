@@ -29,3 +29,10 @@ class TenantController:
             print(f"[ERROR] Không thể lấy dữ liệu: {e}")
             tenant_home = TenantHome(view.main_window, id_tenant)
             view.set_right_frame(lambda *_: tenant_home)
+
+    @staticmethod
+    def go_to_tenant_info_page(view, id_tenant):
+        from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantInfo import TenantInfo
+        initial_data = TenantService.get_tenant_infor(id_tenant)
+        tenant_info = TenantInfo(view.main_window, initial_data, id_tenant)
+        view.set_right_frame(lambda *_: tenant_info)

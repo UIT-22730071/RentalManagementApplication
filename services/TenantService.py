@@ -63,3 +63,16 @@ class TenantService:
             return 12, year - 1
         else:
             return month - 1, year
+
+    @staticmethod
+    def get_tenant_infor(id_tenant):
+        #TODO: nếu có thay đổi trong xử lý data thì hiệu chỉnh
+        data = {} # nếu có xử lý thì hiệu chỉnh
+        raw_data = TenantRepository.get_tenant_infor_by_id_tenant(id_tenant)
+        return raw_data
+
+    @staticmethod
+    def update_tenant_info(tenant_id, updated_data):
+        from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
+        print(f"[SERVICE] Đang cập nhật tenant {tenant_id} với dữ liệu: {updated_data}")
+        return TenantRepository.update_tenant_info(tenant_id, updated_data)

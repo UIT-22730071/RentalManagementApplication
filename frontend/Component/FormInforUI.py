@@ -40,7 +40,18 @@ class FormInforUI(QWidget):
 
         # Override default colors if custom styles provided
         if custom_styles:
+            # Lưu custom_styles gốc để kiểm tra
+            bg_color = custom_styles.get("BACKGROUND_COLOR", self.BACKGROUND_COLOR)
+
             for key, value in custom_styles.items():
+                # Kiểm tra đặc biệt cho TEXT_COLOR
+                if key == "TEXT_COLOR":
+                    # Nếu màu chữ và màu nền giống nhau, sử dụng màu chữ tương phản
+                    if value.lower() == bg_color.lower() or self._similar_colors(value, bg_color):
+                        print(
+                            f"⚠️ TEXT_COLOR ({value}) quá giống với BACKGROUND_COLOR ({bg_color}), sử dụng màu tương phản.")
+                        # Chọn màu chữ tương phản với nền
+                        value = self._get_contrasting_color(bg_color)
                 setattr(self, key, value)
 
         # Initialize data and configurations
@@ -49,6 +60,44 @@ class FormInforUI(QWidget):
         self.label_fields = {}
 
         self.setup_ui(title)
+
+    def _similar_colors(self, color1: str, color2: str) -> bool:
+        """
+        Kiểm tra xem hai màu có tương tự nhau không
+        """
+        try:
+            # Chuyển mã màu hex thành RGB
+            def hex_to_rgb(hex_color):
+                hex_color = hex_color.lstrip('#')
+                return tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
+
+            rgb1 = hex_to_rgb(color1)
+            rgb2 = hex_to_rgb(color2)
+
+            # Tính khoảng cách màu đơn giản
+            distance = sum(abs(c1 - c2) for c1, c2 in zip(rgb1, rgb2))
+
+            # Nếu độ chênh lệch quá thấp, coi là tương tự
+            return distance < 125
+        except Exception:
+            return False
+
+    def _get_contrasting_color(self, color: str) -> str:
+        """
+        Trả về màu tương phản với màu đã cho
+        """
+        try:
+            # Chuyển hex sang RGB
+            color = color.lstrip('#')
+            r, g, b = int(color[0:2], 16), int(color[2:4], 16), int(color[4:6], 16)
+
+            # Tính độ sáng
+            brightness = (r * 299 + g * 587 + b * 114) / 1000
+
+            # Đối với màu tối, trả về màu sáng và ngược lại
+            return "#FFFFFF" if brightness < 128 else "#000000"
+        except Exception:
+            return "#333333"  # Màu chữ mặc định an toàn
 
     def setup_ui(self, title: str):
         """
@@ -77,6 +126,7 @@ class FormInforUI(QWidget):
             }}
             QPushButton:hover {{
                 background-color: #1565C0;
+                color: white;
             }}
             QGroupBox {{
                 border: 1px solid {self.BORDER_COLOR};
@@ -123,8 +173,13 @@ class FormInforUI(QWidget):
             label = QLabel(f"{config.get('icon', '')} {config['name']}:")
             label.setStyleSheet(f"font-size: 16px; min-width: 160px; color: {self.TEXT_COLOR};")
 
-            # LabelUI for displaying value
-            label_ui = LabelUI(str(self.initial_data.get(config['key'], '')))
+            # LabelUI for displaying value - không thay đổi cách tạo
+
+            label_ui = LabelUI(str(self.initial_data.get(config['key'], '')), color="#333")
+
+            # Đảm bảo LabelUI có màu chữ rõ ràng nhưng không can thiệp quá nhiều
+            self._ensure_label_visibility(label_ui)
+
             self.label_fields[config['key']] = label_ui
 
             # Update button
@@ -143,6 +198,21 @@ class FormInforUI(QWidget):
 
         self.setLayout(main_layout)
 
+    def _ensure_label_visibility(self, label_ui):
+        """
+        Đảm bảo LabelUI có thể nhìn thấy được bằng cách ghi đè màu chữ
+        """
+        # Luôn đặt màu chữ tối trên nền trắng
+        current_style = label_ui.styleSheet()
+        # Loại bỏ các thuộc tính color cũ nếu có
+        if "color:" in current_style:
+            parts = current_style.split(';')
+            filtered_parts = [p for p in parts if not p.strip().startswith("color:")]
+            current_style = ';'.join(filtered_parts)
+
+        # Thêm thuộc tính color mới với !important
+        label_ui.setStyleSheet(f"{current_style}; color: #333333 !important;")
+
     def load_data(self, data: Dict[str, Any] = None):
         """
         Load or update data in the form
@@ -154,6 +224,8 @@ class FormInforUI(QWidget):
 
         for key, label_ui in self.label_fields.items():
             label_ui.setText(str(self.initial_data.get(key, '')))
+            # Đảm bảo màu chữ luôn là tối, bất kể style hiện tại
+            label_ui.setStyleSheet("* { color: #333333 !important; }")
 
     def update_field(self, config: Dict[str, str]):
         """
@@ -183,9 +255,16 @@ class FormInforUI(QWidget):
                 raise ValueError("Số điện thoại phải là chữ số")
 
             self.label_fields[key].setText(new_value)
+            # Đảm bảo màu vẫn đúng sau khi cập nhật
+            self._ensure_label_visibility(self.label_fields[key])
+
             self.initial_data[key] = new_value
 
-            self.info_updated.emit(self.initial_data)
+            self.info_updated.emit({
+                "updated_key": key,
+                "new_value": new_value,
+                "full_data": self.initial_data
+            })
 
             QMessageBox.information(
                 self,

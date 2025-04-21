@@ -3,12 +3,15 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.FormInforUI import FormInforUI
 
+
+
 class TenantInfo(QWidget):
     tenant_info_updated = pyqtSignal(dict)
 
-    def __init__(self, main_window, initial_data=None):
+    def __init__(self, main_window, initial_data=None, tenant_id=None):
         super().__init__()
-
+        self.main_window = main_window
+        self.tenant_id = tenant_id
         # Field configurations
         field_configs = [
             {"name": "Ho_ten", "key": "full_name", "icon": "👤"},
@@ -18,7 +21,6 @@ class TenantInfo(QWidget):
             {"name": "Nghề nghiệp", "key": "occupation", "icon": "💼"},
             {"name": "Số điện thoại", "key": "phone_number", "icon": "📞"},
             {"name": "Tình trạng hôn nhân", "key": "marital_status", "icon": "💍"},
-            {"name": "Ngày Đăng Ký", "key": "registration_date", "icon": "📝"}
         ]
 
         # Default initial data
@@ -29,8 +31,7 @@ class TenantInfo(QWidget):
             'gender': '',
             'occupation': '',
             'phone_number': '',
-            'marital_status': '',
-            'registration_date': ''
+            'marital_status': ''
         }
 
         # Merge provided initial data with default
@@ -52,9 +53,22 @@ class TenantInfo(QWidget):
         layout.addWidget(self.form_ui)
         self.setLayout(layout)
 
-    def on_tenant_info_updated(self, updated_data):
-        # Emit signal to parent/main window
-        self.tenant_info_updated.emit(updated_data)
+    def on_tenant_info_updated(self, update_payload):
+        # Gửi về controller hoặc gọi service để cập nhật DB
+        updated_key = update_payload["updated_key"]
+        new_value = update_payload["new_value"]
+        full_data = update_payload["full_data"]
+        from QLNHATRO.RentalManagementApplication.services.TenantService import TenantService
+        if self.tenant_id:
+            success = TenantService.update_tenant_info(self.tenant_id, full_data)
+            if success:
+                print("✅ Dữ liệu người thuê đã được cập nhật thành công!")
+            else:
+                print("❌ Cập nhật thất bại.")
+        else:
+            print("⚠ Không có tenant_id để cập nhật!")
+
+        self.tenant_info_updated.emit(full_data)
 
     def load_tenant_data(self, data=None):
         # Delegate to form UI's load method
