@@ -1,5 +1,10 @@
-from calendar import month
 
+from datetime import datetime
+
+
+
+from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import InvoiceRepository
+from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
 from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
 
 
@@ -76,3 +81,67 @@ class TenantService:
         from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
         print(f"[SERVICE] Đang cập nhật tenant {tenant_id} với dữ liệu: {updated_data}")
         return TenantRepository.update_tenant_info(tenant_id, updated_data)
+
+    @staticmethod
+    def handle_data_for_tenant_room_infor(tenant_id):
+        from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
+        all_data = []
+        raw_data_room = TenantRepository.get_room_infor_by_id_tenant(tenant_id)
+
+        landlord_id = raw_data_room['landlord_id']
+        raw_data_lanlord = LanlordRepository.get_infor_lanlord(landlord_id)
+
+        date_new_invoice = InvoiceRepository.get_date_new_invoice_of_room(tenant_id)
+        '''date_new_invoice = "06-04-25"'''
+        try:
+            date_obj = datetime.strptime(date_new_invoice, "%d-%m-%Y")
+        except ValueError:
+            date_obj = datetime.strptime(date_new_invoice, "%d-%m-%y")
+
+        # Trích xuất tháng và năm
+        month = date_obj.month
+        year = date_obj.year
+
+        pre_month, pre_year = (12, year - 1) if month == 1 else (month - 1, year)
+        old_data_e_and_w = TenantRepository.get_number_e_and_number_w_from(tenant_id, month, year)
+        current_data_e_and_w = TenantRepository.get_number_e_and_number_w_from(tenant_id, pre_month, pre_year)
+
+        # Xử lý rawdata
+        data_room ={
+            "Số phòng":str(raw_data_room['room_name']),
+            "Loại phòng":str(raw_data_room['room_type']),
+            "Ngày bắt đầu thuê":str(raw_data_room['available_date']),
+            "Tiền phòng":str(raw_data_room['rent_price'])+" VNĐ",
+            "Tiền cọc":str(raw_data_room['deposit'])+" VNĐ",
+            "Ngày đến hạn thanh toán":str(date_new_invoice),
+            "Diện tích":str(raw_data_room['area']),
+
+            "Chỉ số điện cũ":str(old_data_e_and_w["number_e"])+" kWh",
+            "Chỉ số điện mới":str(current_data_e_and_w["number_e"])+" kWh",
+            "Tiêu thụ điện":str(current_data_e_and_w['number_e']- old_data_e_and_w["number_e"])+" kWh",
+            "Đơn giá điện":str(raw_data_room['electricity_price'])+" VNĐ/kWh",
+            "Thành tiên điện":str((current_data_e_and_w['number_e']- old_data_e_and_w["number_e"])*raw_data_room['electricity_price'])+" VNĐ",
+
+            "Chỉ số nước cũ:":str(old_data_e_and_w["number_w"])+" m³",
+            "Chỉ số nước mới":str(current_data_e_and_w["number_w"])+" m³",
+            "Tiêu thụ nước":str(current_data_e_and_w['number_w']- old_data_e_and_w["number_w"])+" m³",
+            "Đơn giá nước":str(raw_data_room['water_price'])+" VNĐ/m³",
+            "Thành tiên nước": str((current_data_e_and_w['number_w'] - old_data_e_and_w["number_w"]) * raw_data_room[
+                'water_price']) + " VNĐ",
+
+            "Chi phí khác":str(raw_data_room["other_fees"])+" VNĐ",
+            "Internet":str(raw_data_room['internet_price']) + " VNĐ/tháng",
+            "Tiền rác":str(raw_data_room['garbage_price']) + " VNĐ/tháng",
+            "Tổng cộng":str(raw_data_room['rent_price']+(current_data_e_and_w['number_e']- old_data_e_and_w["number_e"])*raw_data_room['electricity_price'] + (current_data_e_and_w['number_w'] - old_data_e_and_w["number_w"]) * raw_data_room[
+                'water_price']+raw_data_room["other_fees"]+raw_data_room['internet_price'])+ " VNĐ",
+
+            "Tên chủ trọ":str(raw_data_lanlord['name']),
+            "Số điện thoại":str(raw_data_lanlord['phone']),
+            "Email":str(raw_data_lanlord['email']),
+            "Địa chỉ":str(raw_data_room['address']),
+
+        }
+
+        return data_room
+
+

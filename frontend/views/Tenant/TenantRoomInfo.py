@@ -1,13 +1,56 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QGridLayout, QGroupBox, QSizePolicy, QScrollArea, \
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QGridLayout, QGroupBox, QScrollArea, \
     QFrame
 from PyQt5.QtCore import Qt
 
 
 
 class TenantRoomInfo(QWidget):
-    def __init__(self, main_window):
+    def __init__(self, main_window,data_room, id_tenant):
         super().__init__()
         self.main_window = main_window
+        self.data_room = data_room or {}
+        self.id_tenant = id_tenant
+
+        #TODO: handel data than fix code
+        '''
+        
+        # Xử lý rawdata
+        data_room ={
+            "Số phòng":str(raw_data_room['room_name']),
+            "Loại phòng":str(raw_data_room['room_type']),
+            "Ngày bắt đầu thuê":str(raw_data_room['available_date']),
+            "Tiền phòng":str(raw_data_room['rent_price'])+" VNĐ",
+            "Tiền cọc":str(raw_data_room['deposit'])+" VNĐ",
+            "Ngày đến hạn thanh toán":str(date_new_invoice),
+
+            "Chỉ số điện cũ":str(old_data_e_and_w["number_e"])+" kWh",
+            "Chỉ số điện mới":str(current_data_e_and_w["number_e"])+" kWh",
+            "Tiêu thụ điện":str(current_data_e_and_w['number_e']- old_data_e_and_w["number_e"])+" kWh",
+            "Đơn giá điện":str(raw_data_room['electricity_price'])+" VNĐ/kWh",
+            "Thành tiên điện":str((current_data_e_and_w['number_e']- old_data_e_and_w["number_e"])*raw_data_room['electricity_price'])+" VNĐ",
+
+            "Chỉ số nước cũ:":str(old_data_e_and_w["number_w"])+" m³",
+            "Chỉ số nước mới":str(current_data_e_and_w["number_w"])+" m³",
+            "Tiêu thụ nước":str(current_data_e_and_w['number_w']- old_data_e_and_w["number_w"])+" m³",
+            "Đơn giá nước":str(raw_data_room['water_price'])+" VNĐ/m³",
+            "Thành tiên nước": str((current_data_e_and_w['number_w'] - old_data_e_and_w["number_w"]) * raw_data_room[
+                'water_price']) + " VNĐ",
+
+            "Chi phí khác":str(raw_data_room["other_fees"])+" VNĐ",
+            "Internet":str(raw_data_room['internet_price']) + " VNĐ/tháng",
+            "Tiền rác":str(raw_data_room['garbage_price']) + " VNĐ/tháng",
+            "Tổng cộng":str(raw_data_room['rent_price']+(current_data_e_and_w['number_e']- old_data_e_and_w["number_e"])*raw_data_room['electricity_price'] + (current_data_e_and_w['number_w'] - old_data_e_and_w["number_w"]) * raw_data_room[
+                'water_price']+raw_data_room["other_fees"]+raw_data_room['internet_price'])+ " VNĐ",
+            
+            "Tên chủ trọ":str(raw_data_lanlord['name']),
+            "Số điện thoại":str(raw_data_lanlord['phone']),
+            "Email":str(raw_data_lanlord['email']),
+            "Địa chỉ":str(raw_data_room['address']),
+            
+        }
+        '''
+
+
 
         # Improved styling with backgrounds for all information areas
         self.setStyleSheet("""
@@ -96,13 +139,14 @@ class TenantRoomInfo(QWidget):
         basic_grid.setContentsMargins(15, 15, 15, 15)
 
         # Populate basic info
-        self.add_info_pair(basic_grid, 0, "Số phòng:", "A201")
-        self.add_info_pair(basic_grid, 1, "Loại phòng:", "Standard (20m²)")
-        self.add_info_pair(basic_grid, 2, "Ngày bắt đầu thuê:", "01/09/2024")
-        self.add_info_pair(basic_grid, 3, "Tiền phòng:", "2.500.000 VNĐ/tháng")
-        self.add_info_pair(basic_grid, 4, "Tiền cọc:", "5.000.000 VNĐ")
-        self.add_info_pair(basic_grid, 5, "Ngày đến hạn thanh toán:", "05/04/2025")
-
+        self.add_info_pair(basic_grid, 0, "Số phòng:", self.data_room.get("Số phòng", "---"))
+        self.add_info_pair(basic_grid, 1, "Loại phòng:", self.data_room.get("Loại phòng", "---"))
+        self.add_info_pair(basic_grid, 2, "Ngày bắt đầu thuê:", self.data_room.get("Ngày bắt đầu thuê", "---"))
+        self.add_info_pair(basic_grid, 3, "Tiền phòng:", self.data_room.get("Tiền phòng", "---"))
+        self.add_info_pair(basic_grid, 4, "Tiền cọc:", self.data_room.get("Tiền cọc", "---"))
+        self.add_info_pair(basic_grid, 5, "Ngày đến hạn thanh toán:",
+                           self.data_room.get("Ngày đến hạn thanh toán", "---"))
+        self.add_info_pair(basic_grid, 6, "Diện tích:", self.data_room.get("Diện tích", "---"))
         basic_info_group.setLayout(basic_grid)
         content_layout.addWidget(basic_info_group)
 
@@ -114,22 +158,24 @@ class TenantRoomInfo(QWidget):
         utility_grid.setContentsMargins(15, 15, 15, 15)
 
         # Populate utility info
-        self.add_info_pair(utility_grid, 0, "Chỉ số điện cũ:", "1205 kWh (01/03/2025)")
-        self.add_info_pair(utility_grid, 1, "Chỉ số điện mới:", "1267 kWh (31/03/2025)")
-        self.add_info_pair(utility_grid, 2, "Tiêu thụ điện:", "62 kWh")
-        self.add_info_pair(utility_grid, 3, "Đơn giá điện:", "3.500 VNĐ/kWh")
-        self.add_info_pair(utility_grid, 4, "Thành tiền điện:", "217.000 VNĐ", highlight=True)
+        self.add_info_pair(utility_grid, 0, "Chỉ số điện cũ:", self.data_room.get("Chỉ số điện cũ", "---"))
+        self.add_info_pair(utility_grid, 1, "Chỉ số điện mới:", self.data_room.get("Chỉ số điện mới", "---"))
+        self.add_info_pair(utility_grid, 2, "Tiêu thụ điện:", self.data_room.get("Tiêu thụ điện", "---"))
+        self.add_info_pair(utility_grid, 3, "Đơn giá điện:", self.data_room.get("Đơn giá điện", "---"))
+        self.add_info_pair(utility_grid, 4, "Thành tiên điện:", self.data_room.get("Thành tiên điện", "---"),
+                           highlight=True)
 
         # Separator
         separator = QFrame()
         separator.setObjectName("separator")
         utility_grid.addWidget(separator, 5, 0, 1, 2)
 
-        self.add_info_pair(utility_grid, 6, "Chỉ số nước cũ:", "120 m³ (01/03/2025)")
-        self.add_info_pair(utility_grid, 7, "Chỉ số nước mới:", "127 m³ (31/03/2025)")
-        self.add_info_pair(utility_grid, 8, "Tiêu thụ nước:", "7 m³")
-        self.add_info_pair(utility_grid, 9, "Đơn giá nước:", "25.000 VNĐ/m³")
-        self.add_info_pair(utility_grid, 10, "Thành tiền nước:", "175.000 VNĐ", highlight=True)
+        self.add_info_pair(utility_grid, 6, "Chỉ số nước cũ:", self.data_room.get("Chỉ số nước cũ:", "---"))
+        self.add_info_pair(utility_grid, 7, "Chỉ số nước mới:", self.data_room.get("Chỉ số nước mới", "---"))
+        self.add_info_pair(utility_grid, 8, "Tiêu thụ nước:", self.data_room.get("Tiêu thụ nước", "---"))
+        self.add_info_pair(utility_grid, 9, "Đơn giá nước:", self.data_room.get("Đơn giá nước", "---"))
+        self.add_info_pair(utility_grid, 10, "Thành tiên nước:", self.data_room.get("Thành tiên nước", "---"),
+                           highlight=True)
 
         utility_info_group.setLayout(utility_grid)
         content_layout.addWidget(utility_info_group)
@@ -142,10 +188,10 @@ class TenantRoomInfo(QWidget):
         service_grid.setContentsMargins(15, 15, 15, 15)
 
         # Populate service info
-        self.add_info_pair(service_grid, 0, "Internet:", "150.000 VNĐ/tháng")
-        self.add_info_pair(service_grid, 1, "Phí quản lý:", "100.000 VNĐ/tháng")
+        self.add_info_pair(service_grid, 0, "Chi phí khác:", self.data_room.get("Chi phí khác", "---"))
+        #self.add_info_pair(service_grid, 1, "Phí quản lý:", "100.000 VNĐ/tháng")
         #self.add_info_pair(service_grid, 2, "Dịch vụ dọn phòng:", "200.000 VNĐ/tháng (2 lần/tháng)")
-        self.add_info_pair(service_grid, 3, "Phí gửi xe:", "50.000 VNĐ/tháng/xe")
+        #self.add_info_pair(service_grid, 3, "Phí gửi xe:", "50.000 VNĐ/tháng/xe")
 
         service_info_group.setLayout(service_grid)
         content_layout.addWidget(service_info_group)
@@ -157,12 +203,14 @@ class TenantRoomInfo(QWidget):
         total_grid.setSpacing(10)
         total_grid.setContentsMargins(15, 15, 15, 15)
 
-        self.add_info_pair(total_grid, 0, "Tiền phòng:", "2.500.000 VNĐ")
-        self.add_info_pair(total_grid, 1, "Tiền điện:", "217.000 VNĐ")
-        self.add_info_pair(total_grid, 2, "Tiền nước:", "175.000 VNĐ")
-        self.add_info_pair(total_grid, 3, "Internet:", "150.000 VNĐ")
-        self.add_info_pair(total_grid, 4, "Phí quản lý:", "100.000 VNĐ")
-        self.add_info_pair(total_grid, 5, "Dịch vụ khác:", "250.000 VNĐ")
+        self.add_info_pair(total_grid, 0, "Tiền phòng:", self.data_room.get("Tiền phòng", "---"))
+        self.add_info_pair(total_grid, 1, "Tiền điện:", self.data_room.get("Thành tiên điện", "---"))
+        self.add_info_pair(total_grid, 2, "Tiền nước:", self.data_room.get("Thành tiên nước", "---"))
+        self.add_info_pair(total_grid, 3, "Internet:", self.data_room.get("Internet", "---"))
+        self.add_info_pair(total_grid, 4, "Tiền rác:", self.data_room.get("Tiền rác", "---"))
+        self.add_info_pair(total_grid, 5, "Dịch vụ khác:", self.data_room.get("Chi phí khác", "---"))
+
+
 
         # Separator
         separator2 = QFrame()
@@ -174,9 +222,10 @@ class TenantRoomInfo(QWidget):
         total_label.setStyleSheet("font-size: 16px; font-weight: bold; color: #2c3e50;")
         total_grid.addWidget(total_label, 7, 0)
 
-        total_value = QLabel("3.392.000 VNĐ")
+        total_value = QLabel()
         total_value.setStyleSheet(
             "font-size: 18px; font-weight: bold; color: #2c3e50; background-color: #f39c12; border-radius: 5px; padding: 10px;")
+        total_value.setText(self.data_room.get("Tổng cộng", "---"))
         total_grid.addWidget(total_value, 7, 1)
 
         total_group.setLayout(total_grid)
@@ -189,10 +238,10 @@ class TenantRoomInfo(QWidget):
         landlord_grid.setSpacing(10)
         landlord_grid.setContentsMargins(15, 15, 15, 15)
 
-        self.add_info_pair(landlord_grid, 0, "Tên chủ trọ:", "Nguyễn Văn A")
-        self.add_info_pair(landlord_grid, 1, "Số điện thoại:", "0901234567")
-        self.add_info_pair(landlord_grid, 2, "Email:", "nguyenvana@gmail.com")
-        self.add_info_pair(landlord_grid, 3, "Địa chỉ:", "123 Nguyễn Trãi, Quận 1, TP. HCM")
+        self.add_info_pair(landlord_grid, 0, "Tên chủ trọ:", self.data_room.get("Tên chủ trọ", "---"))
+        self.add_info_pair(landlord_grid, 1, "Số điện thoại:", self.data_room.get("Số điện thoại", "---"))
+        self.add_info_pair(landlord_grid, 2, "Email:", self.data_room.get("Email", "---"))
+        self.add_info_pair(landlord_grid, 3, "Địa chỉ:", self.data_room.get("Địa chỉ", "---"))
 
         landlord_info_group.setLayout(landlord_grid)
         content_layout.addWidget(landlord_info_group)

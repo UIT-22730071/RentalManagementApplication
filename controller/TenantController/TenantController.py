@@ -36,3 +36,11 @@ class TenantController:
         initial_data = TenantService.get_tenant_infor(id_tenant)
         tenant_info = TenantInfo(view.main_window, initial_data, id_tenant)
         view.set_right_frame(lambda *_: tenant_info)
+
+
+    @staticmethod
+    def go_to_tenant_room_infor_page(view,id_tenant):
+        from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantRoomInfo import TenantRoomInfo
+        data_room =  TenantService.handle_data_for_tenant_room_infor(id_tenant)
+        tenant_room_infor = TenantRoomInfo(view.main_window,data_room,id_tenant)
+        view.set_right_frame(lambda *_: tenant_room_infor)
