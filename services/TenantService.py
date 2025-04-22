@@ -144,4 +144,63 @@ class TenantService:
 
         return data_room
 
+    @staticmethod
+    def get_tenant_invoices(id_tenant):
+        """
+        Get all invoices for a specific tenant
+
+        Args:
+            id_tenant: The ID of the tenant
+
+        Returns:
+            A list of invoice data formatted for display
+        """
+        # Get raw invoice data from repository
+        raw_invoices = InvoiceRepository.get_invoices_by_tenant_id(id_tenant)
+
+        # Process the invoice data for display
+        formatted_invoices = []
+        for invoice in raw_invoices:
+            # Calculate electricity and water usage
+            electricity_usage = invoice['new_electricity'] - invoice['old_electricity']
+            water_usage = invoice['new_water'] - invoice['old_water']
+
+            # Calculate costs
+            electricity_cost = electricity_usage * invoice['electricity_price']
+            water_cost = water_usage * invoice['water_price']
+
+            # Calculate total amount
+            total_amount = (
+                    invoice['rent_price'] +
+                    electricity_cost +
+                    water_cost +
+                    invoice['internet_price'] +
+                    invoice.get('garbage_fee', 0) +
+                    invoice.get('other_fees', 0)
+            )
+
+            # Format the invoice for display
+            formatted_invoice = {
+                'invoice_id': invoice['invoice_id'],
+                'date': invoice['created_date'],
+                'room_name': invoice['room']['room_name'],
+                'rent_price': f"{invoice['rent_price']:,} VNĐ",
+                'electricity': f"{electricity_usage} kWh ({electricity_cost:,} VNĐ)",
+                'water': f"{water_usage} m³ ({water_cost:,} VNĐ)",
+                'internet': f"{invoice['internet_price']:,} VNĐ",
+                'other_fees': f"{invoice.get('other_fees', 0):,} VNĐ",
+                'total_amount': f"{total_amount:,} VNĐ",
+                'status': 'Đã thanh toán' if invoice.get('is_paid', False) else 'Chưa thanh toán',
+                'raw_data': invoice  # Keep the raw data for possible detailed view
+            }
+
+            formatted_invoices.append(formatted_invoice)
+
+        # Sort invoices by date (newest first)
+        formatted_invoices.sort(key=lambda x: x['date'], reverse=True)
+
+        print(f"[SERVICE] Formatted invoices for tenant {id_tenant}: {formatted_invoices}")
+        return formatted_invoices
+
+
 

@@ -1,4 +1,5 @@
 from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantHome import TenantHome
+
 from QLNHATRO.RentalManagementApplication.services.TenantService import TenantService
 
 
@@ -44,3 +45,25 @@ class TenantController:
         data_room =  TenantService.handle_data_for_tenant_room_infor(id_tenant)
         tenant_room_infor = TenantRoomInfo(view.main_window,data_room,id_tenant)
         view.set_right_frame(lambda *_: tenant_room_infor)
+
+    @staticmethod
+    def go_to_tenant_invoice_list_page(view, id_tenant):
+        from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantInvoiceList import TenantListInvoices
+        try:
+            # Get invoice list data from the service
+            invoice_list = TenantService.get_tenant_invoices(id_tenant)
+            print(f"[DEBUG] Lấy danh sách hóa đơn cho tenant id: {id_tenant}")
+            print(f"[DEBUG] Dữ liệu hóa đơn: {invoice_list}")
+
+            # Create the tenant invoice list view with the data
+            tenant_invoice_list = TenantListInvoices(view.main_window, invoice_list, id_tenant)
+
+            # Set the right frame to display the invoice list
+            view.set_right_frame(lambda *_: tenant_invoice_list)
+        except Exception as e:
+            print(f"[ERROR] Không thể lấy dữ liệu hóa đơn: {e}")
+            import traceback
+            traceback.print_exc()  # Print detailed stack trace
+            # If there's an error, create an empty invoice list view
+            tenant_invoice_list = TenantListInvoices(view.main_window, None, id_tenant)
+            view.set_right_frame(lambda *_: tenant_invoice_list)

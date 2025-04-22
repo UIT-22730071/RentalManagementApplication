@@ -6,10 +6,7 @@ from QLNHATRO.RentalManagementApplication.controller.TenantController.TenantCont
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
 from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.FindNewRoom import FindNewRoom
 
-from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantHome import TenantHome
-from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantInfo import TenantInfo
-from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantRoomInfo import TenantRoomInfo
-from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantInvoiceList import TenantInvoiceList
+
 from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantMaintenanceRequest import TenantMaintenanceRequest
 
 
@@ -59,7 +56,7 @@ class TenantMenu(QWidget):
 
         self.invoice_list_btn = QPushButton("🧾 Danh sách hóa đơn")
         button_ui.apply_style(self.invoice_list_btn)
-        self.invoice_list_btn.clicked.connect(lambda: self.set_right_frame(TenantInvoiceList))
+        self.invoice_list_btn.clicked.connect(lambda: TenantController.go_to_tenant_invoice_list_page(self, self.id_tenant))
 
         self.find_new_room = QPushButton("💰 Tìm phòng trọ")
         button_ui.apply_style(self.find_new_room)
