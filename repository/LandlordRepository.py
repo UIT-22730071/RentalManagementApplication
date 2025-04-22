@@ -94,6 +94,7 @@ class LanlordRepository:
             'sex': 'Nam',
             'job': 'Sinh viện',
             'phone': '0901234567',
+            'email': "nguyenvanchurtro@gmail.com",
             'marriage': 'Độc thân',
             'password': '**********'}
         return infor_lanlord
@@ -104,3 +105,4 @@ class LanlordRepository:
         print(f"[Repository] Update field `{field}` = {value} cho landlord {id_lanlord}")
         # Ví dụ (giả lập):
         # UPDATE landlords SET field = value WHERE id = id_lanlord;
+

@@ -38,6 +38,7 @@ class InvoiceRepository:
     @staticmethod
     def get_invoice_data_for_invoice_view(invoice_id):
         #TODO: tạo truy vấn SQL lấy dữ liệu hóa đơn
+        # Lấy số điện cũ và nước cũ đòi hỏi phải truy vấn hóa đơn tháng trước
         invoice_data = {
             'invoice_id': 123,
             'invoice_code': '1C21TAA',
@@ -115,7 +116,6 @@ class InvoiceRepository:
         return data_invoice
 
 
-
     @staticmethod
     def get_invoice_data_for_view_bill(invoice_id):
         ''' Chuẩn bị dữ liệu cho hóa đơn trong view hóa đơn'''
@@ -127,3 +127,9 @@ class InvoiceRepository:
     @staticmethod
     def get_old_number_electricity_water(invoice_id):
         pass
+
+    @staticmethod
+    def get_date_new_invoice_of_room(tenant_id):
+        #TODO: Tạo truy vấn trả về date mới nhất của cái hóa đơn mới nhất
+        return "30-04-2025"
+
