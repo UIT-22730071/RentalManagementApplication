@@ -188,3 +188,9 @@ class TenantRepository:
         except Exception as e:
             print(f"[ERROR] Không thể cập nhật tenant: {e}")
             return False
+
+    @staticmethod
+    def get_user_id_from_id_tenant(id_tenant):
+        #TODO: tạo truy vấn lấy dữ liêu data trả về user_id
+        user_id = '1'
+        return user_id
