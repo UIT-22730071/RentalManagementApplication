@@ -8,11 +8,13 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QFont
 
 from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import InvoiceRepository
-from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantMenu import TenantMenu
+from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
+from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import LandlordController
+from QLNHATRO.RentalManagementApplication.controller.TenantController.TenantController import TenantController
 from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
 
 
-class InvoiceView(QWidget):
+class TenantInvoices(QWidget):
     invoice_saved = pyqtSignal(int)  # Signal to emit when invoice is saved
 
     #TODO:
@@ -23,10 +25,8 @@ class InvoiceView(QWidget):
         super().__init__()
         self.main_window = main_window
         self.id_lanlord = InvoiceRepository.get_id_lanlord_from_id_invoice(invoice_data['invoice_id'])
-        # Set default data if not provided
-        #invoice_code viết hàm tạo mã số ngẫu hiên cho phần ký hiệu hóa đơn (string)
-        # số hóa đơn lấy id hóa đơn (int)
-        # date - hiển thị ngày today()
+        self.id_tenant = InvoiceRepository.get_id_tenant_from_id_invoice(invoice_data['invoice_id'])
+        self.user_id = TenantRepository.get_user_id_from_id_tenant(self.id_tenant)
         self.invoice_data = invoice_data or {
             'invoice_id': 123,
             'invoice_code': '1C21TAA',
@@ -652,7 +652,7 @@ class InvoiceView(QWidget):
                 background-color: #a33025;
             }
         """)
-        exit_btn.clicked.connect(self.go_back_to_landlord_menu)
+        exit_btn.clicked.connect(self.go_back_to_tenant_menu)
 
         # Save button
         save_btn = QPushButton("Lưu hóa đơn")
@@ -732,20 +732,17 @@ class InvoiceView(QWidget):
             except Exception as e:
                 QMessageBox.critical(self, "Lỗi", f"Đã xảy ra lỗi khi lưu hóa đơn: {str(e)}")
 
-    def go_back_to_landlord_menu(self):
-        from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordMenu import LandlordMenu
-        from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import \
-            LandlordController
+    def go_back_to_tenant_menu(self):
+        from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantMenu import TenantMenu
 
         # Tạo lại dashboard chủ trọ
-        landlord_menu = LandlordMenu(main_window=self.main_window, id_lanlord=self.id_lanlord)
+        tenant_menu = TenantMenu(main_window=self.main_window, user_id=self.user_id)
 
         # Gọi hiển thị trang danh sách hóa đơn
-        LandlordController.go_to_invoice_list(landlord_menu, self.id_lanlord)
+        TenantController.go_to_tenant_invoice_list_page(tenant_menu, self.id_lanlord)
 
         # Quay lại dashboard
-        self.main_window.setCentralWidget(landlord_menu)
-
+        self.main_window.setCentralWidget(tenant_menu)
 
 
 '''

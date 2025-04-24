@@ -133,3 +133,84 @@ class InvoiceRepository:
         #TODO: Tạo truy vấn trả về date mới nhất của cái hóa đơn mới nhất
         return "30-04-2025"
 
+    @staticmethod
+    def get_invoices_by_tenant_id(tenant_id):
+        """
+        Get all invoices for a tenant from the database
+
+        Args:
+            tenant_id: The ID of the tenant
+
+        Returns:
+            A list of invoice data dictionaries
+        """
+        # TODO: Replace with actual SQL query
+        # SQL would be something like:
+        # SELECT i.*, r.room_name
+        # FROM invoices i
+        # JOIN rooms r ON i.room_id = r.id
+        # WHERE i.tenant_id = [tenant_id]
+        # ORDER BY i.created_date DESC
+
+        # Sample data for development
+        invoices = [
+            {
+                'invoice_id': '12345',
+                'created_date': '2025-04-15',
+                'room': {
+                    'room_id': 'P101',
+                    'room_name': 'Phòng 101'
+                },
+                'rent_price': 3500000,
+                'electricity_price': 3800,
+                'water_price': 25000,
+                'internet_price': 100000,
+                'old_electricity': 1250,
+                'new_electricity': 1420,
+                'old_water': 45,
+                'new_water': 52,
+                'other_fees': 20000,
+                'garbage_fee': 50000,
+                'is_paid': True
+            },
+            {
+                'invoice_id': '12346',
+                'created_date': '2025-03-15',
+                'room': {
+                    'room_id': 'P101',
+                    'room_name': 'Phòng 101'
+                },
+                'rent_price': 3500000,
+                'electricity_price': 3800,
+                'water_price': 25000,
+                'internet_price': 100000,
+                'old_electricity': 1100,
+                'new_electricity': 1250,
+                'old_water': 38,
+                'new_water': 45,
+                'other_fees': 20000,
+                'garbage_fee': 50000,
+                'is_paid': True
+            },
+            {
+                'invoice_id': '12347',
+                'created_date': '2025-02-15',
+                'room': {
+                    'room_id': 'P101',
+                    'room_name': 'Phòng 101'
+                },
+                'rent_price': 3500000,
+                'electricity_price': 3500,  # Notice price changed
+                'water_price': 25000,
+                'internet_price': 100000,
+                'old_electricity': 950,
+                'new_electricity': 1100,
+                'old_water': 32,
+                'new_water': 38,
+                'other_fees': 20000,
+                'garbage_fee': 50000,
+                'is_paid': True
+            }
+        ]
+
+        return invoices
