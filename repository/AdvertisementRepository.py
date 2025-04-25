@@ -12,3 +12,8 @@ class AdvertisementRepository:
         print("Ưu tiên:", ad.preferences)
 
         # Ví dụ: dùng SQLAlchemy / sqlite3 để lưu vào bảng Advertisements
+    @staticmethod
+    def get_all_advertisements():
+        all_data_ad ={}
+
+        return all_data_ad

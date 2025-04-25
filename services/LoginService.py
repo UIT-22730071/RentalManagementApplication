@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QMessageBox
 
 from QLNHATRO.RentalManagementApplication.Repository.LoginRepository import LoginRepository
+from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.UpdateInfoAfterRegister import \
+    UpdateInfoAfterRegister
 
 
 class LoginService:
@@ -40,3 +42,25 @@ class LoginService:
     @staticmethod
     def close_main_window(main_window):
         main_window.close()
+
+    @staticmethod
+    def check_confim_password(password, confim_password):
+        if password == confim_password:
+            return True
+        else:
+            QMessageBox.information(None,'Xác nhận mật khẩu không khớp')
+            return False
+
+    @staticmethod
+    def handle_data_user_to_create_new_user(user, main_window):
+        username, password, role = user
+        if LoginRepository.create_new_user_name(user):
+            user_id = LoginRepository.get_user(username)
+            # Use the factory method instead of direct instantiation
+            UpdateInfoAfterRegister.create(
+                main_window=main_window,
+                role=role,
+                username=username,
+                password=password,
+                user_id = user_id
+            )

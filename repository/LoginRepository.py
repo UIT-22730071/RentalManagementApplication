@@ -26,3 +26,21 @@ class LoginRepository:
         # TODO: Thay thế bằng truy ván SQL thực tế
         role = 'landlord'
         return role
+
+    @staticmethod
+    def create_new_user_name(user):
+        # user = [username, password, role]
+        #TODO: Tạo truy vấn dữ liêu tạo mới user name theo role
+
+        return True
+
+    @staticmethod
+    def update_user_info(user_id, data):
+        # TODO: Thực hiện truy vấn UPDATE SQL
+        print(f"[DB] Đã cập nhật user_id={user_id} với data={data}")
+
+    @staticmethod
+    def get_user_id_from_username(username):
+        # TODO: Tạo truy vấn SQL để get user_id
+        user_id = "01"
+        return user_id

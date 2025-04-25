@@ -1,5 +1,24 @@
+from QLNHATRO.RentalManagementApplication.controller.UpdateInfor.UpdateInfoController import UpdateInfoController
 
 
+class UpdateInfoAfterRegister:
+    """Factory class that creates and returns the UpdateInfoController"""
+    @staticmethod
+    def create(main_window, role, username, password):
+        controller = UpdateInfoController(main_window, role, username, password,user_id)
+        controller.show()
+        return controller
+
+
+
+
+
+
+
+
+
+
+'''
 from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QVBoxLayout, QWidget, QMessageBox, QScrollArea, QFrame, QLabel, QHBoxLayout, QPushButton
@@ -66,7 +85,7 @@ class BaseUpdateForm(QWidget):
         """)
 
     def create_input_field(self, icon, label):
-        from PyQt6.QtWidgets import QLineEdit
+        from PyQt5.QtWidgets import QLineEdit
         input_widget = QLineEdit()
         input_widget.setPlaceholderText(f"Nhập {label.replace(':', '')}")
         return InputFieldUI(icon, label, input_widget)
@@ -163,9 +182,7 @@ class LandlordUpdateForm(BaseUpdateForm):
 # Main update info class
 class UpdateInfoAfterRegister(QWidget):
     info_updated = pyqtSignal(dict)
-    print("m thấy t là t được gọi rồi đó")
     def __init__(self, main_window, role, username, password):
-
         super().__init__()
         self.main_window = main_window
         self.role = role
@@ -420,3 +437,4 @@ class UpdateInfoAfterRegister(QWidget):
             self.main_window.setCentralWidget(LoginWindow(self.main_window))
 
 
+'''
