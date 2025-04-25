@@ -4,9 +4,7 @@ from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QLab
 from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
 from QLNHATRO.RentalManagementApplication.controller.TenantController.TenantController import TenantController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
-from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.FindNewRoom import FindNewRoom
-
-
+from QLNHATRO.RentalManagementApplication.frontend.views.Tenant import FindNewRoom
 from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantMaintenanceRequest import TenantMaintenanceRequest
 
 
