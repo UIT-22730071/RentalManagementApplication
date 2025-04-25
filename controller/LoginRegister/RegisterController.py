@@ -35,5 +35,5 @@ class RegisterController:
             LoginService.handle_data_user_to_create_new_user(user,main_window)
             # Hàm trên xử lý gọi tạo mới dữ liệu và nếu tạo mới thành công sẽ call mở luôn form cập nhật thông tin
         else:
-            QMessageBox.information("Có lỗi khi tạo tài khoản")
+            QMessageBox.warning(None, "Lỗi xác nhận", "🔐 Xác nhận mật khẩu không khớp!")
             return

@@ -124,4 +124,4 @@ class UpdateInfoController:
         if reply == QMessageBox.StandardButton.Yes:
             # Go back to login screen
             from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.HomeLogin import LoginWindow
-            self.main_window.setCentralWidget(LoginWindow   (self.main_window))
+            self.main_window.setCentralWidget(LoginWindow(self.main_window))

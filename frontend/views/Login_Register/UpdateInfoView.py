@@ -17,7 +17,7 @@ class UpdateInfoView(QWidget):
         self.role = role
         self.username = username
         self.initUI()
-
+        print("role", role)
     def initUI(self):
         # Create main layout
         main_layout = QVBoxLayout(self)
@@ -69,7 +69,7 @@ class UpdateInfoView(QWidget):
         title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Role
-        role_label = QLabel(f"[{self.role}]")
+        role_label = QLabel(f"[{self.role}]") # TODO: đang lỗi hiển thij trong page giao diện
         role_label.setFont(QFont("Arial", 14))
         role_label.setStyleSheet("color: #555;")
         role_label.setAlignment(Qt.AlignmentFlag.AlignCenter)

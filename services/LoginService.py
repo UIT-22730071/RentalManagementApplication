@@ -48,7 +48,7 @@ class LoginService:
         if password == confim_password:
             return True
         else:
-            QMessageBox.information(None,'Xác nhận mật khẩu không khớp')
+            print("Không khớp mật khẩu")
             return False
 
     @staticmethod

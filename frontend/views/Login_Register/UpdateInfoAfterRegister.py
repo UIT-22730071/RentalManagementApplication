@@ -4,7 +4,7 @@ from QLNHATRO.RentalManagementApplication.controller.UpdateInfor.UpdateInfoContr
 class UpdateInfoAfterRegister:
     """Factory class that creates and returns the UpdateInfoController"""
     @staticmethod
-    def create(main_window, role, username, password):
+    def create(main_window, role, username, password,user_id):
         controller = UpdateInfoController(main_window, role, username, password,user_id)
         controller.show()
         return controller
