@@ -1,6 +1,4 @@
 from PyQt5.QtWidgets import QMessageBox
-
-from QLNHATRO.RentalManagementApplication.Repository.LoginRepository import LoginRepository
 from QLNHATRO.RentalManagementApplication.backend.model.BaseInforForm import TenantFormModel, LandlordFormModel
 from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.UpdateInfoView import UpdateInfoView
 
@@ -14,7 +12,13 @@ class UpdateInfoController:
         self.user_id = user_id
 
         # Create view
-        self.view = UpdateInfoView(role, username)
+
+        self.view = UpdateInfoView(
+            role=self.role,
+            username=self.username,
+            save_callback=self.save_info,
+            cancel_callback=self.cancel
+        )
 
         # Create model based on role
         if role == "Người thuê trọ":
@@ -22,9 +26,10 @@ class UpdateInfoController:
         else:
             self.model = LandlordFormModel()
 
+        #TODO: Lỗi ở đây
         # Connect signals
-        self.view.save_clicked.connect(self.save_info)
-        self.view.cancel_clicked.connect(self.cancel)
+        #self.view.save_clicked.connect(self.save_info)
+        #self.view.cancel_clicked.connect(self.cancel)
 
         # Set gradient background for main window
         self.main_window.setStyleSheet("""
@@ -42,6 +47,11 @@ class UpdateInfoController:
         """Handle save button click"""
         # Get form data from view
         form_data = self.view.get_form_data()
+        print("[DEBUG] form_data:", form_data)
+
+        if not form_data:
+            print("[ERROR] Không lấy được form_data")
+            return
 
         # Update model with form data
         for key, value in form_data.items():
@@ -50,18 +60,19 @@ class UpdateInfoController:
 
         # Validate model
         if not self.model.validate():
+            print("[ERROR] Model validate failed")
             QMessageBox.warning(self.view, "Lỗi", "Vui lòng điền đầy đủ thông tin bắt buộc!")
             return
-
+        print("[DEBUG] Model validate passed")  # Thêm dòng này
         # Save data to database
         # TODO: Add database save code here
         if self.role == "Người thuê trọ":
             from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
-            LoginRepository.update_user_info(self.user_id, self.model.to_dict())
+            TenantRepository.update_user_info(self.user_id, self.model.to_dict())
         else:
-            from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LandlordRepository
-            LoginRepository.update_user_info(self.user_id, self.model.to_dict())
-
+            from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
+            LanlordRepository.update_user_info(self.user_id, self.model.to_dict())
+        print("[DEBUG] Đã lưu vào database thành công")  # Thêm dòng này
         # Show success message
         msg = QMessageBox(self.view)
         msg.setWindowTitle("Thành công")

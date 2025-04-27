@@ -57,10 +57,17 @@ class LoginService:
         if LoginRepository.create_new_user_name(user):
             user_id = LoginRepository.get_user(username)
             # Use the factory method instead of direct instantiation
-            UpdateInfoAfterRegister.create(
+            # Khi đăng ký thành công:
+            from QLNHATRO.RentalManagementApplication.controller.UpdateInfor.UpdateInfoController import \
+                UpdateInfoController
+
+            controller = UpdateInfoController(main_window, role, username, password, user_id)
+            controller.show()
+
+            '''UpdateInfoAfterRegister.create(
                 main_window=main_window,
                 role=role,
                 username=username,
                 password=password,
                 user_id = user_id
-            )
+            )'''

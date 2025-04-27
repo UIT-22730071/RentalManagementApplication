@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame, QMessageBox
 
 from QLNHATRO.RentalManagementApplication.controller.InvoiceController.InvoiceController import InvoiceController
 from QLNHATRO.RentalManagementApplication.frontend.Component.tableUI import TableUI
-from QLNHATRO.RentalManagementApplication.frontend.views.Invoices.InvoiceView import InvoiceView
 from QLNHATRO.RentalManagementApplication.frontend.views.Invoices.TenantInvoices import TenantInvoices
 
 

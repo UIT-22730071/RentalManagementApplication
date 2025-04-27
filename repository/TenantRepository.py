@@ -194,3 +194,8 @@ class TenantRepository:
         #TODO: tạo truy vấn lấy dữ liêu data trả về user_id
         user_id = '1'
         return user_id
+
+    @staticmethod
+    def update_user_info(user_id, data):
+        # TODO: Thực hiện truy vấn UPDATE SQL
+        print(f"[DB] Đã cập nhật user_id={user_id} với data={data}")

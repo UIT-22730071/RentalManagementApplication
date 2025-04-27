@@ -12,11 +12,14 @@ class UpdateInfoView(QWidget):
     save_clicked = pyqtSignal()
     cancel_clicked = pyqtSignal()
 
-    def __init__(self, role, username):
+    def __init__(self, role, username, save_callback=None, cancel_callback=None):
         super().__init__()
         self.role = role
         self.username = username
+        self.save_callback = save_callback
+        self.cancel_callback = cancel_callback
         self.initUI()
+
         print("role", role)
     def initUI(self):
         # Create main layout
@@ -130,7 +133,13 @@ class UpdateInfoView(QWidget):
             }
         """)
         self.btn_save.setCursor(Qt.CursorShape.PointingHandCursor)
-        self.btn_save.clicked.connect(lambda: self.save_clicked.emit())
+        # Save button
+        self.btn_save.clicked.connect(self.handle_save_clicked)
+
+
+
+
+        #self.btn_save.clicked.connect(lambda: self.save_clicked.emit())
 
         # Cancel button
         self.btn_cancel = QPushButton("❌ Hủy")
@@ -151,7 +160,9 @@ class UpdateInfoView(QWidget):
             }
         """)
         self.btn_cancel.setCursor(Qt.CursorShape.PointingHandCursor)
-        self.btn_cancel.clicked.connect(lambda: self.cancel_clicked.emit())
+        # Cancel button
+        self.btn_cancel.clicked.connect(self.handle_cancel_clicked)
+        #self.btn_cancel.clicked.connect(lambda: self.cancel_clicked.emit())
 
         # Add buttons to layout
         button_layout.addWidget(self.btn_save)
@@ -171,3 +182,11 @@ class UpdateInfoView(QWidget):
     def get_form_data(self):
         """Get form data from the form view"""
         return self.form.get_form_data()
+
+    def handle_save_clicked(self):
+        if self.save_callback:
+            self.save_callback()
+
+    def handle_cancel_clicked(self):
+        if self.cancel_callback:
+            self.cancel_callback()

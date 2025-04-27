@@ -2,6 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QLabel, QStackedWidget
 
 from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
+from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import LandlordController
 from QLNHATRO.RentalManagementApplication.controller.TenantController.TenantController import TenantController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
 from QLNHATRO.RentalManagementApplication.frontend.views.Tenant import FindNewRoom
@@ -66,7 +67,7 @@ class TenantMenu(QWidget):
 
         self.logout_btn = QPushButton("🚪 Đăng xuất")
         button_ui.apply_style(self.logout_btn)
-        self.logout_btn.clicked.connect(lambda: print("Clicked Logout"))
+        self.logout_btn.clicked.connect(lambda: LandlordController.handle_logout(self))
 
         self.exit_btn = QPushButton("❌ Thoát")
         button_ui.apply_style(self.exit_btn)

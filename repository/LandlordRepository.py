@@ -106,3 +106,7 @@ class LanlordRepository:
         # Ví dụ (giả lập):
         # UPDATE landlords SET field = value WHERE id = id_lanlord;
 
+    @staticmethod
+    def update_user_info(user_id, data):
+        # TODO: Thực hiện truy vấn UPDATE SQL
+        print(f"[DB] Đã cập nhật user_id={user_id} với data={data}")
