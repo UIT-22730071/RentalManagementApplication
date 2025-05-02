@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QLabel, QStackedWidget
+from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton
 
 from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
 from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import LandlordController
