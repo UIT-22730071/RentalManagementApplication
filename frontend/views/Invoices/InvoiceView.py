@@ -8,7 +8,6 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QFont
 
 from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import InvoiceRepository
-from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantMenu import TenantMenu
 from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
 
 

@@ -1,8 +1,7 @@
 from PyQt5.QtWidgets import QMessageBox
 
 from QLNHATRO.RentalManagementApplication.Repository.LoginRepository import LoginRepository
-from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.UpdateInfoAfterRegister import \
-    UpdateInfoAfterRegister
+
 
 
 class LoginService:
