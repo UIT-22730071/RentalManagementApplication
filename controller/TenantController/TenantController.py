@@ -1,3 +1,4 @@
+
 from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantHome import TenantHome
 
 from QLNHATRO.RentalManagementApplication.services.TenantService import TenantService
@@ -67,3 +68,18 @@ class TenantController:
             # If there's an error, create an empty invoice list view
             tenant_invoice_list = TenantListInvoices(view.main_window, None, id_tenant)
             view.set_right_frame(lambda *_: tenant_invoice_list)
+
+    @staticmethod
+    def go_to_tenant_find_new_room_page(view, id_tenant):
+        try:
+            # Gọi service lấy danh sách các phòng đang quảng cáo
+            advertised_rooms = TenantService.get_all_advertised_rooms()
+            print(f"[DEBUG] Số phòng quảng cáo: {len(advertised_rooms)}")
+            from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.FindNewRoom import FindNewRoom
+            find_new_room_page = FindNewRoom(view.main_window, advertised_rooms)
+            view.set_right_frame(lambda *_: find_new_room_page)
+
+        except Exception as e:
+            print(f"[ERROR] Lỗi khi lấy danh sách phòng quảng cáo: {e}")
+            from PyQt5.QtWidgets import QMessageBox
+            QMessageBox.critical(view, "Lỗi", "Không thể tải danh sách phòng quảng cáo.")

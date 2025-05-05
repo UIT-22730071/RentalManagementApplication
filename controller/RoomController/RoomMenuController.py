@@ -58,6 +58,22 @@ class RoomMenuController:
         # Chỉnh sửa hàm và call hàm thêm biến vào
         room_menu_instance.set_right_frame(RoomsInfor, main_window, room_id,data_room_infor)
 
+    def open_room_detail_popup_for_tenant(self, room_id):
+        try:
+            print(f"[DEBUG] Đang mở chi tiết phòng cho tenant với ID: {room_id}")
+            from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomInforFromTenantFindRoom import \
+                RoomsInforViewFromTenant
+            data_room_infor = RoomService.get_translated_room_info(room_id)
+
+            popup = RoomsInforViewFromTenant(room_id, data_room_infor)
+            popup.exec_()
+
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            from PyQt5.QtWidgets import QMessageBox
+            QMessageBox.critical(None, "Lỗi", f"Không thể hiển thị thông tin phòng: {str(e)}")
+
 
     def go_to_open_right_frame_room_home(self, room_menu_instance, main_window, room_id):
         # xử lý dữ liệu từ service
@@ -99,6 +115,7 @@ class RoomMenuController:
     @staticmethod
     def go_to_handel_data_for_create_room(id_lanlord, room_create_data):
         RoomService.handle_data_for_create_new_room(id_lanlord, room_create_data)
+
 
 
 

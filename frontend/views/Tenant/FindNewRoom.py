@@ -1,9 +1,10 @@
-from PyQt5.QtGui import QPixmap
+
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QScrollArea, QPushButton, QHBoxLayout,
     QFrame, QGridLayout, QMessageBox
 )
 from PyQt5.QtCore import Qt
+
 
 
 class FindNewRoom(QWidget):
@@ -109,6 +110,8 @@ class FindNewRoom(QWidget):
 
         # Room details grid
         details_grid = QGridLayout()
+        details_grid.setColumnStretch(0, 1)
+        details_grid.setColumnStretch(1, 3)
         details_grid.setHorizontalSpacing(20)
         details_grid.setVerticalSpacing(10)
 
@@ -117,6 +120,7 @@ class FindNewRoom(QWidget):
         address_label.setStyleSheet("font-weight: bold; color: #333;")
         address_value = QLabel(room.get('address', 'Chưa cập nhật'))
         address_value.setWordWrap(True)
+
         details_grid.addWidget(address_label, 0, 0)
         details_grid.addWidget(address_value, 0, 1)
 
@@ -169,10 +173,14 @@ class FindNewRoom(QWidget):
         room_id = room.get('id')
         if room_id:
             try:
-                #TODO: Đang xử lý
-                print("đang xử lý")
-                #RoomDetailController.show_room_detail(room_id, self.main_window)
+                print(f"[DEBUG] Đang mở chi tiết phòng với ID: {room_id}")
+                from QLNHATRO.RentalManagementApplication.controller.RoomController.RoomMenuController import \
+                    RoomMenuController
+                controller = RoomMenuController()
+                controller.open_room_detail_popup_for_tenant(room_id)
             except Exception as e:
+                import traceback
+                traceback.print_exc()
                 QMessageBox.critical(self, "Lỗi", f"Không thể hiển thị thông tin phòng: {str(e)}")
         else:
             QMessageBox.warning(self, "Thông báo", "Không tìm thấy thông tin phòng!")

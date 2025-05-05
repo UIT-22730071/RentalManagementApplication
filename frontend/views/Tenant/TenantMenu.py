@@ -59,7 +59,7 @@ class TenantMenu(QWidget):
 
         self.find_new_room = QPushButton("💰 Tìm phòng trọ")
         button_ui.apply_style(self.find_new_room)
-        self.find_new_room.clicked.connect(lambda: self.set_right_frame(FindNewRoom))
+        self.find_new_room.clicked.connect(lambda: TenantController.go_to_tenant_find_new_room_page(self,self.id_tenant))
 
         self.maintenance_btn = QPushButton("🔧 Yêu cầu sửa chữa")
         button_ui.apply_style(self.maintenance_btn)

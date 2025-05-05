@@ -8,9 +8,9 @@ class LoginRepository:
         print("getuser được gọi")
         # giả lập truy vấn cho ra kết quả
 
-        user = {'username': 'admin', 'password':'admin' ,'role': 'landlord','user_id': 1}
+        user_landlord = {'username': 'lanlord', 'password':'lanlord' ,'role': 'landlord','user_id': 1}
         user_tenant = {'username': 'tenant', 'password':'tenant' ,'role': 'tenant','user_id': 2}
-        print(" dã lấy được truy vấn" + user['username'] + user['password'] + user['role'])
+        print(" dã lấy được truy vấn" + user_landlord['username'] + user_landlord['password'] + user_landlord['role'])
 
         return user_tenant
 

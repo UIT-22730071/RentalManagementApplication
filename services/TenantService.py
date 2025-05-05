@@ -202,5 +202,8 @@ class TenantService:
         print(f"[SERVICE] Formatted invoices for tenant {id_tenant}: {formatted_invoices}")
         return formatted_invoices
 
-
+    @staticmethod
+    def get_all_advertised_rooms():
+        from QLNHATRO.RentalManagementApplication.Repository.AdvertisementRepository import AdvertisementRepository
+        return AdvertisementRepository.get_all_advertised_rooms()
 
