@@ -207,3 +207,16 @@ class TenantService:
         from QLNHATRO.RentalManagementApplication.Repository.AdvertisementRepository import AdvertisementRepository
         return AdvertisementRepository.get_all_advertised_rooms()
 
+
+    tenant_room_mapping = {
+        1: 101,
+        2: 102,
+        3: 103
+    }
+
+    @staticmethod
+    def get_room_id_by_tenant(tenant_id):
+        room_id = TenantService.tenant_room_mapping.get(tenant_id)
+        print(f"[DEBUG][Service] room_id của tenant {tenant_id} là {room_id}")
+        return room_id
+

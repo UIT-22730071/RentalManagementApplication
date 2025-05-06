@@ -5,8 +5,7 @@ from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import Ten
 from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import LandlordController
 from QLNHATRO.RentalManagementApplication.controller.TenantController.TenantController import TenantController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
-from QLNHATRO.RentalManagementApplication.frontend.views.Tenant import FindNewRoom
-from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantMaintenanceRequest import TenantMaintenanceRequest
+from QLNHATRO.RentalManagementApplication.frontend.views.Request.TenantMaintenanceRequest import TenantMaintenanceRequest
 
 
 class TenantMenu(QWidget):
@@ -63,7 +62,7 @@ class TenantMenu(QWidget):
 
         self.maintenance_btn = QPushButton("🔧 Yêu cầu sửa chữa")
         button_ui.apply_style(self.maintenance_btn)
-        self.maintenance_btn.clicked.connect(lambda: self.set_right_frame(TenantMaintenanceRequest))
+        self.maintenance_btn.clicked.connect(lambda: TenantController.go_to_tenant_maintenance_request(self, self.id_tenant))
 
         self.logout_btn = QPushButton("🚪 Đăng xuất")
         button_ui.apply_style(self.logout_btn)

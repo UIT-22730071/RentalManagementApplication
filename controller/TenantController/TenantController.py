@@ -83,3 +83,15 @@ class TenantController:
             print(f"[ERROR] Lỗi khi lấy danh sách phòng quảng cáo: {e}")
             from PyQt5.QtWidgets import QMessageBox
             QMessageBox.critical(view, "Lỗi", "Không thể tải danh sách phòng quảng cáo.")
+
+    @staticmethod
+    def submit_maintenance_request(request_data):
+        from QLNHATRO.RentalManagementApplication.services.MaintenanceService import MaintenanceService
+        MaintenanceService.create_request(**request_data)
+        print("[DEBUG] Gửi yêu cầu sửa chữa:", request_data)
+
+    @staticmethod
+    def go_to_tenant_maintenance_request(view, id_tenant):
+        from QLNHATRO.RentalManagementApplication.frontend.views.Request.TenantMaintenanceRequest import \
+            TenantMaintenanceRequest
+        view.set_right_frame(lambda *_: TenantMaintenanceRequest(view.main_window, id_tenant))
