@@ -1,3 +1,5 @@
+import shutil
+
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QTextEdit, QPushButton, QFileDialog,
     QHBoxLayout, QMessageBox, QGroupBox, QComboBox, QDateEdit, QLineEdit,
@@ -6,6 +8,10 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtGui import QPixmap, QFont, QIcon
 from PyQt5.QtCore import Qt, QDate
 import os
+
+from QLNHATRO.RentalManagementApplication.controller.ControllerMaintenance.ControllerMaintenance import \
+    ControllerMaintenance
+
 
 
 class TenantMaintenanceRequest(QWidget):
@@ -18,10 +24,10 @@ class TenantMaintenanceRequest(QWidget):
 
         # Thiết lập cửa sổ
         self.setWindowTitle("Yêu Cầu Sửa Chữa")
-        self.setMinimumSize(800, 600)
+        self.resize(1000, 800)  # giúp giao diện mở ra với kích thước hợp lý
         self.setStyleSheet("""
             QWidget { 
-                background-color: #FF7F7F; 
+                background-color: white; 
                 font-family: 'Segoe UI', Arial; 
             }
             QGroupBox {
@@ -35,6 +41,7 @@ class TenantMaintenanceRequest(QWidget):
                 subcontrol-origin: margin;
                 left: 10px;
                 padding: 0 5px;
+                background-color: #0A96F2;
             }
             QPushButton {
                 background-color: #3498db;
@@ -59,11 +66,11 @@ class TenantMaintenanceRequest(QWidget):
                 background-color: white;
             }
             QLabel#titleLabel {
-                font-size: 24px;
+                font-size: 28px;
                 font-weight: bold;
                 color: #2c3e50;
                 padding: 10px;
-                background-color: #f0f0f0;
+                background-color: 89CCF8;
                 border-radius: 5px;
             }
             QLabel#infoLabel {
@@ -122,6 +129,8 @@ class TenantMaintenanceRequest(QWidget):
         # --- Nội dung chính ---
         content_frame = QFrame()
         content_frame.setObjectName("contentFrame")
+        content_frame.setMinimumHeight(450)
+        content_frame.setMaximumHeight(650)
         content_layout = QGridLayout(content_frame)
 
         # --- Cột trái - Mô tả chi tiết sự cố ---
@@ -130,7 +139,9 @@ class TenantMaintenanceRequest(QWidget):
         # Label mô tả
         desc_label = QLabel("📝 Mô tả chi tiết sự cố")
         desc_label.setObjectName("sectionLabel")
+        desc_label.setFixedHeight(35)
         content_layout.addWidget(desc_label, 0, left_col)
+
 
         # Loại sự cố
         issue_type_label = QLabel("Loại sự cố:")
@@ -152,6 +163,7 @@ class TenantMaintenanceRequest(QWidget):
 
         # Mức độ khẩn cấp
         urgency_label = QLabel("Mức độ khẩn cấp:")
+        urgency_label.setFixedHeight(35)
         content_layout.addWidget(urgency_label, 3, left_col)
 
         self.urgency_combo = QComboBox()
@@ -164,12 +176,14 @@ class TenantMaintenanceRequest(QWidget):
 
         # Chi tiết sự cố
         detail_label = QLabel("Chi tiết sự cố:")
+        detail_label.setFixedHeight(35)
         content_layout.addWidget(detail_label, 5, left_col)
 
         self.description_edit = QTextEdit()
         self.description_edit.setPlaceholderText(
             "Mô tả chi tiết về sự cố trong phòng...\nVị trí chính xác, thời điểm phát hiện, ảnh hưởng đến sinh hoạt...")
         self.description_edit.setMinimumHeight(200)
+        self.description_edit.setFixedHeight(100)
         content_layout.addWidget(self.description_edit, 6, left_col)
 
         # --- Cột phải - Thông tin bổ sung ---
@@ -191,10 +205,12 @@ class TenantMaintenanceRequest(QWidget):
         img_label.setObjectName("sectionLabel")
         content_layout.addWidget(img_label, 2, right_col)
 
+
+
         self.image_label = QLabel("Chưa có ảnh được chọn")
         self.image_label.setObjectName("imagePreview")
         self.image_label.setAlignment(Qt.AlignCenter)
-        self.image_label.setMinimumHeight(120)
+        self.image_label.setFixedHeight(120)
         content_layout.addWidget(self.image_label, 3, right_col)
 
         self.upload_btn = QPushButton("🖼️ Chọn ảnh")
@@ -250,22 +266,24 @@ class TenantMaintenanceRequest(QWidget):
         self.setLayout(main_layout)
 
     def add_maintenance_history(self):
-        # Hàm này sẽ tải lịch sử yêu cầu sửa chữa của phòng hiện tại
-        # Tạm thời sử dụng dữ liệu giả
-        self.maintenance_history = [
-            {
-                "id": 1,
-                "description": "Vòi nước bị rỉ",
-                "status": "Đã hoàn thành",
-                "date": "01/04/2025"
-            },
-            {
-                "id": 2,
-                "description": "Đèn phòng tắm không sáng",
-                "status": "Đang xử lý",
-                "date": "20/04/2025"
-            }
-        ]
+        from QLNHATRO.RentalManagementApplication.services.MaintenanceService import MaintenanceService
+        try:
+            # Truy xuất danh sách yêu cầu sửa chữa từ Service
+            all_requests = MaintenanceService.get_requests_by_room_id(self.room_id)
+
+            # Chuyển đổi sang định dạng bạn đang dùng hiển thị
+            self.maintenance_history = []
+            for idx, req in enumerate(all_requests, 1):
+                self.maintenance_history.append({
+                    "id": idx,
+                    "description": req["description"],
+                    "status": req["status"],
+                    "date": req.get("date", "N/A")  # Có thể cập nhật thêm nếu có trường ngày
+                })
+
+        except Exception as e:
+            print(f"[LỖI] Không thể truy xuất lịch sử sửa chữa: {e}")
+            self.maintenance_history = []
 
     def create_maintenance_history(self):
         # Tạo một frame chứa lịch sử
@@ -336,16 +354,17 @@ class TenantMaintenanceRequest(QWidget):
         )
 
         if file_path:
-            self.image_path = file_path
-            # Hiển thị ảnh thu nhỏ
-            pixmap = QPixmap(file_path)
+            save_path = ControllerMaintenance.save_uploaded_image(file_path)
+            self.image_path = save_path
+
+            pixmap = QPixmap(save_path)
             if not pixmap.isNull():
                 pixmap = pixmap.scaled(300, 200, Qt.KeepAspectRatio, Qt.SmoothTransformation)
                 self.image_label.setPixmap(pixmap)
-                self.image_label.setToolTip(file_path)
+                self.image_label.setToolTip(save_path)
             else:
-                file_name = os.path.basename(file_path)
-                self.image_label.setText(f"Đã chọn: {file_name}")
+                filename = os.path.basename(file_path)
+                self.image_label.setText(f"Đã chọn: {filename}")
 
     def submit_request(self):
         # Lấy thông tin từ form
@@ -389,15 +408,14 @@ class TenantMaintenanceRequest(QWidget):
 
         # Gửi dữ liệu cho controller/service
         try:
-            from QLNHATRO.RentalManagementApplication.controller.TenantController.TenantController import \
-                TenantController
-            TenantController.submit_maintenance_request(request_data)
+            success, message = ControllerMaintenance.handle_maintenance_submission(request_data)
 
-            QMessageBox.information(
-                self,
-                "Đã gửi",
-                "Yêu cầu sửa chữa đã được gửi đến chủ trọ.\nBạn sẽ nhận được phản hồi trong thời gian sớm nhất."
-            )
+            if success:
+                QMessageBox.information(self, "Đã gửi", message)
+                self.add_maintenance_history()
+                self.reset_form()
+            else:
+                QMessageBox.critical(self, "Lỗi", message)
 
             # Cập nhật lịch sử yêu cầu sau khi gửi thành công
             self.add_maintenance_history()
@@ -420,11 +438,12 @@ class TenantMaintenanceRequest(QWidget):
         self.contact_phone.clear()
         self.available_time.clear()
 
+    # Gợi ý sửa:
+    from QLNHATRO.RentalManagementApplication.controller.TenantController import TenantController
+
     def get_room_id_for_tenant(self, tenant_id):
-        # Trong thực tế, hàm này sẽ truy vấn cơ sở dữ liệu để lấy thông tin phòng
+        from QLNHATRO.RentalManagementApplication.controller.TenantController.TenantController import TenantController
         try:
-            from QLNHATRO.RentalManagementApplication.services.TenantService import TenantService
-            return TenantService.get_room_id_by_tenant(tenant_id)
+            return TenantController.get_room_id_by_tenant(tenant_id)
         except Exception:
-            # Trường hợp không kết nối được, trả về giá trị mặc định
             return "N/A"

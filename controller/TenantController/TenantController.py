@@ -95,3 +95,7 @@ class TenantController:
         from QLNHATRO.RentalManagementApplication.frontend.views.Request.TenantMaintenanceRequest import \
             TenantMaintenanceRequest
         view.set_right_frame(lambda *_: TenantMaintenanceRequest(view.main_window, id_tenant))
+
+    @staticmethod
+    def get_room_id_by_tenant(tenant_id):
+        return TenantService.get_room_id_by_tenant(tenant_id)

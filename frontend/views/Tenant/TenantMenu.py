@@ -70,7 +70,7 @@ class TenantMenu(QWidget):
 
         self.exit_btn = QPushButton("❌ Thoát")
         button_ui.apply_style(self.exit_btn)
-        self.exit_btn.clicked.connect(lambda: self.main_window.go_to_exs(self.main_window))
+        self.exit_btn.clicked.connect(LandlordController.handle_exit)
 
         # Add buttons to layout
         left_layout.addWidget(self.home_btn)

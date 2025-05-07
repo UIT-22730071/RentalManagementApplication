@@ -48,18 +48,18 @@ class LandlordController:
         invoice_list_view = ListInvoices(view.main_window, invoice_list, id_lanlord)
         view.set_right_frame(lambda *_: invoice_list_view)
 
-
     @staticmethod
     def handle_logout(view):
         """Quay về màn hình đăng nhập"""
+        from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.HomeLogin import LoginWindow
         print("[INFO] Đăng xuất khỏi dashboard landlord...")
         main_window = view.main_window
-        login_window = MainWindow()
-        main_window.setCentralWidget(login_window)
-
+        main_window.switch_to_page(LoginWindow)
+        main_window.resize(800, 620)  # hoặc bất kỳ kích thước mặc định nào bạn muốn
+        main_window.setMinimumSize(820,620)
+        main_window.setStyleSheet("background-color: #202020;")
 
     @staticmethod
-    def handle_exit(view):
-        """Đóng toàn bộ chương trình"""
+    def handle_exit():
         print("[INFO] Đóng ứng dụng")
         QApplication.quit()

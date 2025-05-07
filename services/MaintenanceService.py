@@ -8,3 +8,7 @@ class MaintenanceService:
         request = MaintenanceRequest(room_id, tenant_id, description, image_path)
         MaintenanceRepository.save_request(request)
         return request
+
+    @staticmethod
+    def get_requests_by_room_id(room_id):
+        return MaintenanceRepository.get_requests_by_room_id(room_id)
