@@ -20,7 +20,7 @@ class FindNewTenant(QWidget):
         layout_main.addWidget(scroll)
 
         container = QWidget()
-        container.setStyleSheet("background-color: #EAF9F6; border-radius: 20px; padding: 32px;")
+        container.setStyleSheet("background-color: white; border-radius: 20px; padding: 32px;")
         scroll.setWidget(container)
 
         layout = QVBoxLayout(container)

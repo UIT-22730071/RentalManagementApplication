@@ -12,7 +12,7 @@ class LoginRepository:
         user_tenant = {'username': 'tenant', 'password':'tenant' ,'role': 'tenant','user_id': 2}
         print(" dã lấy được truy vấn" + user_landlord['username'] + user_landlord['password'] + user_landlord['role'])
 
-        return user_tenant
+        return user_landlord
 
     @staticmethod
     def get_role_from_username(username):

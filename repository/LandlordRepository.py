@@ -7,6 +7,7 @@ class LanlordRepository:
     def get_landlord_data_for_invoice_view(id_lanlord):
         # TODO: Tao truy vấn SLQ select * from landlords where id
         landlord_data = {
+            'id_lanlord':1,
             'name': 'Chưa có dữ liệu',
             'cccd': 'Đang cập nhật',
             'address': 'Khu Phố 6, Phường Linh Trung, Thành phố Thủ Đức, TP Hồ Chí Minh',
@@ -110,3 +111,9 @@ class LanlordRepository:
     def update_user_info(user_id, data):
         # TODO: Thực hiện truy vấn UPDATE SQL
         print(f"[DB] Đã cập nhật user_id={user_id} với data={data}")
+
+    @staticmethod
+    def get_user_id_lanlord_from_lanlord_id(lanlord_id):
+        #TODO: truy Vấn SQL thực thi lệnh và trả về user id
+        user_id = 1
+        return user_id

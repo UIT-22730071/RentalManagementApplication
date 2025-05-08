@@ -8,6 +8,7 @@ from PyQt5.QtCore import Qt, pyqtSignal
 from PyQt5.QtGui import QFont
 
 from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import InvoiceRepository
+from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
 from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
 
 
@@ -22,6 +23,7 @@ class InvoiceView(QWidget):
         super().__init__()
         self.main_window = main_window
         self.id_lanlord = InvoiceRepository.get_id_lanlord_from_id_invoice(invoice_data['invoice_id'])
+        self.user_id = LanlordRepository.get_user_id_lanlord_from_lanlord_id(landlord_data['id_lanlord'])
         # Set default data if not provided
         #invoice_code viết hàm tạo mã số ngẫu hiên cho phần ký hiệu hóa đơn (string)
         # số hóa đơn lấy id hóa đơn (int)
@@ -736,15 +738,16 @@ class InvoiceView(QWidget):
         from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import \
             LandlordController
 
-        # Tạo lại dashboard chủ trọ
-        landlord_menu = LandlordMenu(main_window=self.main_window, id_lanlord=self.id_lanlord)
+        # ⚠️ Giải phóng central widget trước
+        old_widget = self.main_window.centralWidget()
+        if old_widget:
+            old_widget.setParent(None)
+            old_widget.deleteLater()
 
-        # Gọi hiển thị trang danh sách hóa đơn
+        # Tạo dashboard mới
+        landlord_menu = LandlordMenu(main_window=self.main_window, user_id=self.user_id)
         LandlordController.go_to_invoice_list(landlord_menu, self.id_lanlord)
-
-        # Quay lại dashboard
         self.main_window.setCentralWidget(landlord_menu)
-
 
 
 '''

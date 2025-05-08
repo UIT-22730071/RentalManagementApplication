@@ -5,7 +5,6 @@ from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import Ten
 from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import LandlordController
 from QLNHATRO.RentalManagementApplication.controller.TenantController.TenantController import TenantController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
-from QLNHATRO.RentalManagementApplication.frontend.views.Request.TenantMaintenanceRequest import TenantMaintenanceRequest
 
 
 class TenantMenu(QWidget):
