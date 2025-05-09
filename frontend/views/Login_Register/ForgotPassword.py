@@ -6,8 +6,9 @@ import sys
 
 
 class ForgotPasswordView(QWidget):
-    def __init__(self):
+    def __init__(self, on_success_callback=None):
         super().__init__()
+        self.on_success_callback = on_success_callback  # Gán callback
         self.setWindowTitle("Quên mật khẩu")
         self.setStyleSheet("background-color: white; border-radius: 40px;")
         self.setMinimumSize(800, 700)
@@ -63,7 +64,13 @@ class ForgotPasswordView(QWidget):
         not_received.setFont(QFont("Be Vietnam", 12))
         not_received.setStyleSheet("color: #202E66; font-style: italic;")
 
-        resend = QLabel("Gửi lại OTP")
+        resend = QPushButton("Gửi lại OTP")
+        resend.setFlat(True)
+        resend.setCursor(Qt.PointingHandCursor)
+        resend.setFont(QFont("Be Vietnam", 14, QFont.Bold))
+        resend.setStyleSheet("color: #2158B6; border: none; text-align: left;")
+        resend.clicked.connect(self.resend_otp)
+
         resend.setFont(QFont("Be Vietnam", 14, QFont.Bold))
         resend.setStyleSheet("color: #2158B6;")
 
@@ -117,10 +124,23 @@ class ForgotPasswordView(QWidget):
         selected_id = self.radio_group.checkedId()
         if selected_id == 1:
             print("✅ Gửi OTP đến SĐT")
+            if self.on_success_callback:
+                self.on_success_callback()
         elif selected_id == 2:
             print("✅ Gửi OTP đến Email")
+            if self.on_success_callback:
+                self.on_success_callback()
         else:
             print("⚠️ Vui lòng chọn 1 phương thức để nhận OTP")
+
+    def resend_otp(self):
+        selected_id = self.radio_group.checkedId()
+        if selected_id == 1:
+            print("🔄 Gửi lại OTP đến SĐT")
+        elif selected_id == 2:
+            print("🔄 Gửi lại OTP đến Email")
+        else:
+            print("⚠️ Vui lòng chọn phương thức để gửi lại OTP")
 
 
 if __name__ == "__main__":
