@@ -214,3 +214,12 @@ class InvoiceRepository:
         ]
 
         return invoices
+    # TODO Admin
+    ''' Phần này của Admin chưa cập nhật'''
+    @staticmethod
+    def count_paid_invoices():
+        pass
+
+    @staticmethod
+    def get_all_invoices():
+        pass

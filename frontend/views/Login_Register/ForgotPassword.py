@@ -84,7 +84,7 @@ class ForgotPasswordView(QWidget):
 
     def create_option_box(self, title, description, option_id):
         wrapper = QFrame()
-        wrapper.setStyleSheet("QFrame { background-color: white; border: 1px solid #F5D8D8; border-radius: 16px; }")
+        wrapper.setStyleSheet("QFrame { background-color: white; border-radius: 16px; }")
         wrapper.setFixedHeight(100)
         wrapper.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 

@@ -1,0 +1,62 @@
+from PyQt5.QtWidgets import QApplication
+
+from QLNHATRO.RentalManagementApplication.frontend.views.Admin.UserManagerView import AdminUserManagement
+from QLNHATRO.RentalManagementApplication.services.AdminService import AdminService
+from QLNHATRO.TestErrorUI.MainWindowLogin import MainWindow
+
+
+class AdminController:
+    @staticmethod
+    def go_to_home(view):
+        from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminHomePage import AdminHome
+        from QLNHATRO.RentalManagementApplication.services.AdminService import AdminService
+
+        summary_data = AdminService.get_summary_dashboard_data()
+        view.set_right_frame(lambda: AdminHome(view.main_window, summary_data))
+
+    @staticmethod
+    def go_to_user_management(view):
+
+        user_list = AdminService.get_all_users()  # Tạm thời có thể mock
+        view.set_right_frame(lambda: AdminUserManagement(view.main_window, user_list))
+
+    @staticmethod
+    def go_to_landlord_list(view):
+        from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminLandlordList import AdminLandlordList
+        # Tạm thời dùng mock data; sau này sẽ gọi từ AdminService
+        landlord_list = AdminService.get_all_landlords()
+        view.set_right_frame(lambda: AdminLandlordList(view.main_window, landlord_list))
+
+    @staticmethod
+    def go_to_tenant_list(view):
+        from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminTenantList import AdminTenantList
+        tenant_list = AdminService.get_all_tenants()  # Hoặc dữ liệu giả lập
+        view.set_right_frame(lambda: AdminTenantList(view.main_window, tenant_list))
+
+    @staticmethod
+    def go_to_room_list(view):
+        from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminRoomList import AdminRoomList
+        room_list = AdminService.get_all_rooms()  # Dữ liệu thật hoặc giả lập
+        view.set_right_frame(lambda: AdminRoomList(view.main_window, room_list))
+
+    @staticmethod
+    def go_to_invoice_list(view):
+        print("[INFO] Điều hướng đến Danh sách hóa đơn")
+
+        from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminInvoiceList import AdminInvoiceList
+        from QLNHATRO.RentalManagementApplication.services.AdminService import AdminService
+        invoice_list = AdminService.get_all_invoices_for_admin()
+
+        view.set_right_frame(lambda: AdminInvoiceList(view.main_window,invoice_list))
+
+    @staticmethod
+    def handle_logout(view):
+        print("[INFO] Đăng xuất khỏi dashboard admin...")
+        main_window = view.main_window
+        login_window = MainWindow()
+        main_window.setCentralWidget(login_window)
+
+    @staticmethod
+    def handle_exit(view):
+        print("[INFO] Đóng ứng dụng")
+        QApplication.quit()
