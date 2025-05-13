@@ -1,0 +1,31 @@
+# Sign in ==> tạo tên tài khoản mật khẩu ==> OK
+# Sign up ==> chọn role: Chủ trọ hoặc Người thuê trọ
+==> Đăng ký ==> Cập nhật thông tin theo role
+==> Bấm lưu thông tin ==> Nạp dữ liệu lên database
+
+==> Muốn tạo FindNewRoom cần:
+        Định nghĩa: Page được người thuê trọ tìm kiếm các thông tin phòng đang được quản cáo
+        Cần: Các thông tin từ page quản cáo của chủ trọ
+
+        ==> xử lý page quản cáo ==> nạp dữ liệu ==> xuất dữ liệu sau đó quay lại xử lý FindNewRoom
+
+TODO: Yêu caauf sưa chữa
+Forgot password
+Đăng xuất
+đồng bộ các luồng hiển thị dữ liệu
+Admin dashboard ==>
+    Quyền truy cập chủ trọ
+    Quyền truy cập người thuê trọ
+    Dashboad hiển thị thông tin
+Analyst dữ liệu
+
+------------------------
+TODO:
+class AdminRepository:
+    get_all_users ==> Tạo truy xuất dữ liệu database
+
+--------------------------
+''' UI '''
+Đồng bộ UI toàn bộ App
+Dùng figma vẽ lại
+Lập bảng màu

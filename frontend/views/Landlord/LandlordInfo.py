@@ -93,22 +93,22 @@ class LandlordInfo(QWidget):
                 content_layout.addWidget(group)
 
         # ➕ Thêm phần mật khẩu riêng
-        password_group = QGroupBox()
-        password_layout = QHBoxLayout()
+        #password_group = QGroupBox()
+        #password_layout = QHBoxLayout()
 
-        password_label = QLabel("Mật khẩu:")
-        password_label.setStyleSheet("font-size: 16px; min-width: 140px;")
-        password_ui = LabelUI("**********")
+        #password_label = QLabel("Mật khẩu:")
+        #password_label.setStyleSheet("font-size: 16px; min-width: 140px;")
+        #password_ui = LabelUI("**********")
 
-        change_pass_btn = QPushButton("Đổi mật khẩu")
-        change_pass_btn.clicked.connect(self.open_change_password_dialog)
+        #change_pass_btn = QPushButton("Đổi mật khẩu")
+        #change_pass_btn.clicked.connect(self.open_change_password_dialog)
 
-        password_layout.addWidget(password_label)
-        password_layout.addWidget(password_ui, stretch=1)
-        password_layout.addWidget(change_pass_btn)
-        password_group.setLayout(password_layout)
+        #password_layout.addWidget(password_label)
+        #password_layout.addWidget(password_ui, stretch=1)
+        #password_layout.addWidget(change_pass_btn)
+        #password_group.setLayout(password_layout)
 
-        content_layout.addWidget(password_group)
+        #content_layout.addWidget(password_group)
 
         content_widget.setLayout(content_layout)
         scroll_area.setWidget(content_widget)

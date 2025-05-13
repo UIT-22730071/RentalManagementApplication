@@ -7,7 +7,9 @@ class AdminService:
     @staticmethod
     def get_all_users():
         """Trả về danh sách tài khoản người dùng (admin, chủ trọ, người thuê)"""
-        return AdminRepository.get_all_users()
+        ''' Tài khoản admin tạo cố định không cho cập nhật hay update'''
+        raw_data = AdminRepository.get_all_users()
+        return raw_data
 
     @staticmethod
     def get_all_landlords():

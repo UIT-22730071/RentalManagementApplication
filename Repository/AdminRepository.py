@@ -1,14 +1,17 @@
 class AdminRepository:
     @staticmethod
     def get_all_users():
+        #TODO: Tạo SQL truy xuất Database
+        ''' Tài khoản admin tạo cố định không cho cập nhật hay update'''
         return [
             {"stt": 1, "username": "admin", "role": "admin", "status": "Active"},
-            {"stt": 2, "username": "landlord01", "role": "chutro", "status": "Active"},
-            {"stt": 3, "username": "tenant01", "role": "nguoithue", "status": "Inactive"}
+            {"stt": 2, "username": "landlord01", "role": "Chủ trọ", "status": "Active"},
+            {"stt": 3, "username": "tenant01", "role": "Người thuê trọ", "status": "Inactive"}
         ]
 
     @staticmethod
     def get_all_landlords():
+        # TODO: Tạo SQL truy xuất Database
         return [
             {"name": "Nguyễn Văn A", "cccd": "123456789012", "phone": "0901234567", "email": "vana@example.com",
              "so_phong": 5},
@@ -18,6 +21,7 @@ class AdminRepository:
 
     @staticmethod
     def get_all_tenants():
+        # TODO: Tạo SQL truy xuất Database
         return [
             {"name": "Lê Thị C", "cccd": "012345678900", "phone": "0934567890", "email": "letc@example.com",
              "ngay_thue": "01/01/2024"},
@@ -27,6 +31,7 @@ class AdminRepository:
 
     @staticmethod
     def get_all_rooms():
+        # TODO: Tạo SQL truy xuất Database
         return [
             {
                 "room_name": "Phòng A1",
@@ -46,12 +51,15 @@ class AdminRepository:
 
     @staticmethod
     def count_landlords():
+        # TODO: Tạo SQL truy xuất Database
         ...
 
     @staticmethod
     def count_tenants():
+        # TODO: Tạo SQL truy xuất Database
         ...
 
     @staticmethod
     def count_rooms():
+        # TODO: Tạo SQL truy xuất Database
         ...

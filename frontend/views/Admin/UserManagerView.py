@@ -1,6 +1,9 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame, QMessageBox, QPushButton, QTableWidgetItem
 
+
+
+from QLNHATRO.RentalManagementApplication.frontend.Component.ErrorDialog import ErrorDialog
 from QLNHATRO.RentalManagementApplication.frontend.Component.tableUI import TableUI
 
 
@@ -10,8 +13,8 @@ class AdminUserManagement(QWidget):
         self.main_window = main_window
         self.user_list = user_list or [
             {"stt": 1, "username": "admin", "role": "admin", "status": "Active"},
-            {"stt": 2, "username": "landlord01", "role": "chutro", "status": "Active"},
-            {"stt": 3, "username": "tenant01", "role": "nguoithue", "status": "Inactive"}
+            {"stt": 2, "username": "landlord01", "role": "Chủ trọ", "status": "Active"},
+            {"stt": 3, "username": "tenant01", "role": "Người thuê trọ", "status": "Inactive"}
         ]
 
         self.setStyleSheet("background-color: #ecf0f1;")
@@ -63,13 +66,40 @@ class AdminUserManagement(QWidget):
             btn_toggle.clicked.connect(lambda _, r=row: self.toggle_status(r))
             self.table.setCellWidget(row, 5, btn_toggle)
 
+
     def view_detail(self, row):
-        user = self.user_list[row]
-        QMessageBox.information(
-            self,
-            "Chi tiết người dùng",
-            f"👤 Username: {user['username']}\n🔐 Vai trò: {user['role']}\n📌 Trạng thái: {user['status']}"
-        )
+        try:
+            user = self.user_list[row]
+            role = user.get('role')
+            username = user.get('username')
+            print(f"🔍 Kiểm tra role: {role}, username: {username}")
+
+            if not role or not username:
+                ErrorDialog.show_error("Không tìm thấy thông tin người dùng hợp lệ.", self)
+                return
+
+            if role == 'Chủ trọ':
+                from QLNHATRO.RentalManagementApplication.controller.AdminController.AdminController import \
+                    AdminController
+                AdminController.go_to_open_infor_lanlord(username)
+            elif role == 'Người thuê trọ':
+                from QLNHATRO.RentalManagementApplication.controller.AdminController.AdminController import \
+                    AdminController
+                AdminController.go_to_infor_tenant(username)
+            elif role == 'admin':
+                from QLNHATRO.RentalManagementApplication.controller.AdminController.AdminController import \
+                    AdminController
+                #AdminController.go_to_infor_admin(username)
+                pass
+            else:
+                ErrorDialog.show_error(f"Không nhận diện được quyền truy cập: {role}", self)
+
+        except IndexError:
+            ErrorDialog.show_error("Vui lòng chọn một dòng hợp lệ.", self)
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            ErrorDialog.show_error(f"Đã xảy ra lỗi: {str(e)}", self)
 
     def toggle_status(self, row):
         user = self.user_list[row]

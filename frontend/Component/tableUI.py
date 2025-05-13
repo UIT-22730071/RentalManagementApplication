@@ -3,6 +3,9 @@
 from PyQt5.QtWidgets import QTableWidget, QHeaderView, QTableWidgetItem, QPushButton
 from PyQt5.QtCore import Qt
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
+
 class TableUI(QTableWidget):
     def __init__(self, column_labels: list[str], row_count=10, parent=None):
         super().__init__(parent)
@@ -18,46 +21,51 @@ class TableUI(QTableWidget):
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.setShowGrid(True)
 
-        # Style đồng bộ với RoomList
-        self.setStyleSheet("""
-            QTableWidget {
-                background-color: #34495e;
-                gridline-color: #ecf0f1;
-                color: white;
+        self.verticalHeader().setDefaultSectionSize(40)
+
+        # Style mới từ GlobalStyle
+        self.setStyleSheet(f"""
+            QTableWidget {{
+                background-color: {GlobalStyle.MAIN_BG};
+                color: {GlobalStyle.TEXT_COLOR};
                 font-size: 14px;
-                border: 2px solid #d35400;
+                font-family: 'Inter', sans-serif;
+                border: 1px solid #EBEBF0;
                 border-radius: 8px;
-            }
+                gridline-color: #EBEBF0;
+            }}
 
-            QHeaderView::section {
-                background-color: #FFA07A;
-                color: white;
-                font-weight: bold;
-                padding: 6px;
-                min-height: 30px;
-                border-radius: 2px;
-                border: 1px solid #d35400;
-            }
+            QHeaderView::section {{
+                background-color: {GlobalStyle.TABLE_HEADER_BG};
+                color: {GlobalStyle.TABLE_TEXT_COLOR};
+                font-size: 14px;
+                font-weight: 400;
+                font-family: 'Inter', sans-serif;
+                padding: 8px;
+                border: none;
+            }}
 
-            QTableWidget::item {
+            QTableWidget::item {{
                 padding: 5px;
-            }
+            }}
 
-            QTableWidget::item:selected {
-                background-color: #4AA1C6;
-                color: black;
-            }
+            QTableWidget::item:selected {{
+                background-color: #DDEEFF;
+                color: #202E66;
+            }}
 
-            QPushButton {
-                background-color: #203BEC;
+            QPushButton {{
+                background-color: {GlobalStyle.PRIMARY_COLOR};
                 color: white;
-                padding: 5px 10px;
+                padding: 6px 12px;
                 border-radius: 8px;
-            }
+                font-size: 14px;
+                font-family: 'Be Vietnam', sans-serif;
+            }}
 
-            QPushButton:hover {
-                background-color: #0056b3;
-            }
+            QPushButton:hover {{
+                background-color: #1D4DA5;
+            }}
         """)
 
     def populate(
@@ -85,5 +93,3 @@ class TableUI(QTableWidget):
                 if button_callback:
                     btn.clicked.connect(lambda _, r=row: button_callback(r))
                 self.setCellWidget(row, self.columnCount() - 1, btn)
-
-
