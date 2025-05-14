@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame, QMessageBox
 
 from QLNHATRO.RentalManagementApplication.controller.InvoiceController.InvoiceController import InvoiceController
 from QLNHATRO.RentalManagementApplication.frontend.Component.tableUI import TableUI
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.Invoices.InvoiceView import InvoiceView
 
 
@@ -27,7 +28,14 @@ class AdminInvoiceList(QWidget):
             }]
 
         main_layout = QVBoxLayout()
-        self.setStyleSheet("background-color: #ecf0f1;")
+        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
+            QWidget {
+                background-color: #F7F9FC;
+            }
+            QLabel {
+                color: #202E66;
+            }
+        """)
 
         title = QLabel("📄 TẤT CẢ HÓA ĐƠN HỆ THỐNG")
         title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 10px;")

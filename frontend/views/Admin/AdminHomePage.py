@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QSizePolicy
 from PyQt5.QtCore import Qt
 from QLNHATRO.RentalManagementApplication.frontend.Component.DashboardCard import DashboardCard
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
 
 class AdminHome(QWidget):
     def __init__(self, main_window=None, summary_data=None, chart=None):
@@ -14,13 +16,24 @@ class AdminHome(QWidget):
         }
         self.chart = chart
 
-        self.setStyleSheet("background-color: #2c3e50; border-radius: 15px; padding: 20px;")
+        # ✅ Áp dụng GlobalStyle
+        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
+            QWidget {
+                background-color: #f7f9fc;
+                border-radius: 15px;
+                padding: 20px;
+            }
+            QLabel {
+                color: #202E66;
+            }
+        """)
+
         main_layout = QVBoxLayout()
         main_layout.setAlignment(Qt.AlignTop)
 
         # Tiêu đề chính
         title = QLabel("📊 THỐNG KÊ HỆ THỐNG")
-        title.setStyleSheet("font-size: 24px; font-weight: bold; color: white;")
+        title.setStyleSheet("font-size: 24px; font-weight: bold;")
         title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(title)
 

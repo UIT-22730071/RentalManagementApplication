@@ -2,11 +2,14 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QSizePoli
 from PyQt5.QtCore import Qt
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.DashboardCard import DashboardCard
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class LandlordHome(QWidget):
     def __init__(self, main_window=None, id_lanlord=None, information_data=None,chart = None):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
+
         if information_data is None:
             information_data = {
                 "total_income": str(0)+" VNĐ",
@@ -29,11 +32,12 @@ class LandlordHome(QWidget):
 
         main_layout = QVBoxLayout()
         main_layout.setAlignment(Qt.AlignTop)
-        self.setStyleSheet("background-color: #2c3e50; border-radius: 15px; padding: 20px;")
+        #self.setStyleSheet("background-color: #2c3e50; border-radius: 15px; padding: 20px;")
 
         # Tiêu đề chính
         title = QLabel("📊 THỐNG KÊ TỔNG QUAN")
-        title.setStyleSheet("font-size: 24px; font-weight: bold; color: white;")
+        #title.setStyleSheet("font-size: 24px; font-weight: bold; color: white;")
+        title.setObjectName("Title")  # áp dụng style từ QLabel#Title
         title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(title)
 
@@ -50,6 +54,7 @@ class LandlordHome(QWidget):
 
         chart_placeholder.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(chart_placeholder)
+
         '''
         from QLNHATRO.RentalManagementApplication.backend.Analyst import ChartWidget
         # Thay thế Placeholder bằng biểu đồ thực tế

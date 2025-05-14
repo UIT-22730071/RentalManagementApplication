@@ -5,12 +5,13 @@ from PyQt5.QtWidgets import (
 
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.tableUI import TableUI
-
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class RoomList(QWidget):
     def __init__(self, main_window,room_list,id_lanlord):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
         self.id_lanlord = id_lanlord
         self.id_room = None
@@ -27,24 +28,19 @@ class RoomList(QWidget):
 
         # Layout chính
         main_layout = QVBoxLayout()
-        self.setStyleSheet("background-color: #ecf0f1;")
+        #self.setStyleSheet("background-color: #ecf0f1;")
         # Tiêu đề
         title = QLabel("🏠 Danh sách phòng trọ")
-        title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 10px;")
+        #title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 10px;")
+        title.setObjectName("Title")
         title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(title)
 
         # Tạo khung chứa bảng (bo tròn + bóng đổ)
         frame = QFrame()
-        frame.setStyleSheet("""
-                    QFrame {
-                        background-color: white;
-                        border-radius: 12px;
-                        border: 1px solid #dcdcdc;
-                        padding: 10px;
-                        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-                    }
-                """)
+        frame.setObjectName("tableCard")
+
+
         #frame_layout = QVBoxLayout(frame)
 
 

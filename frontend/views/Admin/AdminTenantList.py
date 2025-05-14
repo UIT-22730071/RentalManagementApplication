@@ -2,6 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame, QMessageBox
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.tableUI import TableUI
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class AdminTenantList(QWidget):
@@ -27,7 +28,15 @@ class AdminTenantList(QWidget):
             }
         ]
 
-        self.setStyleSheet("background-color: #ecf0f1;")
+        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
+            QWidget {
+                background-color: #F7F9FC;
+            }
+            QLabel {
+                color: #202E66;
+            }
+        """)
+
         main_layout = QVBoxLayout()
 
         title = QLabel("📋 Danh sách người thuê trọ")

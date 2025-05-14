@@ -9,6 +9,7 @@ from PyQt5.QtGui import QFont
 
 from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import InvoiceRepository
 from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
 
 
@@ -71,8 +72,11 @@ class InvoiceView(QWidget):
         self.setMinimumSize(800, 900)
 
         # Gradient background like RoomsInfor class
-        self.setStyleSheet(
-            "QWidget { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #FFDEE9, stop:1 #B5FFFC); }")
+        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
+            QWidget {
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #FFDEE9, stop:1 #B5FFFC);
+            }
+        """)
 
         main_layout = QVBoxLayout(self)
         # Create scroll area

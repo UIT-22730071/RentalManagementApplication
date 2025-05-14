@@ -3,6 +3,7 @@ from QLNHATRO.RentalManagementApplication.frontend.Component.DateTableUI import 
 from QLNHATRO.RentalManagementApplication.frontend.Component.GenderComboUI import GenderComboUI
 from QLNHATRO.RentalManagementApplication.frontend.Component.InputFieldUI import FormSection, InputFieldUI
 from QLNHATRO.RentalManagementApplication.frontend.Component.MaritalComboUI import MaritalComboUI
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class BaseUpdateFormView(QWidget):
@@ -50,7 +51,7 @@ class BaseUpdateFormView(QWidget):
         self.main_layout.addWidget(self.contact_section)
 
         # Set style for the form
-        self.setStyleSheet("""
+        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
             QWidget {
                 background-color: transparent;
             }

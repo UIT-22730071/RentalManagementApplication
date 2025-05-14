@@ -4,19 +4,21 @@ from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QPushButton
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
+
 class ContactDialog(QDialog):
     def __init__(self, phone_number):
         super().__init__()
         self.setWindowTitle("📞 Thông tin liên hệ")
         self.setFixedSize(350, 150)
-        self.setStyleSheet("""
+        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
             QDialog {
                 background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FFDEE9, stop:1 #B5FFFC);
                 border-radius: 12px;
             }
             QLabel {
                 font-size: 16px;
-                color: #2c3e50;
             }
             QPushButton {
                 background-color: #3498db;

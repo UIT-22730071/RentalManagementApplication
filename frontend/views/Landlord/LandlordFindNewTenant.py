@@ -6,13 +6,16 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
 
 class FindNewTenant(QWidget):
     def __init__(self, main_window, ds_phong=None):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
-        self.setStyleSheet(
-            "background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);")
+        #self.setStyleSheet(
+           # "background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);")
 
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -20,21 +23,23 @@ class FindNewTenant(QWidget):
         layout_main.addWidget(scroll)
 
         container = QWidget()
-        container.setStyleSheet("background-color: white; border-radius: 20px; padding: 32px;")
+        #container.setStyleSheet("background-color: white; border-radius: 20px; padding: 32px;")
         scroll.setWidget(container)
 
         layout = QVBoxLayout(container)
         layout.setSpacing(16)
 
         title = QLabel("📣 Đăng quảng cáo tìm người thuê mới")
-        title.setStyleSheet("font-size: 22px; font-weight: bold; color: #2c3e50;")
+        #title.setStyleSheet("font-size: 22px; font-weight: bold;")
+        title.setObjectName("Title")  # ✅ sẽ dùng style của QLabel#Title
+
         title.setAlignment(Qt.AlignCenter)
         layout.addWidget(title)
 
         # Chọn phòng
         layout_chonphong = QVBoxLayout()
         label_phong = QLabel("📄 Chọn phòng:")
-        label_phong.setStyleSheet("font-weight: bold; color: #333; font-size: 16px;")
+        #label_phong.setStyleSheet("font-weight: bold; color: #333; font-size: 16px;")
         self.combo_phong = QComboBox()
         self.combo_phong.addItems(ds_phong or ["Phòng A1", "Phòng B2"])
         self.combo_phong.setFixedHeight(34)
@@ -94,7 +99,7 @@ class FindNewTenant(QWidget):
         self.txt_gia_phong.setPlaceholderText("VD: 3,000,000 VNĐ/tháng")
         self.txt_gia_phong.setFixedHeight(34)
         self.txt_gia_phong.setFixedWidth(250)
-        self.txt_gia_phong.setStyleSheet(input_style)
+        #self.txt_gia_phong.setStyleSheet(input_style)
         form_layout.addRow(QLabel("💵 Giá phòng:"), self.txt_gia_phong)
 
         # Giá điện
@@ -102,7 +107,7 @@ class FindNewTenant(QWidget):
         self.txt_gia_dien.setPlaceholderText("VD: 3,500 VNĐ/kWh")
         self.txt_gia_dien.setFixedHeight(34)
         self.txt_gia_dien.setFixedWidth(250)
-        self.txt_gia_dien.setStyleSheet(input_style)
+        #self.txt_gia_dien.setStyleSheet(input_style)
         form_layout.addRow(QLabel("⚡ Giá điện:"), self.txt_gia_dien)
 
         # Giá nước
@@ -110,22 +115,22 @@ class FindNewTenant(QWidget):
         self.txt_gia_nuoc.setPlaceholderText("VD: 15,000 VNĐ/khối")
         self.txt_gia_nuoc.setFixedHeight(34)
         self.txt_gia_nuoc.setFixedWidth(250)
-        self.txt_gia_nuoc.setStyleSheet(input_style)
+        #self.txt_gia_nuoc.setStyleSheet(input_style)
         form_layout.addRow(QLabel("💧 Giá nước:"), self.txt_gia_nuoc)
 
         # Địa chỉ
         self.txt_dia_chi = QTextEdit()
         self.txt_dia_chi.setPlaceholderText("Địa chỉ chi tiết (số nhà, đường, phường, quận, thành phố)")
         self.txt_dia_chi.setFixedHeight(60)
-        self.txt_dia_chi.setStyleSheet("""
-            QTextEdit {
-                font-size: 16px;
-                border: 1.5px solid #ccc;
-                border-radius: 8px;
-                padding: 6px;
-                background-color: #DBF7F1;
-            }
-        """)
+        #self.txt_dia_chi.setStyleSheet("""
+           # QTextEdit {
+               # font-size: 16px;
+               # border: 1.5px solid #ccc;
+               # border-radius: 8px;
+               # padding: 6px;
+               # background-color: #DBF7F1;
+          #  }
+       # """)
         form_layout.addRow(QLabel("📍 Địa chỉ:"), self.txt_dia_chi)
 
         # Thiết lập style cho labels
@@ -141,18 +146,18 @@ class FindNewTenant(QWidget):
         # Mô tả
         layout_mota = QVBoxLayout()
         label_mota = QLabel("📝 Mô tả phòng:")
-        label_mota.setStyleSheet("font-weight: bold; color: #333; font-size: 16px;")
+        #label_mota.setStyleSheet("font-weight: bold; color: #333; font-size: 16px;")
         self.txt_mota = QTextEdit()
         self.txt_mota.setPlaceholderText("Mô tả ngắn gọn, hấp dẫn để thu hút người thuê...")
         self.txt_mota.setFixedHeight(100)
-        self.txt_mota.setStyleSheet("""
-            QTextEdit {
-                font-size: 16px;
-                border: 1.5px solid #ccc;
-                border-radius: 10px;
-                padding: 6px;
-            }
-        """)
+        #self.txt_mota.setStyleSheet("""
+           # QTextEdit {
+                #font-size: 16px;
+                #border: 1.5px solid #ccc;
+                #border-radius: 10px;
+                #padding: 6px;
+           # }
+        #""")
         layout_mota.addWidget(label_mota)
         layout_mota.addWidget(self.txt_mota)
         layout.addLayout(layout_mota)
@@ -160,7 +165,7 @@ class FindNewTenant(QWidget):
         # Tiện ích
         layout.addSpacing(10)
         tienich_title = QLabel("🛠️ Tiện ích có sẵn:")
-        tienich_title.setStyleSheet("font-weight: bold; color: #333; font-size: 16px;")
+        #tienich_title.setStyleSheet("font-weight: bold; color: #333; font-size: 16px;")
         layout.addWidget(tienich_title)
 
         # Tạo grid layout cho các tiện ích
@@ -180,6 +185,7 @@ class FindNewTenant(QWidget):
         row, col = 0, 0
         for item in tienich_items:
             checkbox = QCheckBox(item)
+            '''
             checkbox.setStyleSheet("""
                 QCheckBox {
                     font-size: 15px;
@@ -204,6 +210,7 @@ class FindNewTenant(QWidget):
                     background-color: white;
                 }
             """)
+            '''
             self.tienich_checks[item] = checkbox
             tienich_grid.addWidget(checkbox, row, col)
             col += 1
@@ -218,6 +225,9 @@ class FindNewTenant(QWidget):
         image_box = QVBoxLayout()
         image_box.setSpacing(8)
 
+
+        #TODO: cho phép up nhiều ảnh và ảnh lên sẽ đặt kế bên đối xứng
+
         # Label ảnh
         label_anh = QLabel("🖼️ Hình ảnh:")
         label_anh.setStyleSheet("font-weight: bold; color: #333; font-size: 16px;")
@@ -225,6 +235,7 @@ class FindNewTenant(QWidget):
 
         # Nút tải ảnh
         self.btn_upload = QPushButton("📷 Tải ảnh lên")
+        '''
         self.btn_upload.setStyleSheet("""
             padding: 6px 12px;
             font-size: 16px;
@@ -232,6 +243,7 @@ class FindNewTenant(QWidget):
             color: white;
             border-radius: 8px;
         """)
+        '''
         self.btn_upload.setFixedWidth(150)
         self.btn_upload.clicked.connect(self.upload_image)
         image_box.addWidget(self.btn_upload, alignment=Qt.AlignHCenter)
@@ -239,13 +251,13 @@ class FindNewTenant(QWidget):
         # Khu vực hiển thị ảnh
         self.preview_image = QLabel()
         self.preview_image.setFixedSize(240, 180)
-        self.preview_image.setStyleSheet("border: 1px solid #ccc; border-radius: 12px;")
+        #self.preview_image.setStyleSheet("border: 1px solid #ccc; border-radius: 12px;")
         self.preview_image.setAlignment(Qt.AlignCenter)
         image_box.addWidget(self.preview_image, alignment=Qt.AlignHCenter)
 
         # Đường dẫn
         self.label_anh_path = QLabel("Chưa chọn hình ảnh")
-        self.label_anh_path.setStyleSheet("font-size: 14px; color: #555;")
+        #self.label_anh_path.setStyleSheet("font-size: 14px; color: #555;")
         image_box.addWidget(self.label_anh_path, alignment=Qt.AlignHCenter)
 
         layout.addLayout(image_box)
@@ -253,7 +265,7 @@ class FindNewTenant(QWidget):
         # Ưu tiên
         layout.addSpacing(10)
         label_uu_tien = QLabel("💡 Ưu tiên đối tượng thuê:")
-        label_uu_tien.setStyleSheet("font-weight: bold; color: #333; font-size: 16px;")
+        #label_uu_tien.setStyleSheet("font-weight: bold; color: #333; font-size: 16px;")
         self.check_sv = QCheckBox("🎓 Sinh viên")
         self.check_sv.setFixedWidth(250)
         self.check_nu = QCheckBox("😊 Nữ")
@@ -298,7 +310,7 @@ class FindNewTenant(QWidget):
         # Thông tin liên hệ
         layout.addSpacing(10)
         contact_title = QLabel("📞 Thông tin liên hệ:")
-        contact_title.setStyleSheet("font-weight: bold; color: #333; font-size: 16px;")
+        #contact_title.setStyleSheet("font-weight: bold; color: #333; font-size: 16px;")
         layout.addWidget(contact_title)
 
 
@@ -312,7 +324,7 @@ class FindNewTenant(QWidget):
         self.txt_contact_name = QLineEdit()
         self.txt_contact_name.setPlaceholderText("Họ và tên người liên hệ")
         self.txt_contact_name.setFixedHeight(34)
-        self.txt_contact_name.setStyleSheet(input_style)
+        #self.txt_contact_name.setStyleSheet(input_style)
         label_contact_name = QLabel("👤 Tên liên hệ:")
         label_contact_name.setStyleSheet(label_style)
         contact_form.addRow(label_contact_name, self.txt_contact_name)
@@ -321,7 +333,7 @@ class FindNewTenant(QWidget):
         self.txt_contact_phone = QLineEdit()
         self.txt_contact_phone.setPlaceholderText("Số điện thoại liên hệ")
         self.txt_contact_phone.setFixedHeight(34)
-        self.txt_contact_phone.setStyleSheet(input_style)
+        #self.txt_contact_phone.setStyleSheet(input_style)
         label_contact_phone = QLabel("📱 Điện thoại:")
         label_contact_phone.setStyleSheet(label_style)
         contact_form.addRow(label_contact_phone, self.txt_contact_phone)
@@ -330,7 +342,7 @@ class FindNewTenant(QWidget):
         self.txt_contact_email = QLineEdit()
         self.txt_contact_email.setPlaceholderText("Email liên hệ (không bắt buộc)")
         self.txt_contact_email.setFixedHeight(34)
-        self.txt_contact_email.setStyleSheet(input_style)
+        #self.txt_contact_email.setStyleSheet(input_style)
         label_contact_email = QLabel("✉️ Email:")
         label_contact_email.setStyleSheet(label_style)
         contact_form.addRow(label_contact_email, self.txt_contact_email)
@@ -350,6 +362,7 @@ class FindNewTenant(QWidget):
         layout.addSpacing(20)
         self.btn_submit = QPushButton("📢 Đăng quảng cáo")
         self.btn_submit.setFixedWidth(200)
+        '''
         self.btn_submit.setStyleSheet("""
             background-color: #6c63ff;
             color: white;
@@ -357,6 +370,7 @@ class FindNewTenant(QWidget):
             padding: 10px;
             border-radius: 10px;
         """)
+        '''
         self.btn_submit.clicked.connect(self.submit_quangcao)
         layout.addWidget(self.btn_submit, alignment=Qt.AlignCenter)
 

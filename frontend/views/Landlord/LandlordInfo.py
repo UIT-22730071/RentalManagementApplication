@@ -5,13 +5,14 @@ from PyQt5.QtWidgets import (
 )
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.LabelUI import LabelUI
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.UpdateUI.InforUpdater import InfoUpdater
 
 
 class LandlordInfo(QWidget):
     def __init__(self, main_window, id_lanlord, information_data):
         super().__init__()
-
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.id_lanlord = id_lanlord
         self.main_window = main_window
 
@@ -28,32 +29,17 @@ class LandlordInfo(QWidget):
         else:
             self.information = information_data
 
-        self.setStyleSheet("""
-            QWidget {
-                background-color: #2c3e50;
-                color: white;
-                font-family: Arial;
-            }
-            QPushButton {
-                background-color: #203BEC;
-                color: white;
-                padding: 6px 12px;
-                border-radius: 6px;
-            }
-            QPushButton:hover {
-                background-color: #d35400;
-            }
-        """)
-
         main_layout = QVBoxLayout()
 
         title = QLabel("👤 THÔNG TIN CHỦ TRỌ")
-        title.setStyleSheet("font-size: 24px; font-weight: bold; color: white;")
+        #title.setStyleSheet("font-size: 24px; font-weight: bold;")
+        title.setObjectName("Title")  # ✅ sẽ dùng style của QLabel#Title
         title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(title)
 
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
+
         content_widget = QWidget()
         content_layout = QVBoxLayout()
 
@@ -82,8 +68,8 @@ class LandlordInfo(QWidget):
                 self.label_fields.append(label_ui)
 
                 update_btn = QPushButton("Cập nhật")
-                update_btn.setFixedHeight(30)
-                update_btn.setFixedWidth(120)
+                update_btn.setFixedHeight(40)
+                update_btn.setFixedWidth(200)
                 update_btn.clicked.connect(lambda _, index=i: self.update_field(index))
 
                 hbox.addWidget(label)

@@ -1,4 +1,4 @@
-
+'''
 
 # global_styles.py
 
@@ -22,8 +22,7 @@ class GlobalStyle:
     # Thêm các hằng số cho responsive design
     SMALL_SCREEN_WIDTH = 800
     MEDIUM_SCREEN_WIDTH = 1200
-    #Button
-    BUTTON_SPECIAL_COLOR = "#233FF3"
+
 
     @staticmethod
     def global_stylesheet():
@@ -92,94 +91,8 @@ class GlobalStyle:
         QScrollArea {{
             background-color: transparent;
         }}
-        QComboBox {{
-            font-size: 14px;
-            font-family: 'Be Vietnam';
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            background-color: white;
-        }}
-        QComboBox QAbstractItemView {{
-            background-color: white;
-            selection-background-color: #EAF2FF;
-            selection-color: {GlobalStyle.TEXT_COLOR};
-            font-size: 14px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 6px;
-        }}
-        
-        QComboBox::drop-down {{
-            subcontrol-origin: padding;
-            subcontrol-position: top right;
-            width: 28px;
-            border-left: 1px solid #ccc;
-        }}
-        
-        QComboBox::down-arrow {{
-            image: url(icons/arrow-down.svg); /* nếu có icon riêng */
-            width: 12px;
-            height: 12px;
-        }}
-        QCheckBox {{
-            font-size: 14px;
-            color: #202E66;
-            padding: 6px 8px;
-            border-radius: 6px;
-            background-color: #f5f5f5;
-        }}
-        
-        QCheckBox:hover {{
-            background-color: #EAF2FF;
-        }}
-        
-        QCheckBox::indicator {{
-            width: 16px;
-            height: 16px;
-            border-radius: 4px;
-            background-color: white;
-            border: 2px solid #2158B6;
-        }}
-        
-        QCheckBox::indicator:checked {{
-            background-color: #2158B6;
-        }}
-        
-        QCheckBox::indicator:unchecked {{
-            background-color: white;
-        }}
-
-
-        QFrame#tableCard {{
-        background-color: white;
-        border-radius: 12px;
-        border: 1px solid #dcdcdc;
-        padding: 10px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }}
-
-
-
         """
 
 
-
-
-
-
-#TODO: Sau khi apply toàn bộ gobalStyle sẽ tiín hành áp dụng gobalTyle_ver2
-
-'''
-from QLNHATRO.RentalManagementApplication.frontend.styles.GolbalStyle_ver_2 import EnhancedGlobalStyle
-
-class GlobalStyle:
-    """
-    Lớp bridge giữ nguyên API `GlobalStyle.global_stylesheet()` cũ,
-    nhưng nội dung sẽ lấy từ `EnhancedGlobalStyle.get_stylesheet(theme='light')`
-    """
-    @staticmethod
-    def global_stylesheet():
-        return EnhancedGlobalStyle.get_stylesheet(theme="light", accessibility=False)
 
 '''

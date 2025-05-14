@@ -6,33 +6,37 @@ from PyQt5.QtCore import Qt
 
 from QLNHATRO.RentalManagementApplication.controller.RoomController.RoomMenuController import RoomMenuController
 from QLNHATRO.RentalManagementApplication.frontend.Component.LabelUI import LabelDarkUI
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.services.RoomService import RoomService
 
 
 class CreateNewRoom(QWidget):
     def __init__(self, main_window=None):
         super().__init__()
-        self.setStyleSheet("background-color: #d4a9a9; padding: 24px;")
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.create_data_for_update ={}
         self.id_lanlord = None
+
         main_layout = QVBoxLayout(self)
 
         # NỀN TRẮNG CHỨA NỘI DUNG
         content = QWidget()
-        content.setStyleSheet("background-color: white; border-radius: 16px; padding: 32px;")
+        #content.setStyleSheet("background-color: white; border-radius: 16px; padding: 32px;")
         content_layout = QVBoxLayout(content)
 
         # TIÊU ĐỀ
         title = QLabel("🏠 Tạo phòng trọ mới")
         title.setAlignment(Qt.AlignCenter)
-        title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50;")
+        #title.setStyleSheet("font-size: 24px; font-weight: bold;")
+        title.setObjectName("Title")  # ✅ sẽ dùng style của QLabel#Title
+
         content_layout.addWidget(title)
         content_layout.addSpacing(20)
 
         # Thêm tiêu đề
 
         desc = QLabel("** Vui lòng điền đầy đủ thông tin để thêm phòng mới vào hệ thống.")
-        desc.setStyleSheet("color: #666; font-size: 13px;")
+        #desc.setStyleSheet("color: #666; font-size: 13px;")
         desc.setAlignment(Qt.AlignLeft)
         content_layout.addWidget(desc)
 
@@ -43,15 +47,8 @@ class CreateNewRoom(QWidget):
 
         # Đặt style cho combo & input đồng bộ
         def style_input(widget):
-            widget.setFixedHeight(34)
+            widget.setFixedHeight(36)
             widget.setFixedWidth(240)
-            widget.setStyleSheet("""
-                background-color: white;
-                color: black;
-                border: 1.5px solid #ccc;
-                border-radius: 8px;
-                padding: 4px 8px;
-            """)
             return widget
 
         def create_input_with_unit(unit_text=None):
@@ -62,14 +59,7 @@ class CreateNewRoom(QWidget):
             if unit_text:
                 unit = QLabel(unit_text)
                 unit.setFixedWidth(80)
-                unit.setAlignment(Qt.AlignCenter)
-                unit.setStyleSheet("""
-                    background-color: #CCD2F4;
-                    color: #333;
-                    padding: 6px 8px;
-                    font-size: 11px;
-                    border-radius: 10px;
-                """)
+                unit.setAlignment(Qt.AlignLeft)
                 layout.addWidget(unit)
             return input, layout
 
@@ -79,7 +69,7 @@ class CreateNewRoom(QWidget):
         self.input_address_room = style_input(QLineEdit())
 
         self.input_type_room = QComboBox()
-        self.input_type_room.addItems(["Phòng trọ", "Chung cư", "Nhà nguyên căn"])
+        self.input_type_room.addItems(["Phòng trọ", "Chung cư", "Nhà nguyên căn","Khác"])
         style_input(self.input_type_room)
 
         self.input_status_room = QComboBox()
@@ -118,16 +108,8 @@ class CreateNewRoom(QWidget):
 
         # BUTTON TẠO PHÒNG
         btn_create = QPushButton("Tạo phòng")
-
         btn_create.setFixedWidth(180)
-        btn_create.setStyleSheet("""
-            background-color: #233FF3;
-            color: white;
-            font-size: 16px;
-            padding: 10px 20px;
-            border-radius: 10px;
-            transition: 0.3s ;
-        """)
+
 
 
         btn_create.clicked.connect(self.handle_create_room)

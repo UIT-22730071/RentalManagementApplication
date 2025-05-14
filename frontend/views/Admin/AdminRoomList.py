@@ -27,7 +27,15 @@ class AdminRoomList(QWidget):
             }
         ]
 
-        self.setStyleSheet("background-color: #ecf0f1;")
+        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
+            QWidget {
+                background-color: #F7F9FC;
+            }
+            QLabel {
+                color: #202E66;
+            }
+        """)
+
         main_layout = QVBoxLayout()
 
         title = QLabel("🏠 Danh sách phòng trọ")

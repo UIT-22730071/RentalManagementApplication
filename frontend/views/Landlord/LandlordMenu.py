@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QLab
 from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
 from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import LandlordController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordCreateNewRoom import CreateNewRoom
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordFindNewTenant import FindNewTenant
 
@@ -14,6 +15,7 @@ from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordFindNe
 class LandlordMenu(QWidget):
     def __init__(self, main_window=None, user_id=None):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         print("[DEBUG] LandlordMenu khởi tạo")
 
         self.main_window = main_window
@@ -22,27 +24,29 @@ class LandlordMenu(QWidget):
 
         self.main_window.setWindowTitle("Dashboard Chủ trọ")
         self.main_window.setGeometry(300, 100, 1000, 600)
-        self.main_window.setStyleSheet("""
-            background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);
-            border-radius: 15px;
-        """)
+        #self.main_window.setStyleSheet("""
+            #background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);
+           # border-radius: 15px;
+        #""")
         self.main_layout = QHBoxLayout()
        #self.main_layout.setContentsMargins(0, 0, 0, 0)
 
         # ------------ LEFT MENU FRAME ------------
         self.left_frame = QWidget()
         self.left_frame.setFixedWidth(250)
-        self.left_frame.setStyleSheet("""
-            background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);
-            border-radius: 15px;
-        """)
+        #self.left_frame.setStyleSheet("""
+            #background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);
+            #border-radius: 15px;
+        #""")
 
         left_layout = QVBoxLayout(self.left_frame)
         left_layout.setAlignment(Qt.AlignTop)
 
         # Label chào mừng
         self.label_landlord = QLabel("👋 Chào mừng đến với DASHBOARD Chủ trọ: Nguyễn Văn A")
-        self.label_landlord.setStyleSheet("color: white; font-weight: bold; padding: 10px;")
+        self.label_landlord.setObjectName("Title")
+
+        #self.label_landlord.setStyleSheet("color: white; font-weight: bold; padding: 10px;")
         #left_layout.addWidget(self.label_landlord)
 
         # Tạo nút và áp dụng style

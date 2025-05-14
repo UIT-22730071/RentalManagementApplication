@@ -3,8 +3,9 @@ from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QLab
 
 from QLNHATRO.RentalManagementApplication.controller.AdminController.AdminController import AdminController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
-
+#TODO: cần hiệu chỉnh màu nền
 
 class AdminMenu(QWidget):
     def __init__(self, main_window=None, user_id=None):
@@ -17,9 +18,12 @@ class AdminMenu(QWidget):
 
         self.main_window.setWindowTitle("Dashboard Admin")
         self.main_window.setGeometry(300, 100, 1000, 600)
-        self.main_window.setStyleSheet("""
-            background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #8E2DE2, stop:1 #4A00E0);
-            border-radius: 15px;
+
+        self.main_window.setStyleSheet(GlobalStyle.global_stylesheet() + """
+            QMainWindow {
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8E2DE2, stop:1 #4A00E0);
+                border-radius: 15px;
+            }
         """)
 
         self.main_layout = QHBoxLayout()
@@ -28,8 +32,10 @@ class AdminMenu(QWidget):
         self.left_frame = QWidget()
         self.left_frame.setFixedWidth(250)
         self.left_frame.setStyleSheet("""
-            background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #8E2DE2, stop:1 #4A00E0);
-            border-radius: 15px;
+            QWidget {
+                background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8E2DE2, stop:1 #4A00E0);
+                border-radius: 15px;
+            }
         """)
 
         left_layout = QVBoxLayout(self.left_frame)

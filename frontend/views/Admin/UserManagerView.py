@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame, QMessageBox, Q
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.ErrorDialog import ErrorDialog
 from QLNHATRO.RentalManagementApplication.frontend.Component.tableUI import TableUI
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class AdminUserManagement(QWidget):
@@ -17,7 +18,15 @@ class AdminUserManagement(QWidget):
             {"stt": 3, "username": "tenant01", "role": "Người thuê trọ", "status": "Inactive"}
         ]
 
-        self.setStyleSheet("background-color: #ecf0f1;")
+        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
+            QWidget {
+                background-color: #F7F9FC;
+            }
+            QLabel {
+                color: #202E66;
+            }
+        """)
+
         main_layout = QVBoxLayout()
 
         title = QLabel("👥 Danh sách tài khoản người dùng")

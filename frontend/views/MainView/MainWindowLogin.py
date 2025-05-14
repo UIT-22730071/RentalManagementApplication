@@ -2,17 +2,18 @@ import sys
 
 from PyQt5.QtWidgets import QLabel, QApplication, QMainWindow
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.HomeLogin import LoginWindow
 
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.setWindowTitle("Ứng dụng Quản lý")
         self.setGeometry(200, 100, 300, 620)  # Ban đầu chỉ hiển thị khung trái
         #self.setGeometry(300, 100, 1000, 600)
-        self.setStyleSheet("background-color: #202020; border-radius: 15px;")
+        #self.setStyleSheet("background-color: #202020; border-radius: 15px;")
 
         # Đặt giao diện đăng nhập làm trang chính
         #self.setCentralWidget(LoginWindow(self))
