@@ -2,6 +2,7 @@ from PyQt5.QtCore import QDate
 from PyQt5.QtWidgets import QDateEdit
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.InputFieldUI import InputFieldUI
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class DateTableUI(InputFieldUI):
@@ -12,13 +13,10 @@ class DateTableUI(InputFieldUI):
         date_edit.setDate(QDate.currentDate())
         date_edit.setDisplayFormat("dd/MM/yyyy")
 
-        # 🌈 Style cho calendar widget
-        date_edit.setStyleSheet("""
+        date_edit.setStyleSheet(GlobalStyle.global_stylesheet() + """
             QDateEdit {
-                border: 1px solid #ddd;
-                border-radius: 8px;
-                padding: 6px 12px;
                 background-color: white;
+                padding: 6px 12px;
             }
             QCalendarWidget QToolButton {
                 color: black;
@@ -31,13 +29,9 @@ class DateTableUI(InputFieldUI):
                 color: black;
             }
             QCalendarWidget QAbstractItemView:enabled {
-                color: black;
                 background-color: white;
                 selection-background-color: #FF6B6B;
                 selection-color: white;
-            }
-            QCalendarWidget QAbstractItemView:disabled {
-                color: gray;
             }
             QCalendarWidget QHeaderView::section {
                 background-color: #FF6B6B;

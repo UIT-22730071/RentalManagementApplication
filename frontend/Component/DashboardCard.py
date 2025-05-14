@@ -3,6 +3,8 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 import os
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
 
 class DashboardCard(QWidget):
     def __init__(self, title, value, change_percent, icon_path=None):
@@ -11,30 +13,34 @@ class DashboardCard(QWidget):
         # Layout chính
         layout = QVBoxLayout()
         layout.setAlignment(Qt.AlignTop)
-        layout.setContentsMargins(10, 10, 10, 10)  # Giảm padding tránh thừa ô vuông
-        layout.setSpacing(8)  # Giữ khoảng cách hợp lý
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(8)
 
-        # Kiểu dáng thẻ
-        self.setStyleSheet("""
-            background-color: white;
-            border-radius: 15px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        # ✅ Áp dụng GlobalStyle + style riêng
+        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
+            QWidget {
+                background-color: white;
+                border-radius: 15px;
+                padding: 15px;
+                border: 1px solid #ddd;
+            }
+            QLabel {
+                font-family: 'Be Vietnam Pro', sans-serif;
+            }
         """)
 
-        # Số liệu chính (Lớn)
+        # Số liệu chính
         value_label = QLabel(value)
-        value_label.setStyleSheet("font-size: 28px; font-weight: bold; color: #333;")
+        value_label.setStyleSheet("font-size: 24px; font-weight: bold; color: #202E66;")
         value_label.setAlignment(Qt.AlignLeft)
 
-        # Tiêu đề nhỏ
+        # Tiêu đề
         title_label = QLabel(title)
         title_label.setStyleSheet("font-size: 14px; color: #777;")
         title_label.setAlignment(Qt.AlignLeft)
 
-        # Xử lý phần trăm thay đổi
-        change_value = float(change_percent.replace('%', ''))  # Xóa ký tự `%`
+        # Phần trăm thay đổi
+        change_value = float(change_percent.replace('%', ''))
         change_icon = "🔻" if change_value < 0 else "🔺"
         change_color = "#D9534F" if change_value < 0 else "#5CB85C"
 
@@ -42,12 +48,12 @@ class DashboardCard(QWidget):
         change_label.setStyleSheet(f"font-size: 12px; color: {change_color};")
         change_label.setAlignment(Qt.AlignLeft)
 
-        # Layout ngang chứa số liệu & icon
+        # Layout top chứa giá trị và icon
         top_layout = QHBoxLayout()
-        top_layout.setSpacing(10)  # Giữ khoảng cách hợp lý
+        top_layout.setSpacing(10)
         top_layout.setAlignment(Qt.AlignLeft)
 
-        # Icon bên phải (nếu có)
+        # Icon
         icon_label = QLabel()
         if icon_path and os.path.exists(icon_path):
             try:
@@ -59,8 +65,13 @@ class DashboardCard(QWidget):
         else:
             icon_label.setText("💼")
 
-        icon_label.setStyleSheet(
-            "font-size: 24px; color: #9370DB; background-color: rgba(200, 200, 255, 0.2); border-radius: 20px; padding: 10px;")
+        icon_label.setStyleSheet("""
+            font-size: 24px; 
+            color: #9370DB; 
+            background-color: rgba(200, 200, 255, 0.2); 
+            border-radius: 20px; 
+            padding: 10px;
+        """)
 
         top_layout.addWidget(value_label)
         top_layout.addStretch()

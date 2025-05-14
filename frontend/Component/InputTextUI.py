@@ -1,3 +1,6 @@
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
+
 class InputTextUI:
     """Lớp lưu trữ giao diện QLineEdit tùy chỉnh"""
 
@@ -15,7 +18,8 @@ class InputTextUI:
 
     def apply_style(self, widget):
         """Áp dụng style cho ô nhập liệu (QLineEdit)"""
-        style = f"""
+        base_style = GlobalStyle.global_stylesheet()
+        custom_style = f"""
             QLineEdit {{
                 background-color: {self.background};
                 color: {self.text_color};
@@ -30,7 +34,7 @@ class InputTextUI:
                 background-color: {self.focus_bg};
             }}
         """
-        widget.setStyleSheet(style)
+        widget.setStyleSheet(base_style + custom_style)
 
     @staticmethod
     def default_input():

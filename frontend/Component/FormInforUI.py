@@ -3,17 +3,15 @@ from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QScrollArea, QHBoxLayout,
     QPushButton, QGroupBox, QMessageBox
 )
-from typing import List, Dict, Any, Callable
+from typing import List, Dict, Any
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.LabelUI import LabelUI
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.UpdateUI.InforUpdater import InfoUpdater
 
 
 class FormInforUI(QWidget):
-    """
-    A reusable form information UI component that can be used across different classes.
-    Supports dynamic field configuration and updates.
-    """
+
     info_updated = pyqtSignal(dict)
 
     def __init__(self,
@@ -105,13 +103,7 @@ class FormInforUI(QWidget):
 
         :param title: Title of the form
         """
-        # Styling
-        self.setStyleSheet(f"""
-            QWidget {{
-                background-color: {self.BACKGROUND_COLOR};
-                color: {self.TEXT_COLOR};
-                font-family: 'Segoe UI', Arial, sans-serif;
-            }}
+        self.setStyleSheet(GlobalStyle.global_stylesheet() + f"""
             QLabel {{
                 color: {self.TEXT_COLOR};
                 font-weight: 500;
@@ -126,18 +118,13 @@ class FormInforUI(QWidget):
             }}
             QPushButton:hover {{
                 background-color: #1565C0;
-                color: white;
             }}
             QGroupBox {{
                 border: 1px solid {self.BORDER_COLOR};
                 border-radius: 5px;
-                margin-top: 10px;
                 background-color: white;
                 color: {self.TEXT_COLOR};
-            }}
-            QScrollArea {{
-                background-color: {self.BACKGROUND_COLOR};
-                border: none;
+                margin-top: 10px;
             }}
         """)
 

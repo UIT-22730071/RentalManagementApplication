@@ -4,6 +4,8 @@ import sys
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QLabel, QFrame, QVBoxLayout
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
 
 # Custom input field component
 class InputFieldUI(QWidget):
@@ -28,20 +30,12 @@ class InputFieldUI(QWidget):
         self.input_widget = input_widget
         self.layout.addWidget(self.input_widget, 1)
 
-        # Set style
-        self.setStyleSheet("""
+        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
             QLabel {
-                color: #333333;
+                font-size: 14px;
             }
             QLineEdit, QDateEdit, QComboBox {
-                border: 1px solid #ddd;
-                border-radius: 8px;
-                padding: 8px 12px;
-                background-color: white;
-                min-height: 20px;
-            }
-            QLineEdit:focus, QDateEdit:focus, QComboBox:focus {
-                border: 1px solid #4FBEEE;
+                min-height: 24px;
             }
         """)
 

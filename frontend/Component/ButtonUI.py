@@ -1,4 +1,4 @@
-
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class ButtonUI:
@@ -18,8 +18,9 @@ class ButtonUI:
         self.hover_text = hover_text
 
     def apply_style(self, widget):
-        """Áp dụng style cho một QPushButton"""
-        style = f"""
+        """Áp dụng style cho một QPushButton với GlobalStyle"""
+        base_style = GlobalStyle.global_stylesheet()
+        button_style = f"""
             QPushButton {{
                 background-color: {self.background};
                 color: {self.text_color};
@@ -30,22 +31,12 @@ class ButtonUI:
                 margin: {self.margin};
                 text-align: left;
             }}
-            QPushButton::hover {{
+            QPushButton:hover {{
                 background-color: {self.hover_bg};
                 color: {self.hover_text};
             }}
         """
-
-        if self.hover_bg or self.hover_text:
-            hover_style = "QPushButton:hover {"
-            if self.hover_bg:
-                hover_style += f"background-color: {self.hover_bg}; "
-            if self.hover_text:
-                hover_style += f"color: {self.hover_text}; "
-            hover_style += "}"
-            style += hover_style
-
-        widget.setStyleSheet(style)
+        widget.setStyleSheet(base_style + button_style)
 
     @staticmethod
     def primary_button():

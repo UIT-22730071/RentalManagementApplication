@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QPushButton
 from PyQt5.QtCore import Qt
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
 
 class ErrorDialog(QDialog):
     def __init__(self, message, parent=None):
@@ -8,7 +10,7 @@ class ErrorDialog(QDialog):
         self.setWindowTitle("❌ Lỗi nhập liệu")
         self.setFixedSize(400, 180)
 
-        self.setStyleSheet("""
+        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
             QDialog {
                 background-color: #fff0f0;
                 border: 2px solid #e74c3c;
