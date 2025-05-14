@@ -6,13 +6,13 @@ from PyQt5.QtWidgets import QWidget, QHBoxLayout, QFrame, QVBoxLayout, QPushButt
 
 from QLNHATRO.RentalManagementApplication.controller.LoginRegister.RegisterController import RegisterController
 from QLNHATRO.RentalManagementApplication.frontend.Component.InputTextUI import InputTextUI
-
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class LoginWindow(QWidget):
     def __init__(self, main_window):
         super().__init__()
-
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
 
         self.main_window = main_window  # Lưu lại để dùng cho chuyển trang
         self.setStyleSheet("background-color: #202020; border-radius: 15px;")
@@ -33,13 +33,13 @@ class LoginWindow(QWidget):
         left_layout = QVBoxLayout(self.left_frame)
         left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.sign_in_btn = QPushButton("SIGN IN")
-        self.sign_in_btn.setFixedSize(120, 40)
+        self.sign_in_btn = QPushButton("REGISTER")
+        self.sign_in_btn.setFixedSize(150, 40)
         self.sign_in_btn.setStyleSheet("background-color: white; color: #FF6B6B; font-weight: bold; border-radius: 20px;")
         self.sign_in_btn.clicked.connect(lambda: self.expand_window(1))
 
         self.login_btn = QPushButton("LOGIN")
-        self.login_btn.setFixedSize(120, 40)
+        self.login_btn.setFixedSize(150, 40)
         self.login_btn.setStyleSheet("background-color: white; color: #FF6B6B; font-weight: bold; border-radius: 20px;")
         self.login_btn.clicked.connect(lambda: self.expand_window(0))
 
@@ -74,7 +74,7 @@ class LoginWindow(QWidget):
         login_page = QWidget()
         login_layout = QVBoxLayout(login_page)
 
-        login_label = QLabel("LOGIN")
+        login_label = QLabel("Đăng nhập")
         login_label.setStyleSheet("font-size: 24px; font-weight: bold;")
         login_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -100,8 +100,8 @@ class LoginWindow(QWidget):
         change_password.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         login_btn = QPushButton("Đăng nhập")
-        login_btn.setFixedHeight(40)
-        login_btn.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
+        login_btn.setFixedHeight(45)
+        login_btn.setStyleSheet("background-color: #233FF3; color: white; font-weight: bold; border-radius: 20px;")
 
         #TODO đang xử lý lỗi ở đây
 
@@ -110,7 +110,7 @@ class LoginWindow(QWidget):
 
         exist_btn_login = QPushButton("Thoát")
         exist_btn_login.setFixedHeight(40)
-        exist_btn_login.setStyleSheet("background-color: #4FBEEE; color: white; font-weight: bold; border-radius: 20px;")
+        exist_btn_login.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
         exist_btn_login.clicked.connect(self.close)
 
         login_layout.addWidget(login_label)
@@ -132,7 +132,7 @@ class LoginWindow(QWidget):
         signup_page = QWidget()
         signup_layout = QVBoxLayout(signup_page)
 
-        signup_label = QLabel("SIGN UP")
+        signup_label = QLabel("Đăng ký")
         signup_label.setStyleSheet("font-size: 24px; font-weight: bold;")
         signup_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
@@ -158,8 +158,8 @@ class LoginWindow(QWidget):
         self.tenant_selection.setChecked(True)
 
         signup_btn = QPushButton("Đăng ký")
-        signup_btn.setFixedHeight(40)
-        signup_btn.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
+        signup_btn.setFixedHeight(45)
+        signup_btn.setStyleSheet("background-color: #233FF3; color: white; font-weight: bold; border-radius: 20px;")
         signup_btn.clicked.connect(lambda: RegisterController.register_tenant(
             username_input.text(),
             password_input.text(),
@@ -187,7 +187,7 @@ class LoginWindow(QWidget):
 
         exist_btn_signup = QPushButton("Thoát")
         exist_btn_signup.setFixedHeight(40)
-        exist_btn_signup.setStyleSheet("background-color: #4FBEEE; color: white; font-weight: bold; border-radius: 20px;")
+        exist_btn_signup.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
         ## TODO: Xử lý nhẹ phương thức sau
         exist_btn_signup.clicked.connect(self.main_window.close)
 

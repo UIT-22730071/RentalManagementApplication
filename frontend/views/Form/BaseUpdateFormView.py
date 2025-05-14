@@ -9,6 +9,7 @@ from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import Glob
 class BaseUpdateFormView(QWidget):
     def __init__(self, role):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.role = role
         self.initUI()
 
@@ -51,11 +52,7 @@ class BaseUpdateFormView(QWidget):
         self.main_layout.addWidget(self.contact_section)
 
         # Set style for the form
-        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
-            QWidget {
-                background-color: transparent;
-            }
-        """)
+
 
     def create_input_field(self, icon, label):
         from PyQt5.QtWidgets import QLineEdit

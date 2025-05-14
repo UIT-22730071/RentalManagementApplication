@@ -149,15 +149,28 @@ class GlobalStyle:
         QCheckBox::indicator:unchecked {{
             background-color: white;
         }}
-
-
         QFrame#tableCard {{
-        background-color: white;
-        border-radius: 12px;
-        border: 1px solid #dcdcdc;
-        padding: 10px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-radius: 12px;
+            border: 1px solid #dcdcdc;
+            padding: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }}
+        QRadioButton::indicator {{
+            width: 22px;
+            height: 22px;
+        }}
+        QRadioButton::indicator:checked {{
+            background-color: #2158B6;
+            border: 2px solid #2158B6;
+            border-radius: 11px;
+        }}
+        QRadioButton::indicator:unchecked {{
+            background-color: white;
+            border: 2px solid #ccc;
+            border-radius: 11px;
+        }}
+
 
 
 

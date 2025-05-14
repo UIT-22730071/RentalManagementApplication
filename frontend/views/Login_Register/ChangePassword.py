@@ -4,35 +4,37 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 import sys
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
 
 class ChangePasswordView(QWidget):
     def __init__(self, on_success_callback=None):
         super().__init__()
-        self.on_success_callback = on_success_callback
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.setWindowTitle("Đổi mật khẩu")
-        self.setStyleSheet("background-color: white; border-radius: 40px;")
-        self.setMinimumSize(800, 700)
+        #self.setStyleSheet("background-color: white; border-radius: 40px;")
+        self.setMinimumSize(850, 700)
+        self.on_success_callback = on_success_callback
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(84, 24, 84, 24)
-        layout.setSpacing(30)
+        layout.setSpacing(10)
 
         # Header
         header_frame = QFrame()
         header_layout = QVBoxLayout(header_frame)
-        header_label = QLabel("Đổi mật khẩu")
-        header_label.setFont(QFont("Be Vietnam Pro", 24, QFont.Bold))
-        header_label.setStyleSheet(
-            "color: white; background-color: #2158B6; border-radius: 12px; padding: 10px; border: 1px solid #202E66;")
+
+        header_label = QLabel("🔒 Đổi mật khẩu")
+        header_label.setObjectName("Title")  # Sẽ dùng style QLabel#Title từ GlobalStyle
         header_label.setAlignment(Qt.AlignCenter)
+
         header_layout.addWidget(header_label)
 
-        subtext = QLabel("🔒 Vui lòng nhập thông tin để thay đổi mật khẩu của bạn")
-        subtext.setFont(QFont("Be Vietnam", 12))
-        subtext.setStyleSheet("color: #202E66; font-weight: 500;")
+        subtext = QLabel("Vui lòng nhập thông tin để thay đổi mật khẩu của bạn")
         subtext.setAlignment(Qt.AlignCenter)
-        header_layout.addWidget(subtext)
+        subtext.setStyleSheet("color: #202E66; font-size: 14px;")
 
+        header_layout.addWidget(subtext)
         layout.addWidget(header_frame)
 
         # Form fields
@@ -45,11 +47,8 @@ class ChangePasswordView(QWidget):
 
         # Change Password button
         change_button = QPushButton("Đổi mật khẩu")
-        change_button.setStyleSheet(
-            "background-color: #2158B6; color: white; border-radius: 9px; font-size: 14px; padding: 12px 38px;"
-        )
         change_button.setFixedWidth(256)
-        change_button.setFixedHeight(45)
+        change_button.setFixedHeight(60)
         change_button.clicked.connect(self.on_submit)
         button_wrapper = QHBoxLayout()
         button_wrapper.addStretch()
@@ -62,28 +61,24 @@ class ChangePasswordView(QWidget):
 
     def create_password_field(self, parent_layout, label_text, object_name, is_password=False):
         field_frame = QFrame()
-        field_frame.setStyleSheet("QFrame { background-color: white; border: 1px solid #F5D8D8; border-radius: 16px; }")
         field_frame.setFixedHeight(100)
         field_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
         layout = QVBoxLayout(field_frame)
         layout.setContentsMargins(20, 10, 20, 10)
-        layout.setSpacing(10)
+        layout.setSpacing(5)
 
         # Label
         label = QLabel(label_text)
         label.setFont(QFont("Be Vietnam", 14, QFont.Bold))
-        label.setStyleSheet("color: #202E66; border: none;")
+        #label.setStyleSheet("color: #202E66; border: none;")
         layout.addWidget(label)
 
         # Text field
         text_field = QLineEdit()
         text_field.setObjectName(object_name)
-        text_field.setFont(QFont("Be Vietnam", 12))
-        text_field.setStyleSheet(
-            "QLineEdit { color: #202E66; background-color: #F8F8F8; border-radius: 8px; padding: 8px; border: 1px solid #E0E0E0; }"
-        )
-        text_field.setFixedHeight(50)
+        #text_field.setFont(QFont("Be Vietnam", 12))
+        text_field.setFixedHeight(40)
 
         if is_password:
             text_field.setEchoMode(QLineEdit.Password)
@@ -97,7 +92,7 @@ class ChangePasswordView(QWidget):
 
             toggle_btn = QPushButton("👁️")
             toggle_btn.setFixedWidth(40)
-            toggle_btn.setStyleSheet("background-color: #F8F8F8; border-radius: 8px; border: 1px solid #E0E0E0;")
+            toggle_btn.setStyleSheet("background-color: white")
             toggle_btn.clicked.connect(lambda: self.toggle_password_visibility(text_field))
             input_layout.addWidget(toggle_btn)
 
@@ -133,7 +128,7 @@ class ChangePasswordView(QWidget):
 
         for req in requirements:
             req_label = QLabel(req)
-            req_label.setFont(QFont("Be Vietnam", 11))
+            req_label.setFont(QFont("Be Vietnam", 8))
             req_label.setStyleSheet("color: #202E66; font-style: italic;")
             req_layout.addWidget(req_label)
 

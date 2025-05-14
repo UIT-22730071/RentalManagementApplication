@@ -1,9 +1,11 @@
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.Form.BaseUpdateFormView import BaseUpdateFormView
 
 
 class TenantUpdateFormView(BaseUpdateFormView):
     def __init__(self):
         super().__init__("Người thuê trọ")
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.add_tenant_specific_fields()
 
     def add_tenant_specific_fields(self):

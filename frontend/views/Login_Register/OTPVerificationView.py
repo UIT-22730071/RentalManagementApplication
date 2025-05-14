@@ -4,14 +4,17 @@ from PyQt5.QtCore import Qt, QRegExp
 from PyQt5.QtGui import QFont, QRegExpValidator
 import sys
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.ForgotPassword import ForgotPasswordView
 
+#TODO cần tách ra xử lý lại từng phần ==> cho ô nhập OTP
 
 class OTPVerificationView(QWidget):
     def __init__(self, email="phuctran@gmail.com"):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.setWindowTitle("Nhập mã OTP")
-        self.setStyleSheet("background-color: white; border-radius: 40px;")
+        #self.setStyleSheet("background-color: white; border-radius: 40px;")
         self.setMinimumSize(800, 700)
 
         self.email = email
@@ -33,8 +36,8 @@ class OTPVerificationView(QWidget):
 
         # Title
         title_label = QLabel("Nhập mã OTP")
-        title_label.setFont(QFont("Be Vietnam Pro", 36, QFont.Bold))
-        title_label.setStyleSheet("color: #202E66;")
+        title_label.setObjectName("Title")
+        #title_label.setStyleSheet("color: #202E66;")
         title_label.setAlignment(Qt.AlignCenter)
 
         # Subtitle section
@@ -44,7 +47,7 @@ class OTPVerificationView(QWidget):
 
         # "Chúng tôi đã gửi mã OTP vào"
         subtitle_label = QLabel("Chúng tôi đã gửi mã OPT vào")
-        subtitle_label.setFont(QFont("Be Vietnam", 14, QFont.Bold))
+        #subtitle_label.setFont(QFont("Be Vietnam", 14, QFont.Bold))
         subtitle_label.setStyleSheet("color: #202E66;")
 
         # Email info section
@@ -55,11 +58,11 @@ class OTPVerificationView(QWidget):
 
         email_type = QLabel("Email")
         email_type.setFont(QFont("Be Vietnam", 12))
-        email_type.setStyleSheet("color: #202E66;")
+        #email_type.setStyleSheet("color: #202E66;")
 
         email_address = QLabel(self.email)
         email_address.setFont(QFont("Be Vietnam", 12))
-        email_address.setStyleSheet("color: #202E66; font-style: italic;")
+        #email_address.setStyleSheet("color: #202E66; font-style: italic;")
 
         email_layout.addWidget(email_type)
         email_layout.addWidget(email_address)
@@ -112,6 +115,7 @@ class OTPVerificationView(QWidget):
         # Confirm button
         self.confirm_button = QPushButton("Xác nhận mã OTP")
         self.confirm_button.setFixedSize(300, 50)
+        '''
         self.confirm_button.setStyleSheet("""
             QPushButton {
                 background-color: #2158B6;
@@ -129,6 +133,7 @@ class OTPVerificationView(QWidget):
                 background-color: #13397A;
             }
         """)
+        '''
         self.confirm_button.clicked.connect(self.confirm_otp)
 
         # Resend OTP section
@@ -139,7 +144,7 @@ class OTPVerificationView(QWidget):
 
         not_received = QLabel("Không nhận được OTP?")
         not_received.setFont(QFont("Be Vietnam", 12))
-        not_received.setStyleSheet("color: #202E66; font-style: italic;")
+        #not_received.setStyleSheet("color: #202E66; font-style: italic;")
 
         resend = QPushButton("Gửi lại OTP")
         resend.setFlat(True)

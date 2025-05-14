@@ -4,14 +4,16 @@ from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve
 from PyQt5.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QFrame, QVBoxLayout, QPushButton, QLabel, QLineEdit, \
     QApplication
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
 
 class LoginWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.setWindowTitle("Login & Sign Up")
         self.setGeometry(200, 100, 300, 450)  # 📌 Ban đầu chỉ hiển thị frame trái
-        self.setStyleSheet("background-color: #202020; border-radius: 15px;")
+        #self.setStyleSheet("background-color: #202020; border-radius: 15px;")
 
         # Tạo widget chính
         self.central_widget = QWidget()
@@ -32,8 +34,8 @@ class LoginWindow(QMainWindow):
         left_layout = QVBoxLayout(self.left_frame)
         left_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.sign_in_btn = QPushButton("SIGN IN")
-        self.sign_in_btn.setFixedSize(120, 40)
+        self.sign_in_btn = QPushButton("REGISTER")
+        self.sign_in_btn.setFixedSize(250, 40)
         self.sign_in_btn.setStyleSheet("background-color: white; color: #FF6B6B; font-weight: bold; border-radius: 20px;")
         self.sign_in_btn.clicked.connect(self.expand_window)
 
@@ -46,7 +48,7 @@ class LoginWindow(QMainWindow):
 
         # 📌 2️⃣ Tạo Frame bên phải (Form đăng nhập)
         self.right_frame = QFrame()
-        self.right_frame.setStyleSheet("background-color: white; border-radius: 15px;")
+        #self.right_frame.setStyleSheet("background-color: white; border-radius: 15px;")
         self.right_frame.setVisible(False)  # 📌 Ẩn ban đầu
         right_layout = QVBoxLayout(self.right_frame)
 
@@ -59,14 +61,14 @@ class LoginWindow(QMainWindow):
         email_input = QLineEdit()
         email_input.setPlaceholderText("  Email")
         email_input.setFixedHeight(40)
-        email_input.setStyleSheet("border: 1px solid gray; border-radius: 20px; padding-left: 10px;")
+        #email_input.setStyleSheet("border: 1px solid gray; border-radius: 20px; padding-left: 10px;")
 
         # Ô nhập Password
         password_input = QLineEdit()
         password_input.setPlaceholderText("  Password")
         password_input.setFixedHeight(40)
         password_input.setEchoMode(QLineEdit.EchoMode.Password)
-        password_input.setStyleSheet("border: 1px solid gray; border-radius: 20px; padding-left: 10px;")
+        #password_input.setStyleSheet("border: 1px solid gray; border-radius: 20px; padding-left: 10px;")
 
         # Nút Forgot Password
         forgot_password = QLabel('<a href="#">Forgot Password?</a>')

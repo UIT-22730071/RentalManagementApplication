@@ -1,15 +1,17 @@
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.Form.BaseUpdateFormView import BaseUpdateFormView
 
 
 class LandlordUpdateFormView(BaseUpdateFormView):
     def __init__(self):
         super().__init__("Chủ trọ")
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.add_landlord_specific_fields()
 
     def add_landlord_specific_fields(self):
         # Create landlord-specific fields
-        self.input_property_count = self.create_input_field("🏘️", "Số lượng phòng quản lý:")
-        self.input_rental_price = self.create_input_field("💵", "Giá cho thuê trung bình:")
+        self.input_property_count = self.create_input_field("🏘️", "SL phòng quản lý:")
+        self.input_rental_price = self.create_input_field("💵", "Giá cho thuê TB:")
 
         # Add to role section
         self.role_section.add_field(self.input_property_count)

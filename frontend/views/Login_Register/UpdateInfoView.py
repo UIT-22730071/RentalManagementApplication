@@ -3,6 +3,7 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import (QVBoxLayout, QWidget, QScrollArea, QFrame,
                              QLabel, QHBoxLayout, QPushButton)
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.Form.LandlordUpdateFormView import LandlordUpdateFormView
 from QLNHATRO.RentalManagementApplication.frontend.views.Form.TenantUpdateFormView import TenantUpdateFormView
 
@@ -14,6 +15,8 @@ class UpdateInfoView(QWidget):
 
     def __init__(self, role, username, save_callback=None, cancel_callback=None):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
+        #self.setFixedSize(800, 700)  # hoặc kích thước bạn muốn
         self.role = role
         self.username = username
         self.save_callback = save_callback
@@ -29,20 +32,13 @@ class UpdateInfoView(QWidget):
 
         # Thêm scroll
         scroll = QScrollArea()
-        scroll.setStyleSheet("""
-            QScrollArea {
-                border: none;
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #FFDEE9, stop:1 #B5FFFC);
-            }
-        """)
+
 
         scroll.setWidgetResizable(True)
 
         # Create card container to hold card
         scroll_content = QWidget()
-        scroll_content.setStyleSheet("""
-            background-color: transparent;
-        """)
+
 
         scroll.setWidget(scroll_content)
 
@@ -52,12 +48,14 @@ class UpdateInfoView(QWidget):
 
         # Create card
         card = QFrame()
+        '''
         card.setStyleSheet("""
             QFrame {
                 background-color: #FFFFFF;
                 border-radius: 12px;
             }
         """)
+        '''
         card_layout = QVBoxLayout(card)
         card_layout.setContentsMargins(20, 20, 20, 20)
         card_layout.setSpacing(20)
@@ -67,18 +65,20 @@ class UpdateInfoView(QWidget):
 
         # Main title
         title_label = QLabel("Cập nhật thông tin")
-        title_label.setFont(QFont("Arial", 22, QFont.Weight.Bold))
-        title_label.setStyleSheet("color: #FF6B6B;")
+        #title_label.setFont(QFont("Arial", 22, QFont.Weight.Bold))
+        #title_label.setStyleSheet("color: #FF6B6B;")
+        title_label.setObjectName("Title")
         title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # Role
         role_label = QLabel(f"[{self.role}]") # TODO: đang lỗi hiển thij trong page giao diện
-        role_label.setFont(QFont("Arial", 14))
-        role_label.setStyleSheet("color: #555;")
+        #role_label.setFont(QFont("Arial", 14))
+        #role_label.setStyleSheet("color: #555;")
         role_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # User info
         user_info_frame = QFrame()
+        '''
         user_info_frame.setStyleSheet("""
             QFrame {
                 background-color: #f8f9fa;
@@ -86,15 +86,16 @@ class UpdateInfoView(QWidget):
                 padding: 10px;
             }
         """)
+        '''
         user_info_layout = QHBoxLayout(user_info_frame)
 
         username_label = QLabel(f"👤 Tên đăng nhập: {self.username}")
-        username_label.setFont(QFont("Arial", 10))
-        username_label.setStyleSheet("color: #333;")
+        #username_label.setFont(QFont("Arial", 10))
+        #username_label.setStyleSheet("color: #333;")
 
         password_label = QLabel("🔑 Mật khẩu: ********")
-        password_label.setFont(QFont("Arial", 10))
-        password_label.setStyleSheet("color: #333;")
+        #password_label.setFont(QFont("Arial", 10))
+        #password_label.setStyleSheet("color: #333;")
 
         user_info_layout.addWidget(username_label)
         user_info_layout.addWidget(password_label)
@@ -116,7 +117,8 @@ class UpdateInfoView(QWidget):
 
         # Save button
         self.btn_save = QPushButton("💾 Lưu thông tin")
-        self.btn_save.setFont(QFont("Arial", 12, QFont.Weight.Bold))
+        #self.btn_save.setFont(QFont("Arial", 12, QFont.Weight.Bold))
+        '''
         self.btn_save.setStyleSheet("""
             QPushButton {
                 background-color: #FF6B6B;
@@ -132,6 +134,7 @@ class UpdateInfoView(QWidget):
                 background-color: #e04545;
             }
         """)
+        '''
         self.btn_save.setCursor(Qt.CursorShape.PointingHandCursor)
         # Save button
         self.btn_save.clicked.connect(self.handle_save_clicked)
@@ -143,7 +146,8 @@ class UpdateInfoView(QWidget):
 
         # Cancel button
         self.btn_cancel = QPushButton("❌ Hủy")
-        self.btn_cancel.setFont(QFont("Arial", 12, QFont.Weight.Bold))
+        #self.btn_cancel.setFont(QFont("Arial", 12, QFont.Weight.Bold))
+        '''
         self.btn_cancel.setStyleSheet("""
             QPushButton {
                 background-color: #4FBEEE;
@@ -159,6 +163,7 @@ class UpdateInfoView(QWidget):
                 background-color: #2b93c3;
             }
         """)
+        '''
         self.btn_cancel.setCursor(Qt.CursorShape.PointingHandCursor)
         # Cancel button
         self.btn_cancel.clicked.connect(self.handle_cancel_clicked)
@@ -183,6 +188,7 @@ class UpdateInfoView(QWidget):
         """Get form data from the form view"""
         return self.form.get_form_data()
 
+    #TODO: Ở đây sẽ tạo 1 liên kết khi Save rồi sẽ trả về màn login
     def handle_save_clicked(self):
         if self.save_callback:
             self.save_callback()

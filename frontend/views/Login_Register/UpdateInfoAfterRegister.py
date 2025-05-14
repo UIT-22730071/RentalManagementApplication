@@ -10,14 +10,6 @@ class UpdateInfoAfterRegister:
         return controller
 
 
-
-
-
-
-
-
-
-
 '''
 from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtGui import QFont

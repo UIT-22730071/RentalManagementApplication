@@ -4,32 +4,38 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 import sys
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
 
 class ForgotPasswordView(QWidget):
     def __init__(self, on_success_callback=None):
         super().__init__()
-        self.on_success_callback = on_success_callback  # Gán callback
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.setWindowTitle("Quên mật khẩu")
-        self.setStyleSheet("background-color: white; border-radius: 40px;")
-        self.setMinimumSize(800, 700)
+        self.setMinimumSize(850, 500)
+        self.on_success_callback = on_success_callback
 
         layout = QVBoxLayout(self)
         layout.setContentsMargins(84, 24, 84, 24)
-        layout.setSpacing(30)
+        layout.setSpacing(10)
 
-        # Header
+        # --- Header ---
         header_frame = QFrame()
         header_layout = QVBoxLayout(header_frame)
-        header_label = QLabel("Bạn quên mật khẩu ?")
-        header_label.setFont(QFont("Be Vietnam Pro", 24, QFont.Bold))
-        header_label.setStyleSheet("color: white; background-color: #2158B6; border-radius: 12px; padding: 10px; border: 1px solid #202E66;")
-        header_label.setAlignment(Qt.AlignCenter)
-        header_layout.addWidget(header_label)
+        header_layout.setSpacing(1)  # hoặc 2 nếu bạn muốn sát hơn
+        header_layout.setContentsMargins(0, 0, 0, 0)
+
+        title_label = QLabel("🔒 Bạn quên mật khẩu ?")
+        title_label.setObjectName("Title")
+        title_label.setMaximumHeight(45)
+        title_label.setAlignment(Qt.AlignCenter)
+
+        header_layout.addWidget(title_label)
 
         subtext = QLabel("🔍 Vui lòng chọn phương thức lấy lại mật khẩu")
-        subtext.setFont(QFont("Be Vietnam", 12))
-        subtext.setStyleSheet("color: #202E66; font-weight: 500;")
         subtext.setAlignment(Qt.AlignCenter)
+        subtext.setFont(QFont("Be Vietnam", 12))
+        subtext.setMaximumHeight(28)
         header_layout.addWidget(subtext)
 
         layout.addWidget(header_frame)
@@ -48,7 +54,7 @@ class ForgotPasswordView(QWidget):
 
         # OTP button
         otp_button = QPushButton("Nhận OTP")
-        otp_button.setStyleSheet("background-color: #2158B6; color: white; border-radius: 9px; font-size: 14px; padding: 12px 38px;")
+        #otp_button.setStyleSheet("background-color: #2158B6; color: white; border-radius: 9px; font-size: 14px; padding: 12px 38px;")
         otp_button.setFixedWidth(256)
         otp_button.setFixedHeight(45)
         otp_button.clicked.connect(self.on_submit)
@@ -62,17 +68,17 @@ class ForgotPasswordView(QWidget):
         resend_layout = QHBoxLayout()
         not_received = QLabel("Không nhận được OTP?")
         not_received.setFont(QFont("Be Vietnam", 12))
-        not_received.setStyleSheet("color: #202E66; font-style: italic;")
+        #.setStyleSheet("color: #202E66; font-style: italic;")
 
         resend = QPushButton("Gửi lại OTP")
         resend.setFlat(True)
         resend.setCursor(Qt.PointingHandCursor)
         resend.setFont(QFont("Be Vietnam", 14, QFont.Bold))
-        resend.setStyleSheet("color: #2158B6; border: none; text-align: left;")
+        #resend.setStyleSheet("color: #2158B6; border: none; text-align: left;")
         resend.clicked.connect(self.resend_otp)
 
         resend.setFont(QFont("Be Vietnam", 14, QFont.Bold))
-        resend.setStyleSheet("color: #2158B6;")
+        #resend.setStyleSheet("color: #2158B6;")
 
         resend_layout.addStretch()
         resend_layout.addWidget(not_received)
@@ -84,12 +90,12 @@ class ForgotPasswordView(QWidget):
 
     def create_option_box(self, title, description, option_id):
         wrapper = QFrame()
-        wrapper.setStyleSheet("QFrame { background-color: white; border-radius: 16px; }")
+        #wrapper.setStyleSheet("QFrame { background-color: white; border-radius: 16px; }")
         wrapper.setFixedHeight(100)
         wrapper.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
         radio = QRadioButton()
-        radio.setStyleSheet("QRadioButton { margin-left: 10px; }")
+        #radio.setStyleSheet("QRadioButton { margin-left: 10px; }")
         self.radio_group.addButton(radio, option_id)
 
         layout = QHBoxLayout(wrapper)
@@ -103,12 +109,12 @@ class ForgotPasswordView(QWidget):
 
         title_lbl = QLabel(title)
         title_lbl.setFont(QFont("Be Vietnam", 14, QFont.Bold))
-        title_lbl.setStyleSheet("color: #202E66;")
+        #title_lbl.setStyleSheet("color: #202E66;")
         title_lbl.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
 
         desc_lbl = QLabel(description)
         desc_lbl.setFont(QFont("Be Vietnam", 12))
-        desc_lbl.setStyleSheet("color: #202E66; font-style: italic;")
+        #desc_lbl.setStyleSheet("color: #202E66; font-style: italic;")
         desc_lbl.setWordWrap(True)
         desc_lbl.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
