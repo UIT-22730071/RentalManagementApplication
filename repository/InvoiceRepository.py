@@ -224,4 +224,45 @@ class InvoiceRepository:
 
     @staticmethod
     def get_all_invoices():
-        pass
+        return [
+            {
+                "invoice_id": 1,
+                "room_name": "Phòng A101",
+                "rent_price": 1500000,
+                "electric_fee": 300000,
+                "water_fee": 100000,
+                "garbage_fee": 50000,
+                "internet_fee": 70000,
+                "other_fee": 30000,
+                "created_at": "2025-04-01",
+                "landlord_name": "Nguyễn Văn A",
+                "tenant_name": "Trần Thị B"
+            },
+            {
+                "invoice_id": 2,
+                "room_name": "Phòng B202",
+                "rent_price": 2000000,
+                "electric_fee": 250000,
+                "water_fee": 90000,
+                "garbage_fee": 40000,
+                "internet_fee": 80000,
+                "other_fee": 20000,
+                "created_at": "2025-04-02",
+                "landlord_name": "Lê Thị C",
+                "tenant_name": "Phạm Văn D"
+            },
+            {
+                "invoice_id": 3,
+                "room_name": "Phòng C303",
+                "rent_price": 1800000,
+                "electric_fee": 320000,
+                "water_fee": 95000,
+                "garbage_fee": 55000,
+                "internet_fee": 75000,
+                "other_fee": 25000,
+                "created_at": "2025-04-03",
+                "landlord_name": "Trương Văn E",
+                "tenant_name": "Ngô Thị F"
+            }
+        ]
+

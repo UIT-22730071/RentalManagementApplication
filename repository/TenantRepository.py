@@ -199,3 +199,8 @@ class TenantRepository:
     def update_user_info(user_id, data):
         # TODO: Thực hiện truy vấn UPDATE SQL
         print(f"[DB] Đã cập nhật user_id={user_id} với data={data}")
+
+    @staticmethod
+    def get_tenant_id_from_user_name(username):
+        tenant_id = 1
+        return tenant_id
