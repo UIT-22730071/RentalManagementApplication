@@ -131,7 +131,7 @@ class TenantRoomInfo(QWidget):
         self.add_info_pair(basic_grid, 4, "Tiền cọc:", self.data_room.get("Tiền cọc", "---"))
         self.add_info_pair(basic_grid, 5, "Ngày đến hạn thanh toán:",
                            self.data_room.get("Ngày đến hạn thanh toán", "---"))
-        self.add_info_pair(basic_grid, 6, "Diện tích:", self.data_room.get("Diện tích", "---"))
+        self.add_info_pair(basic_grid, 6, "Diện tích:", self.data_room.get("Diện tích", "---"),)
         basic_info_group.setLayout(basic_grid)
         content_layout.addWidget(basic_info_group)
 

@@ -18,7 +18,11 @@ class TenantMenu(QWidget):
         self.id_tenant = TenantRepository.get_tenant_id_from_user_id(user_id)
 
         self.main_window.setWindowTitle("Dashboard Người Thuê trọ")
-        self.main_window.setGeometry(300, 100, 1000, 600)
+        #self.main_window.setGeometry(300, 100, 1000, 600)
+        self.main_window.resize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+        self.main_window.setMinimumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+        self.main_window.setMaximumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+
         '''
         self.main_window.setStyleSheet("""
                     background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);

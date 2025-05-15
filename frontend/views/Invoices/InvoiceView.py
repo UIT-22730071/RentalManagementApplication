@@ -24,6 +24,10 @@ class InvoiceView(QWidget):
         super().__init__()
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
+        self.main_window.resize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+        self.main_window.setMinimumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+        self.main_window.setMaximumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+
         self.id_lanlord = InvoiceRepository.get_id_lanlord_from_id_invoice(invoice_data['invoice_id'])
         self.user_id = LanlordRepository.get_user_id_lanlord_from_lanlord_id(landlord_data['id_lanlord'])
         # Set default data if not provided

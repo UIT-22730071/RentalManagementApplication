@@ -25,7 +25,12 @@ class TenantInvoices(QWidget):
     def __init__(self, main_window=None, invoice_data=None, landlord_data=None, tenant_data=None, room_data=None):
         super().__init__()
         self.setStyleSheet(GlobalStyle.global_stylesheet())
+
         self.main_window = main_window
+        self.main_window.resize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+        self.main_window.setMinimumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+        self.main_window.setMaximumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+
         self.id_lanlord = InvoiceRepository.get_id_lanlord_from_id_invoice(invoice_data['invoice_id'])
         self.id_tenant = InvoiceRepository.get_id_tenant_from_id_invoice(invoice_data['invoice_id'])
         self.user_id = TenantRepository.get_user_id_from_id_tenant(self.id_tenant)

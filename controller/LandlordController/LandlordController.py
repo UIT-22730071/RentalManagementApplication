@@ -52,12 +52,21 @@ class LandlordController:
     def handle_logout(view):
         """Quay về màn hình đăng nhập"""
         from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.HomeLogin import LoginWindow
-        print("[INFO] Đăng xuất khỏi dashboard landlord...")
+        #print("[INFO] Đăng xuất khỏi dashboard landlord...")
+
         main_window = view.main_window
-        main_window.switch_to_page(LoginWindow)
-        main_window.resize(800, 620)  # hoặc bất kỳ kích thước mặc định nào bạn muốn
-        main_window.setMinimumSize(820,620)
-        main_window.setStyleSheet("background-color: #202020;")
+        login_widget = LoginWindow(main_window)  # truyền lại main_window nếu cần
+
+        # Đặt lại central widget
+        main_window.setCentralWidget(login_widget)
+
+        # Reset kích thước chuẩn
+        main_window.resize(800, 620)
+        main_window.setMinimumSize(825, 600)
+        main_window.setMaximumSize(825, 600)
+
+        # Reset tiêu đề
+        main_window.setWindowTitle("Đăng nhập hệ thống")
 
     @staticmethod
     def handle_exit():

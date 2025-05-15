@@ -2,6 +2,9 @@ from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
+
 class InfoUpdater(QDialog):
     def __init__(self, title, current_value, on_update_callback):
         """
@@ -10,12 +13,14 @@ class InfoUpdater(QDialog):
         :param on_update_callback: Hàm callback gọi sau khi nhấn 'Lưu' (truyền giá trị mới)
         """
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.setWindowTitle(f"📝 Cập nhật {title}")
         self.setFixedSize(400, 180)
         self.on_update_callback = on_update_callback
 
         # Thiết lập giao diện chính
         layout = QVBoxLayout(self)
+        '''
         self.setStyleSheet("""
             QDialog {
                 background-color: #f8f9fa;
@@ -52,7 +57,7 @@ class InfoUpdater(QDialog):
                 background-color: #5a6268;
             }
         """)
-
+        '''
         # GroupBox chứa nội dung nhập liệu
         group_box = QGroupBox(f" ✏️ {title}")
         group_box.setFont(QFont("Arial", 10, QFont.Bold))
@@ -67,8 +72,10 @@ class InfoUpdater(QDialog):
         # Nút hành động
         button_layout = QHBoxLayout()
         save_btn = QPushButton("✔ Lưu")
+
         cancel_btn = QPushButton("✖ Hủy")
-        cancel_btn.setObjectName("cancel")
+        cancel_btn.setObjectName("CancelBtn")
+
 
         save_btn.clicked.connect(self.save)
         cancel_btn.clicked.connect(self.reject)

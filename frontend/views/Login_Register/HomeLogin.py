@@ -12,9 +12,14 @@ from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import Glob
 class LoginWindow(QWidget):
     def __init__(self, main_window):
         super().__init__()
+
+
         self.setStyleSheet(GlobalStyle.global_stylesheet())
 
         self.main_window = main_window  # Lưu lại để dùng cho chuyển trang
+        self.main_window.setFixedSize(825, 600)
+        self.main_window.setMinimumSize(825, 600)
+        self.main_window.setMaximumSize(1200, 600)
         self.setStyleSheet("background-color: #202020; border-radius: 15px;")
         # Layout chính (chứa 2 phần trái + phải)
         # Layout chính

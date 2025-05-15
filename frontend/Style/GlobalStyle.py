@@ -25,8 +25,8 @@ class GlobalStyle:
     LABEL_FONT_SIZE = "14px"
 
     # Window size
-    WINDOW_WIDTH = 1000
-    WINDOW_HEIGHT = 600
+    WINDOW_WIDTH = 1600
+    WINDOW_HEIGHT = 900
     # Thêm các hằng số cho responsive design
     SMALL_SCREEN_WIDTH = 800
     MEDIUM_SCREEN_WIDTH = 1200
@@ -161,11 +161,9 @@ class GlobalStyle:
             border-radius: 6px;
             background-color: #f5f5f5;
         }}
-        
         QCheckBox:hover {{
             background-color: #EAF2FF;
         }}
-        
         QCheckBox::indicator {{
             width: 16px;
             height: 16px;
@@ -173,7 +171,6 @@ class GlobalStyle:
             background-color: white;
             border: 2px solid #2158B6;
         }}
-        
         QCheckBox::indicator:checked {{
             background-color: #2158B6;
         }}
@@ -213,15 +210,13 @@ class GlobalStyle:
             color: #202E66;
             font-size: 14px;
         }}
-        
         QLabel#imagePreview {{
             border: 1px dashed #bdc3c7;
             border-radius: 8px;
             background-color: #FAFAFA;
             min-height: 120px;
             min-width: 120px;
-        }}
-        
+        }}    
         QLabel#keyLabel {{
             font-size: 14px;
             color: #2c3e50;
@@ -237,14 +232,9 @@ class GlobalStyle:
             padding: 8px;
             margin: 2px;
         }}
-
-
         QLabel#valueLabel[highlight] {{
             background-color: #e74c3c;
         }}
-
-
-        
         QGroupBox {{
             border: 1px solid #ddd;
             border-radius: 8px;

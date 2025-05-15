@@ -9,6 +9,7 @@ class TenantHome(QWidget):
     def __init__(self, main_window=None, id_tenant=None, information_data=None, chart=None):
         super().__init__()
         self.setStyleSheet(GlobalStyle.global_stylesheet())
+
         self.main_window = main_window
         self.id_tenant = id_tenant
         ''' information_data được trả về
