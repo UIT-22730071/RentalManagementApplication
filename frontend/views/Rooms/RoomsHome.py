@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QSizePolicy
 from PyQt5.QtCore import Qt
 from QLNHATRO.RentalManagementApplication.frontend.Component.DashboardCard import DashboardCard
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class RoomsHome(QWidget):
@@ -8,7 +9,7 @@ class RoomsHome(QWidget):
         super().__init__()
 
         #TODO cần lắm 1 đối tượng ROOM
-
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
         self.room_id = room_id
         self.data = data_room_home
@@ -26,7 +27,7 @@ class RoomsHome(QWidget):
 
         main_layout = QVBoxLayout()
         main_layout.setAlignment(Qt.AlignTop)
-        self.setStyleSheet("background-color: #2c3e50; border-radius: 15px; padding: 20px;")
+        #self.setStyleSheet("background-color: #2c3e50; border-radius: 15px; padding: 20px;")
 
         # ====== Label tiêu đề ======
         title = QLabel(f"📋 THÔNG TIN PHÒNG: {room_id}")

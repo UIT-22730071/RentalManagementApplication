@@ -1,7 +1,9 @@
 
 
 # global_styles.py
-
+# self.setStyleSheet(GlobalStyle.global_stylesheet())
+# title.setObjectName("Title")
+# title.setFixedHeight(60)
 class GlobalStyle:
     # Color palette
     MAIN_BG = "#FFFFFF"  # trắng nền
@@ -57,7 +59,24 @@ class GlobalStyle:
         QPushButton:hover {{
             background-color: #1D4DA5;
         }}
+        
+        QPushButton#CancelBtn {{
+            background-color: #F44336 ;  /* Màu xám nhạt */
+            color: #202E66;
+            font-size: 14px;
+            font-weight: 400;
+            font-family: 'Be Vietnam', sans-serif;
+            border-radius: 9px;
+            padding: 12px 38px;
+        }}
+        
+        QPushButton#CancelBtn:hover {{
+            background-color: #B0B0B0;
+        }}
 
+        
+        
+        
         QTableWidget QHeaderView::section {{
             background-color: {GlobalStyle.TABLE_HEADER_BG};
             color: {GlobalStyle.TABLE_TEXT_COLOR};
@@ -171,7 +190,39 @@ class GlobalStyle:
             border-radius: 11px;
         }}
 
+        QLabel#infoLabel {{
+            color: #7f8c8d;
+            font-style: italic;
+        }}
+        
+        QLabel#sectionLabel {{
+            font-weight: bold;
+            color: #202E66;
+            font-size: 14px;
+        }}
+        
+        QLabel#imagePreview {{
+            border: 1px dashed #bdc3c7;
+            border-radius: 8px;
+            background-color: #FAFAFA;
+            min-height: 120px;
+            min-width: 120px;
+        }}
 
+        QGroupBox {{
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fafafa;
+            margin-top: 10px;
+            padding: 8px;
+        }}
+        QGroupBox::title {{
+            subcontrol-origin: margin;
+            left: 10px;
+            padding: 0 6px;
+            font-weight: bold;
+            background-color: transparent;
+        }}
 
 
         """

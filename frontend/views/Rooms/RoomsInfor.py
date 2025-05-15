@@ -4,9 +4,13 @@ from PyQt5.QtWidgets import (QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLay
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
+
 class RoomsInfor(QWidget):
     def __init__(self, main_window, room_id,data_room_infor):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
         self.room_id = room_id
         self.room_data = data_room_infor
@@ -40,31 +44,34 @@ class RoomsInfor(QWidget):
             "SĐT": "090x xxx xxx"
         }
         '''
-        self.setStyleSheet("QWidget { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #FFDEE9, stop:1 #B5FFFC); }")
+        #self.setStyleSheet("QWidget { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #FFDEE9, stop:1 #B5FFFC); }")
 
         main_layout = QVBoxLayout(self)
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
-        scroll.setStyleSheet("QScrollArea { border: none; background: transparent; }")
+        #scroll.setStyleSheet("QScrollArea { border: none; background: transparent; }")
 
         scroll_content = QWidget()
         scroll_layout = QVBoxLayout(scroll_content)
 
         # Card
         card = QFrame()
-        card.setStyleSheet("QFrame { background: white; border-radius: 12px; }")
+        #card.setStyleSheet("QFrame { background: white; border-radius: 12px; }")
         card_layout = QVBoxLayout(card)
         card_layout.setContentsMargins(20, 20, 20, 20)
 
         # Title
         title = QLabel("📌 THÔNG TIN CHI TIẾT PHÒNG")
-        title.setFont(QFont("Arial", 20, QFont.Bold))
-        title.setStyleSheet("color: white; background-color: #2C3E50; border-radius: 10px; padding: 10px;")
+        #title.setFont(QFont("Arial", 20, QFont.Bold))
+        #title.setStyleSheet("color: white; background-color: #2C3E50; border-radius: 10px; padding: 10px;")
+        title.setObjectName("Title")
+        title.setFixedHeight(60)
         title.setAlignment(Qt.AlignCenter)
         card_layout.addWidget(title)
 
         # Section
         group = QGroupBox("📋 Thông tin phòng")
+        '''
         group.setStyleSheet("""
             QGroupBox {
                 font-weight: bold; border: 1px solid #3498db;
@@ -77,6 +84,7 @@ class RoomsInfor(QWidget):
                 background-color: white; border-radius: 5px; color: #2c3e50;
             }
         """)
+        '''
         grid = QGridLayout(group)
         row = 0
 
@@ -85,29 +93,16 @@ class RoomsInfor(QWidget):
 
         for key, value in self.room_data.items():
             key_lbl = QLabel(key + ":")
-            key_lbl.setStyleSheet("font-weight: bold;")
+            key_lbl.setFixedWidth(300)
+            #key_lbl.setStyleSheet("font-weight: bold;")
             val_lbl = QLabel(value)
             val_lbl.setWordWrap(True)
             self.value_labels[key] = val_lbl
 
             edit_btn = QPushButton("Thay đổi")
-            edit_btn.setFixedWidth(100)  # Hoặc 70 tùy font
+            edit_btn.setFixedWidth(180)
             edit_btn.setFixedHeight(40)
-            edit_btn.setStyleSheet("""
-                QPushButton {
-                    background-color: #4FBEEE;
-                    color: white;
-                    border-radius: 10px;
-                    padding: 4px 8px;
-                    font-weight: bold;
-                }
-                QPushButton:hover {
-                    background-color: #3ba8d8;
-                }
-                QPushButton:pressed {
-                    background-color: #2b93c3;
-                }
-            """)
+
             edit_btn.clicked.connect(lambda _, k=key: self.open_edit_dialog(k))
 
             grid.addWidget(key_lbl, row, 0)
@@ -126,6 +121,7 @@ class RoomsInfor(QWidget):
         dialog.setModal(True)
         dialog.setMinimumWidth(600)
         dialog.setMinimumHeight(350)
+        '''
         dialog.setStyleSheet("""
             QDialog {
                 background-color: #f8f9fa;
@@ -149,15 +145,16 @@ class RoomsInfor(QWidget):
                 border: 2px solid #3498db;
             }
         """)
-
+        '''
         layout = QVBoxLayout(dialog)
         layout.setContentsMargins(20, 20, 20, 20)
         layout.setSpacing(15)
 
         # Title label
         title_label = QLabel(f"Cập nhật thông tin: {key}")
-        title_label.setStyleSheet("font-size: 16px; font-weight: bold; color: #2C3E50; padding: 5px 0;")
-        title_label.setFixedHeight(55)
+        title_label.setObjectName("Title")
+        #title_label.setStyleSheet("font-size: 16px; font-weight: bold; color: #2C3E50; padding: 5px 0;")
+        title_label.setFixedHeight(50)
         layout.addWidget(title_label)
 
         # Input field
@@ -173,26 +170,14 @@ class RoomsInfor(QWidget):
         # Cancel button
         cancel_btn = QPushButton("Hủy")
         cancel_btn.setFixedSize(100, 40)
-        cancel_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #e0e0e0;
-                color: #2c3e50;
-                border-radius: 8px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #d0d0d0;
-            }
-            QPushButton:pressed {
-                background-color: #c0c0c0;
-            }
-        """)
+        cancel_btn.setObjectName("CancelBtn")
         cancel_btn.clicked.connect(dialog.reject)
         button_layout.addWidget(cancel_btn)
 
         # Save button
         save_btn = QPushButton("Lưu")
         save_btn.setFixedSize(100, 40)
+        '''
         save_btn.setStyleSheet("""
             QPushButton {
                 background-color: #3498db;
@@ -207,6 +192,7 @@ class RoomsInfor(QWidget):
                 background-color: #1e6091;
             }
         """)
+        '''
         save_btn.clicked.connect(lambda: self.save_change(dialog, key, input_field.text()))
         button_layout.addWidget(save_btn)
 

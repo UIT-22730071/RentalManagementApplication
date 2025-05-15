@@ -1,9 +1,9 @@
-import shutil
+
 
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QTextEdit, QPushButton, QFileDialog,
-    QHBoxLayout, QMessageBox, QGroupBox, QComboBox, QDateEdit, QLineEdit,
-    QFormLayout, QSplitter, QFrame, QGridLayout, QScrollArea
+    QHBoxLayout, QMessageBox, QComboBox, QDateEdit, QLineEdit,
+    QFormLayout, QFrame, QGridLayout
 )
 from PyQt5.QtGui import QPixmap, QFont, QIcon
 from PyQt5.QtCore import Qt, QDate
@@ -11,12 +11,13 @@ import os
 
 from QLNHATRO.RentalManagementApplication.controller.ControllerMaintenance.ControllerMaintenance import \
     ControllerMaintenance
-
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class TenantMaintenanceRequest(QWidget):
     def __init__(self, main_window, tenant_id):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
         self.tenant_id = tenant_id
         self.room_id = self.get_room_id_for_tenant(tenant_id)
@@ -24,7 +25,9 @@ class TenantMaintenanceRequest(QWidget):
 
         # Thiết lập cửa sổ
         self.setWindowTitle("Yêu Cầu Sửa Chữa")
-        self.resize(1000, 800)  # giúp giao diện mở ra với kích thước hợp lý
+        self.resize(1000, 800)
+
+        '''# giúp giao diện mở ra với kích thước hợp lý
         self.setStyleSheet("""
             QWidget { 
                 background-color: white; 
@@ -99,14 +102,14 @@ class TenantMaintenanceRequest(QWidget):
                 margin: 5px;
             }
         """)
-
+        '''
         self.init_ui()
 
     def init_ui(self):
         # Layout chính
         main_layout = QVBoxLayout()
         main_layout.setContentsMargins(10, 10, 10, 10)
-        main_layout.setSpacing(10)
+        main_layout.setSpacing(5)
 
         # --- Tiêu đề ---
         header_frame = QFrame()
@@ -114,7 +117,7 @@ class TenantMaintenanceRequest(QWidget):
         header_layout = QVBoxLayout(header_frame)
 
         title = QLabel("🔧 GỬI YÊU CẦU SỬA CHỮA")
-        title.setObjectName("titleLabel")
+        title.setObjectName("Title")
         title.setAlignment(Qt.AlignCenter)
         header_layout.addWidget(title)
 

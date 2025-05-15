@@ -34,10 +34,10 @@ class LandlordMenu(QWidget):
         # ------------ LEFT MENU FRAME ------------
         self.left_frame = QWidget()
         self.left_frame.setFixedWidth(250)
-        #self.left_frame.setStyleSheet("""
-            #background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);
-            #border-radius: 15px;
-        #""")
+        self.left_frame.setStyleSheet("""
+            background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);
+            border-radius: 15px;
+        """)
 
         left_layout = QVBoxLayout(self.left_frame)
         left_layout.setAlignment(Qt.AlignTop)

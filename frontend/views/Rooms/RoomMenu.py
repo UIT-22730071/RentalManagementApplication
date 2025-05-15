@@ -3,11 +3,14 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QPushButt
 
 from QLNHATRO.RentalManagementApplication.controller.RoomController.RoomMenuController import RoomMenuController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class RoomMenu(QWidget):
     def __init__(self, main_window, room_id):
         super().__init__()
+
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.controller = RoomMenuController()
         self.main_window = main_window
         self.room_id = room_id
@@ -28,7 +31,7 @@ class RoomMenu(QWidget):
         left_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         self.label_landlord = QLabel(f"👋 Phòng: {room_id}")
-        self.label_landlord.setStyleSheet("color: white; font-weight: bold; padding: 10px;")
+        #self.label_landlord.setStyleSheet("color: white; font-weight: bold; padding: 10px;")
 
         # Nút menu
         button_ui = ButtonUI.room_menu_button()

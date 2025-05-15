@@ -5,11 +5,13 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 from QLNHATRO.RentalManagementApplication.controller.InvoiceController.InvoiceController import InvoiceController
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class InvoiceInputPage(QWidget):
     def __init__(self, main_window, room_data_list, tenant_finder_callback, go_to_preview_callback):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
         self.room_data_list = room_data_list  # List of all rooms
         self.tenant_finder_callback = tenant_finder_callback
@@ -19,8 +21,6 @@ class InvoiceInputPage(QWidget):
         self.labels = {}
 
         # Consistent gradient background from previous files
-        self.setStyleSheet(
-            "QWidget { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #E8E8E8, stop:1 #f2f9fb); }")
         self.init_ui()
 
     def init_ui(self):
@@ -31,7 +31,7 @@ class InvoiceInputPage(QWidget):
         # Create scroll area for better handling of content
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
-        scroll.setStyleSheet("QScrollArea { border: none; background: transparent; }")
+        #scroll.setStyleSheet("QScrollArea { border: none; background: transparent; }")
 
         scroll_content = QWidget()
         layout = QVBoxLayout(scroll_content)
@@ -40,8 +40,9 @@ class InvoiceInputPage(QWidget):
 
         # ======= TITLE =======
         title = QLabel("📝 TẠO HÓA ĐƠN PHÒNG TRỌ")
-        title.setFont(QFont("Arial", 20, QFont.Bold))
-        title.setStyleSheet("color: white; background-color: #2C3E50; border-radius: 10px; padding: 10px;")
+        #title.setFont(QFont("Arial", 20, QFont.Bold))
+        title.setObjectName("Title")
+        #title.setStyleSheet("color: white; background-color: #2C3E50; border-radius: 10px; padding: 10px;")
         title.setAlignment(Qt.AlignCenter)
         title.setFixedHeight(50)
         layout.addWidget(title)
@@ -76,6 +77,7 @@ class InvoiceInputPage(QWidget):
         room_label.setStyleSheet("font-weight: bold; color: #2c3e50; font-size: 14px;")
 
         self.room_combo = QComboBox()
+        '''
         self.room_combo.setStyleSheet("""
             QComboBox {
                 padding: 8px;
@@ -103,7 +105,7 @@ class InvoiceInputPage(QWidget):
                 image: "🔽"; 
             }
                 """)
-
+        '''
         # Populate room combo box
         for room in self.room_data_list:
             self.room_combo.addItem(f"{room['ten_phong']} - ID: {room['id']}", userData=room)
@@ -118,6 +120,7 @@ class InvoiceInputPage(QWidget):
 
         # ======= PHẦN 1: THÔNG TIN PHÒNG =======
         self.group_info = QGroupBox("📋 Thông tin phòng và người thuê")
+        '''
         self.group_info.setStyleSheet("""
             QGroupBox {
                 font-weight: bold; 
@@ -137,7 +140,7 @@ class InvoiceInputPage(QWidget):
                 color: #2c3e50;
             }
         """)
-
+        '''
         info_grid = QGridLayout(self.group_info)
         info_grid.setVerticalSpacing(8)
 
@@ -176,6 +179,7 @@ class InvoiceInputPage(QWidget):
 
         # ======= PHẦN 2: NHẬP THÔNG TIN HÓA ĐƠN =======
         self.update_group = QGroupBox("🧾 Cập nhật thông tin hóa đơn")
+        '''
         self.update_group.setStyleSheet("""
             QGroupBox {
                 font-weight: bold; 
@@ -195,7 +199,7 @@ class InvoiceInputPage(QWidget):
                 color: #2c3e50;
             }
         """)
-
+        '''
         update_layout = QGridLayout(self.update_group)
         update_layout.setVerticalSpacing(15)
         update_layout.setHorizontalSpacing(10)
@@ -257,6 +261,7 @@ class InvoiceInputPage(QWidget):
 
         # Reset button
         self.reset_btn = QPushButton("Đặt lại")
+        '''
         self.reset_btn.setStyleSheet("""
             QPushButton {
                 background-color: #4FBEEE;
@@ -273,11 +278,13 @@ class InvoiceInputPage(QWidget):
                 background-color: #2b93c3;
             }
         """)
+        '''
         self.reset_btn.setFixedWidth(150)
         self.reset_btn.clicked.connect(self.reset_form)
 
         # Confirm button
         self.confirm_btn = QPushButton("Cập nhật hóa đơn")
+        '''
         self.confirm_btn.setStyleSheet("""
             QPushButton {
                 background-color: #1812DC;
@@ -294,6 +301,7 @@ class InvoiceInputPage(QWidget):
                 background-color: #c0392b;
             }
         """)
+        '''
         self.confirm_btn.setFixedWidth(250)
         self.confirm_btn.clicked.connect(self.on_export_clicked)
 
@@ -347,7 +355,7 @@ class InvoiceInputPage(QWidget):
                                 f"Phòng {room['ten_phong']} chưa có người thuê. Vui lòng cập nhật người thuê trước.")
             # Reset combo box selection
             self.room_combo.setCurrentIndex(0)
-
+    #TODO: Mapping này phải chuyển qua service để xử lý trả về 1 cụm dữ liệu để view sử dụng
     def update_room_tenant_info(self, room, tenant):
         """Update the UI with room and tenant info"""
         info_mapping = {
@@ -361,8 +369,8 @@ class InvoiceInputPage(QWidget):
             "Giá nước": f"{room['gia_nuoc']} VNĐ/người",
             "Internet": f"{room.get('internet', '100000')} VNĐ",
             "Phí khác": f"{room.get('phi_khac', '20000')} VNĐ",
-            "Số điện cũ": room.get('chi_so_dien', '---'),
-            "Số nước cũ": room.get('chi_so_nuoc', '---'),
+            "Số điện cũ": f"{room.get('chi_so_dien', '---')} KWH",
+            "Số nước cũ": f"{room.get('chi_so_nuoc', '---')} m3",
         }
 
         # Update all labels with the new information
@@ -395,7 +403,9 @@ class InvoiceInputPage(QWidget):
             chi_so_dien = float(self.dien_input.text()) # chir soos dieenj moiws
             chi_so_nuoc = float(self.nuoc_input.text()) # chỉ số nước mới nhập
             phi_khac = float(self.phi_khac_input.text() or self.selected_room.get('phi_khac', 0))
+
             # TODO: lấy số điện và số nước từ hóa đoơn cũ, nễu không có trả về 0
+
             # Additional validation
             old_dien = float(self.selected_room.get('chi_so_dien', 0))
             old_nuoc = float(self.selected_room.get('chi_so_nuoc', 0))

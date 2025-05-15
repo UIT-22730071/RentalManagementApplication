@@ -29,7 +29,7 @@ class CreateNewRoom(QWidget):
         title.setAlignment(Qt.AlignCenter)
         #title.setStyleSheet("font-size: 24px; font-weight: bold;")
         title.setObjectName("Title")  # ✅ sẽ dùng style của QLabel#Title
-
+        title.setFixedHeight(60)
         content_layout.addWidget(title)
         content_layout.addSpacing(20)
 
