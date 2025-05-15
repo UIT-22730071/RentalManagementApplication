@@ -4,6 +4,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QLabel
 
 from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
+from QLNHATRO.RentalManagementApplication.controller.AdminController.AdminController import AdminController
 from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import LandlordController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
@@ -88,7 +89,7 @@ class LandlordMenu(QWidget):
 
         self.exist_btn = QPushButton("❌ Thoát")
         button_ui.apply_style(self.exist_btn)
-        self.exist_btn.clicked.connect(lambda: LandlordController.handle_exit())
+        self.exist_btn.clicked.connect(lambda: AdminController.handle_exit(self))
 
         # Thêm tất cả các button vào layout
         left_layout.addWidget(self.home_btn)

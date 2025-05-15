@@ -12,20 +12,12 @@ class AdminTenantList(QWidget):
         self.main_window = main_window
         self.tenant_list = tenant_list or [
             {
-                "stt": 1,
-                "name": "Lê Thị C",
-                "cccd": "012345678900",
-                "phone": "0934567890",
-                "email": "letc@example.com",
-                "ngay_thue": "01/01/2024"
-            },
-            {
-                "stt": 2,
-                "name": "Phạm Văn D",
-                "cccd": "112233445566",
-                "phone": "0923456789",
-                "email": "phamd@example.com",
-                "ngay_thue": "15/03/2024"
+                "stt": 0,
+                "name": "Chưa có ",
+                "cccd": "00000000000",
+                "phone": "000000000",
+                "email": "00000000@example.com",
+                "ngay_thue": "00/00/1901"
             }
         ]
 

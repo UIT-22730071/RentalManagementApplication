@@ -58,12 +58,7 @@ class AdminController:
 
         view.set_right_frame(lambda: AdminInvoiceList(view.main_window,invoice_list))
 
-    @staticmethod
-    def handle_logout(view):
-        print("[INFO] Đăng xuất khỏi dashboard admin...")
-        main_window = view.main_window
-        login_window = MainWindow()
-        main_window.setCentralWidget(login_window)
+
 
     @staticmethod
     def handle_exit(view):

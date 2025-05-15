@@ -2,6 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QLabel
 
 from QLNHATRO.RentalManagementApplication.controller.AdminController.AdminController import AdminController
+from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import LandlordController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
@@ -58,25 +59,25 @@ class AdminMenu(QWidget):
         button_ui.apply_style(self.user_btn)
         self.user_btn.clicked.connect(lambda: AdminController.go_to_user_management(self))
 
-        self.landlord_btn = QPushButton("📋 Danh Sách chủ trọ")
+        self.landlord_btn = QPushButton("📋 DS Chủ Trọ")
         button_ui.apply_style(self.landlord_btn)
         self.landlord_btn.clicked.connect(lambda: AdminController.go_to_landlord_list(self))
 
-        self.tenant_btn = QPushButton("📋 Danh sách người thuê trọ")
+        self.tenant_btn = QPushButton("📋 DS Người Thuê Trọ")
         button_ui.apply_style(self.tenant_btn)
         self.tenant_btn.clicked.connect(lambda: AdminController.go_to_tenant_list(self))
 
-        self.room_btn = QPushButton("🚪 Danh sách phòng trọ")
+        self.room_btn = QPushButton("🚪 DS Phòng Trọ")
         button_ui.apply_style(self.room_btn)
         self.room_btn.clicked.connect(lambda: AdminController.go_to_room_list(self))
 
-        self.invoice_btn = QPushButton("🧾 Danh sách hóa đơn")
+        self.invoice_btn = QPushButton("🧾 DS Hóa Đơn")
         button_ui.apply_style(self.invoice_btn)
         self.invoice_btn.clicked.connect(lambda: AdminController.go_to_invoice_list(self))
 
         self.logout_btn = QPushButton("🚪 Đăng xuất")
         button_ui.apply_style(self.logout_btn)
-        self.logout_btn.clicked.connect(lambda: AdminController.handle_logout(self))
+        self.logout_btn.clicked.connect(lambda: LandlordController.handle_logout(self))
 
         self.exit_btn = QPushButton("❌ Thoát")
         button_ui.apply_style(self.exit_btn)

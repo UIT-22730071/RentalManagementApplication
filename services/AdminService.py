@@ -10,6 +10,7 @@ class AdminService:
     def get_all_users():
         """Trả về danh sách tài khoản người dùng (admin, chủ trọ, người thuê)"""
         ''' Tài khoản admin tạo cố định không cho cập nhật hay update'''
+
         raw_data = AdminRepository.get_all_users()
         return raw_data
 

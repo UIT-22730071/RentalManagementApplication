@@ -1,6 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QPushButton
 
+from QLNHATRO.RentalManagementApplication.controller.AdminController.AdminController import AdminController
 from QLNHATRO.RentalManagementApplication.controller.RoomController.RoomMenuController import RoomMenuController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
@@ -60,7 +61,7 @@ class RoomMenu(QWidget):
 
         self.back_button = QPushButton("Quay lại")
         button_ui.apply_style(self.back_button)
-        self.back_button.clicked.connect(lambda: self.main_window.go_to_exs())
+        self.back_button.clicked.connect(lambda: AdminController.handle_exit(self))
 
         # Thêm vào layout trái
         left_layout.addWidget(self.label_landlord)

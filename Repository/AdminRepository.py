@@ -49,9 +49,6 @@ class AdminRepository:
             }
         ]
 
-
-
-
     @staticmethod
     def count_landlords_by_month(month, year):
         # TODO: Truy vấn SQL để đếm số chủ trọ đăng ký theo tháng
