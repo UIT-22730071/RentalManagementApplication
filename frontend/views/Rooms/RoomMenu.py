@@ -61,7 +61,7 @@ class RoomMenu(QWidget):
 
         self.back_button = QPushButton("Quay lại")
         button_ui.apply_style(self.back_button)
-        self.back_button.clicked.connect(lambda: AdminController.handle_exit(self))
+        self.back_button.clicked.connect(lambda: AdminController.handel_exit_window(self))
 
         # Thêm vào layout trái
         left_layout.addWidget(self.label_landlord)

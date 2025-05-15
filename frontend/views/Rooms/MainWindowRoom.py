@@ -12,6 +12,7 @@ class MainWindowRoom(QMainWindow):
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.setWindowTitle("Dashboard Chủ trọ")
         self.setGeometry(300, 100, 860, 600)
+
         '''
         self.setStyleSheet(
             "background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);"

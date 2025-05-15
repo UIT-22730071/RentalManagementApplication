@@ -14,9 +14,9 @@ class AdminRepository:
         # TODO: Tạo SQL truy xuất Database
         return [
             {"name": "Nguyễn Văn A", "cccd": "123456789012", "phone": "0901234567", "email": "vana@example.com",
-             "so_phong": 5},
+             "so_phong": 5,"username":"lanlord"},
             {"name": "Trần Thị B", "cccd": "987654321098", "phone": "0912345678", "email": "thib@example.com",
-             "so_phong": 3}
+             "so_phong": 3,"username":"lanlord"}
         ]
 
     @staticmethod
@@ -24,9 +24,9 @@ class AdminRepository:
         # TODO: Tạo SQL truy xuất Database
         return [
             {"name": "Lê Thị C", "cccd": "012345678900", "phone": "0934567890", "email": "letc@example.com",
-             "ngay_thue": "01/01/2024"},
+             "ngay_thue": "01/01/2024","username":"tenant"},
             {"name": "Phạm Văn D", "cccd": "112233445566", "phone": "0923456789", "email": "phamd@example.com",
-             "ngay_thue": "15/03/2024"}
+             "ngay_thue": "15/03/2024","username":"tenant"}
         ]
 
     @staticmethod
@@ -38,14 +38,16 @@ class AdminRepository:
                 "room_type": "Phòng trọ",
                 "landlord_name": "Nguyễn Văn A",
                 "address": "123 Đường ABC, Quận 1",
-                "status": "Trống"
+                "status": "Trống",
+                'room_id':"P101"
             },
             {
                 "room_name": "Phòng B2",
                 "room_type": "Chung cư",
                 "landlord_name": "Trần Thị B",
                 "address": "456 Đường XYZ, Quận 3",
-                "status": "Đã thuê"
+                "status": "Đã thuê",
+                'room_id': "P102"
             }
         ]
 

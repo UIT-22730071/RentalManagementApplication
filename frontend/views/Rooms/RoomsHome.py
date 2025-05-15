@@ -31,8 +31,10 @@ class RoomsHome(QWidget):
 
         # ====== Label tiêu đề ======
         title = QLabel(f"📋 THÔNG TIN PHÒNG: {room_id}")
-        title.setStyleSheet("font-size: 24px; font-weight: bold; color: white;")
-        title.setAlignment(Qt.AlignCenter)
+        title.setObjectName("Title")
+        title.setFixedHeight(60)
+        #title.setStyleSheet("font-size: 24px; font-weight: bold; color: white;")
+        #title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(title)
 
         # ====== Placeholder cho biểu đồ thu nhập ======

@@ -1,8 +1,10 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame, QMessageBox
 
+from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
 from QLNHATRO.RentalManagementApplication.frontend.Component.tableUI import TableUI
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
 
 
 class AdminLandlordList(QWidget):
@@ -10,6 +12,7 @@ class AdminLandlordList(QWidget):
         super().__init__()
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
+        self._opened_windows = []
         self.landlord_list = landlord_list or [
             {
                 "stt": 1,
@@ -75,8 +78,22 @@ class AdminLandlordList(QWidget):
     def show_detail(self, row):
         try:
             landlord = self.landlord_list[row]
-            QMessageBox.information(self, "Chi tiết", f"👤 {landlord['name']}\n📞 {landlord['phone']}\n📬 {landlord['email']}")
+            username = landlord['username']
+            id_landlord = LanlordRepository.get_id_landlord_from_user_id(username)
+
+            # Mở Dashboard của chủ trọ trong cửa sổ mới
+            from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.MainWindowLandlord import \
+                MainWindowLandlord
+            dashboard = MainWindowLandlord(id_landlord)
+            dashboard.show()
+
+            # Lưu lại tham chiếu để cửa sổ không bị thu hồi bộ nhớ
+            if not hasattr(self, "_opened_windows"):
+                self._opened_windows = []
+            self._opened_windows.append(dashboard)
+            #QMessageBox.information(self, "Chi tiết", f"👤 {landlord['name']}\n📞 {landlord['phone']}\n📬 {landlord['email']}")
             # Hoặc gọi controller mở chi tiết nếu có sẵn:
             # AdminController.open_landlord_detail(landlord['id_landlord'])
+
         except Exception as e:
             QMessageBox.warning(self, "Lỗi", f"Không thể hiển thị chi tiết: {str(e)}")

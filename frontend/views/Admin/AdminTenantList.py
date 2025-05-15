@@ -1,8 +1,11 @@
+from Demos.win32ts_logoff_disconnected import username
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame, QMessageBox
 
+from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
 from QLNHATRO.RentalManagementApplication.frontend.Component.tableUI import TableUI
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+
 
 
 class AdminTenantList(QWidget):
@@ -17,11 +20,10 @@ class AdminTenantList(QWidget):
                 "cccd": "00000000000",
                 "phone": "000000000",
                 "email": "00000000@example.com",
-                "ngay_thue": "00/00/1901"
+                "ngay_thue": "00/00/1901",
+                "username":"tenant"
             }
         ]
-
-
 
         main_layout = QVBoxLayout()
 
@@ -65,10 +67,17 @@ class AdminTenantList(QWidget):
     def show_detail(self, row):
         try:
             tenant = self.tenant_list[row]
-            QMessageBox.information(
-                self,
-                "Chi tiết người thuê",
-                f"👤 {tenant['name']}\n🆔 {tenant['cccd']}\n📞 {tenant['phone']}\n📬 {tenant['email']}"
-            )
+            username = tenant['username']
+            id_tenant = TenantRepository.get_tenant_id_from_user_name(username)
+
+            # Tạo và hiển thị dashboard người thuê trong cửa sổ mới
+            from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.MainWindowTenant import MainWindowTenant
+            dashboard = MainWindowTenant(id_tenant)
+            dashboard.show()
+
+            # Lưu lại tham chiếu để cửa sổ không bị thu hồi bộ nhớ
+            if not hasattr(self, "_opened_windows"):
+                self._opened_windows = []
+            self._opened_windows.append(dashboard)
         except Exception as e:
             QMessageBox.warning(self, "Lỗi", f"Không thể hiển thị chi tiết: {str(e)}")

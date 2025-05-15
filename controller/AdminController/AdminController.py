@@ -50,20 +50,22 @@ class AdminController:
 
     @staticmethod
     def go_to_invoice_list(view):
-        print("[INFO] Điều hướng đến Danh sách hóa đơn")
+        #print("[INFO] Điều hướng đến Danh sách hóa đơn")
 
         from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminInvoiceList import AdminInvoiceList
         from QLNHATRO.RentalManagementApplication.services.AdminService import AdminService
+
         invoice_list = AdminService.get_all_invoices_for_admin()
-
-        view.set_right_frame(lambda: AdminInvoiceList(view.main_window,invoice_list))
-
-
+        view.set_right_frame(lambda: AdminInvoiceList(view.main_window, invoice_list))
 
     @staticmethod
     def handle_exit(view):
         print("[INFO] Đóng ứng dụng")
         QApplication.quit()
+
+    @staticmethod
+    def handel_exit_window(view):
+        view.main_window.close()
     '''--------------------------------------------------------------------'''
 
     @staticmethod

@@ -26,7 +26,8 @@ class AdminService:
                 "cccd": landlord.get("cccd", "N/A"),
                 "phone": landlord.get("phone", "N/A"),
                 "email": landlord.get("email", "N/A"),
-                "so_phong": landlord.get("so_phong", 0)
+                "so_phong": landlord.get("so_phong", 0),
+                "username":landlord.get("username")
             })
         return result
 
@@ -42,7 +43,8 @@ class AdminService:
                 "cccd": tenant.get("cccd", "N/A"),
                 "phone": tenant.get("phone", "N/A"),
                 "email": tenant.get("email", "N/A"),
-                "ngay_thue": tenant.get("ngay_thue", "N/A")
+                "ngay_thue": tenant.get("ngay_thue", "N/A"),
+                "username":tenant.get("username","N/A")
             })
         return result
 
@@ -58,7 +60,8 @@ class AdminService:
                 "room_type": room.get("room_type", "N/A"),
                 "landlord": room.get("landlord_name", "N/A"),
                 "address": room.get("address", "N/A"),
-                "status": room.get("status", "N/A")
+                "status": room.get("status", "N/A"),
+                "room_id": room.get("room_id","N/A")
             })
         return result
 
@@ -123,28 +126,29 @@ class AdminService:
 
     @staticmethod
     def get_all_invoices_for_admin():
-        """Trả về tất cả hóa đơn trong hệ thống"""
+        """Trả về tất cả hóa đơn trong hệ thống với thông tin chủ trọ và người thuê"""
         raw_data = InvoiceRepository.get_all_invoices()
         result = []
+
         for idx, invoice in enumerate(raw_data, 1):
+            # Tính tổng chi phí
             total = (
-                invoice.get("rent_price", 0)
-                + invoice.get("electric_fee", 0)
-                + invoice.get("water_fee", 0)
-                + invoice.get("garbage_fee", 0)
-                + invoice.get("internet_fee", 0)
-                + invoice.get("other_fee", 0)
+                    invoice.get("rent_price", 0)
+                    + invoice.get("electric_fee", 0)
+                    + invoice.get("water_fee", 0)
+                    + invoice.get("garbage_fee", 0)
+                    + invoice.get("internet_fee", 0)
+                    + invoice.get("other_fee", 0)
             )
+
             result.append({
                 "STT": str(idx),
-                "Tên Phòng": invoice.get("room_name", "N/A"),
-                "Tiền nhà": f"{invoice.get('rent_price', 0):,} VNĐ",
-                "Tiền điện": f"{invoice.get('electric_fee', 0):,} VNĐ",
-                "Tiền nước": f"{invoice.get('water_fee', 0):,} VNĐ",
-                "Tiền rác": f"{invoice.get('garbage_fee', 0):,} VNĐ",
+                "Họ tên chủ trọ": invoice.get("landlord_name", "Chưa có"),
+                "Họ tên người thuê": invoice.get("tenant_name", "Chưa có"),
                 "Tổng chi phí": f"{total:,} VNĐ",
                 "Ngày xuất hóa đơn": invoice.get("created_at", "N/A"),
                 "Chi tiết hóa đơn": "Xem",
                 "id_invoice": invoice.get("invoice_id")
             })
         return result
+

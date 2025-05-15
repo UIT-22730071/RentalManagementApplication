@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout
 
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordMenu import LandlordMenu
 
 
 class MainWindowLandlord(QMainWindow):
@@ -19,13 +20,9 @@ class MainWindowLandlord(QMainWindow):
             #border-radius: 15px;
         #""")
 
-        # Create and set central widget
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
-        # Set up layout
-        main_layout = QVBoxLayout(central_widget)
-
-        # Add the landlord menu
-        #self.landlord_menu = LandlordMenu(self, self.id_landlord)
-        #main_layout.addWidget(self.landlord_menu)
+        layout = QVBoxLayout(central_widget)
+        self.landlord_menu = LandlordMenu(self, id_lanlord)
+        layout.addWidget(self.landlord_menu)

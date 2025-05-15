@@ -1,9 +1,8 @@
-import sys
+
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QFrame, QVBoxLayout, QPushButton, QStackedWidget, QLabel, QLineEdit, \
     QRadioButton
-
 from QLNHATRO.RentalManagementApplication.controller.LoginRegister.RegisterController import RegisterController
 from QLNHATRO.RentalManagementApplication.frontend.Component.InputTextUI import InputTextUI
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
@@ -190,11 +189,12 @@ class LoginWindow(QWidget):
         # chỉ cần kiểm tra tenant selection là True hoặc Fall
 
 
-        exist_btn_signup = QPushButton("Thoát")
-        exist_btn_signup.setFixedHeight(40)
-        exist_btn_signup.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
+        self.exist_btn_signup = QPushButton("Thoát")
+        self.exist_btn_signup.setFixedHeight(40)
+        self.exist_btn_signup.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
         ## TODO: Xử lý nhẹ phương thức sau
-        exist_btn_signup.clicked.connect(self.main_window.close)
+        self.exist_btn_signup.clicked.connect(lambda: self.close())
+
 
 
         signup_layout.addStretch()
@@ -208,7 +208,7 @@ class LoginWindow(QWidget):
 
         signup_layout.addStretch()
         signup_layout.addWidget(signup_btn)
-        signup_layout.addWidget(exist_btn_signup)
+        signup_layout.addWidget(self.exist_btn_signup)
 
         self.stacked_widget.addWidget(signup_page)
 

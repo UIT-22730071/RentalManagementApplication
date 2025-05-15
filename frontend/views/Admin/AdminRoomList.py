@@ -5,6 +5,7 @@ from QLNHATRO.RentalManagementApplication.frontend.Component.tableUI import Tabl
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
+
 class AdminRoomList(QWidget):
     def __init__(self, main_window, room_list=None):
         super().__init__()
@@ -17,7 +18,8 @@ class AdminRoomList(QWidget):
                 "room_type": "Phòng trọ",
                 "landlord": "Nguyễn Văn A",
                 "address": "123 Đường ABC, Quận 1",
-                "status": "Trống"
+                "status": "Trống",
+                'room_id': "P101"
             },
             {
                 "stt": 2,
@@ -25,7 +27,8 @@ class AdminRoomList(QWidget):
                 "room_type": "Chung cư",
                 "landlord": "Trần Thị B",
                 "address": "456 Đường XYZ, Quận 3",
-                "status": "Đã thuê"
+                "status": "Đã thuê",
+                'room_id': "P102"
             }
         ]
 
@@ -71,10 +74,17 @@ class AdminRoomList(QWidget):
     def show_detail(self, row):
         try:
             room = self.room_list[row]
-            QMessageBox.information(
-                self,
-                "Chi tiết phòng",
-                f"🏠 {room['room_name']}\n📍 {room['address']}\n👤 Chủ trọ: {room['landlord']}\nTình trạng: {room['status']}"
-            )
+            id_room = room['room_id']
+
+            # Mở Dashboard Room trong một cửa sổ mới
+            from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.MainWindowRoom import MainWindowRoom
+            dashboard = MainWindowRoom(id_room)
+            dashboard.show()
+
+            # Giữ tham chiếu để cửa sổ không bị đóng do garbage collection
+            if not hasattr(self, "_opened_windows"):
+                self._opened_windows = []
+            self._opened_windows.append(dashboard)
+
         except Exception as e:
             QMessageBox.warning(self, "Lỗi", f"Không thể hiển thị chi tiết: {str(e)}")

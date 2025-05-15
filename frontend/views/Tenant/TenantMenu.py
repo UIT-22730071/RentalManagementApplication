@@ -73,7 +73,7 @@ class TenantMenu(QWidget):
 
         self.logout_btn = QPushButton("🚪 Đăng xuất")
         button_ui.apply_style(self.logout_btn)
-        self.logout_btn.clicked.connect(lambda: AdminController.handle_exit(self))
+        self.logout_btn.clicked.connect(lambda: AdminController.handel_exit_window(self))
 
         self.exit_btn = QPushButton("❌ Thoát")
         button_ui.apply_style(self.exit_btn)

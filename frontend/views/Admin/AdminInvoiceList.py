@@ -8,33 +8,28 @@ from QLNHATRO.RentalManagementApplication.frontend.views.Invoices.InvoiceView im
 
 
 class AdminInvoiceList(QWidget):
-    def __init__(self, main_window,invoice_list):
+    def __init__(self, main_window, invoice_list):
         super().__init__()
-
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
 
-        if invoice_list:
-            self.invoices = invoice_list
-        else:
-            self.invoices = [{
-                "STT": "1",
-                "Tên Phòng": "None",
-                "Tiền nhà": "None VNĐ",
-                "Tiền điện": "None VNĐ",
-                "Tiền nước": "None VNĐ",
-                "Tiền rác": "None VNĐ",
-                "Tổng chi phí": "None VNĐ",
-                "Ngày xuất hóa đơn": "01/01/2025",
-                "Chi tiết hóa đơn": "Xem"
-            }]
+        self.invoices = invoice_list if invoice_list else [{
+            "invoice_id": 1,
+                "room_name": "Phòng A101",
+                "rent_price": 1500000,
+                "electric_fee": 300000,
+                "water_fee": 100000,
+                "garbage_fee": 50000,
+                "internet_fee": 70000,
+                "other_fee": 30000,
+                "created_at": "2025-04-01",
+                "landlord_name": "Nguyễn Văn A",
+                "tenant_name": "Trần Thị B"
+        }]
 
         main_layout = QVBoxLayout()
 
-
-
         title = QLabel("📄 TẤT CẢ HÓA ĐƠN HỆ THỐNG")
-        #title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 10px;")
         title.setObjectName("Title")
         title.setFixedHeight(60)
         title.setAlignment(Qt.AlignCenter)
@@ -51,9 +46,10 @@ class AdminInvoiceList(QWidget):
             }
         """)
 
+        # Cập nhật headers cho đúng
         headers = [
-            "STT", "Tên Phòng", "Tiền nhà", "Tiền điện",
-            "Tiền nước", "Tiền rác", "Tổng chi phí", "Ngày xuất hóa đơn", "Chi tiết hóa đơn"
+            "STT", "Họ tên chủ trọ", "Họ tên người thuê",
+            "Tổng chi phí", "Ngày xuất hóa đơn", "Chi tiết hóa đơn"
         ]
 
         self.table = TableUI(headers)
@@ -68,7 +64,7 @@ class AdminInvoiceList(QWidget):
             invoice = self.invoices[row]
             id_invoice = invoice.get("id_invoice", None)
             if id_invoice:
-                print(f"[ADMIN] 🧾 Xem hóa đơn ID: {id_invoice}")
+                #print(f"[ADMIN] 🧾 Xem hóa đơn ID: {id_invoice}")
                 invoice_data, landlord_data, tenant_data, room_data = InvoiceController.open_view_invoice(id_invoice)
 
                 view = InvoiceView(
