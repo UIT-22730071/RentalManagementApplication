@@ -10,6 +10,8 @@ from QLNHATRO.RentalManagementApplication.frontend.views.Invoices.InvoiceView im
 class AdminInvoiceList(QWidget):
     def __init__(self, main_window,invoice_list):
         super().__init__()
+
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
 
         if invoice_list:
@@ -28,17 +30,13 @@ class AdminInvoiceList(QWidget):
             }]
 
         main_layout = QVBoxLayout()
-        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
-            QWidget {
-                background-color: #F7F9FC;
-            }
-            QLabel {
-                color: #202E66;
-            }
-        """)
+
+
 
         title = QLabel("📄 TẤT CẢ HÓA ĐƠN HỆ THỐNG")
-        title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 10px;")
+        #title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 10px;")
+        title.setObjectName("Title")
+        title.setFixedHeight(60)
         title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(title)
 

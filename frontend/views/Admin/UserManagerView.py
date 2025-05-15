@@ -11,26 +11,21 @@ from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import Glob
 class AdminUserManagement(QWidget):
     def __init__(self, main_window, user_list=None):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
+
         self.user_list = user_list or [
             {"stt": 1, "username": "admin", "role": "admin", "status": "Active"},
             {"stt": 2, "username": "landlord01", "role": "Chủ trọ", "status": "Active"},
             {"stt": 3, "username": "tenant01", "role": "Người thuê trọ", "status": "Inactive"}
         ]
 
-        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
-            QWidget {
-                background-color: #F7F9FC;
-            }
-            QLabel {
-                color: #202E66;
-            }
-        """)
-
         main_layout = QVBoxLayout()
 
         title = QLabel("👥 Danh sách tài khoản người dùng")
-        title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 10px;")
+        title.setObjectName("Title")
+        #title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 10px;")
+        title.setFixedHeight(60)
         title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(title)
 

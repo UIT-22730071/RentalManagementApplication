@@ -216,9 +216,11 @@ class InvoiceRepository:
         return invoices
     # TODO Admin
     ''' Phần này của Admin chưa cập nhật'''
+
     @staticmethod
-    def count_paid_invoices():
-        pass
+    def count_paid_invoices_by_month(month, year):
+        # TODO: Truy vấn SQL đếm hóa đơn thanh toán trong tháng
+        return 2  # Giả lập
 
     @staticmethod
     def get_all_invoices():

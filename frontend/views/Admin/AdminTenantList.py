@@ -8,6 +8,7 @@ from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import Glob
 class AdminTenantList(QWidget):
     def __init__(self, main_window, tenant_list=None):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
         self.tenant_list = tenant_list or [
             {
@@ -28,23 +29,19 @@ class AdminTenantList(QWidget):
             }
         ]
 
-        self.setStyleSheet(GlobalStyle.global_stylesheet() + """
-            QWidget {
-                background-color: #F7F9FC;
-            }
-            QLabel {
-                color: #202E66;
-            }
-        """)
+
 
         main_layout = QVBoxLayout()
 
         title = QLabel("📋 Danh sách người thuê trọ")
-        title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 10px;")
+        title.setObjectName("Title")
+        #title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 10px;")
+        title.setFixedHeight(60)
         title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(title)
 
         frame = QFrame()
+        '''
         frame.setStyleSheet("""
             QFrame {
                 background-color: white;
@@ -54,7 +51,7 @@ class AdminTenantList(QWidget):
                 box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             }
         """)
-
+        '''
         headers = ["STT", "Họ tên", "CCCD", "Số điện thoại", "Email", "Ngày bắt đầu thuê", "Xem chi tiết"]
         header_to_key = {
             "STT": "stt",
