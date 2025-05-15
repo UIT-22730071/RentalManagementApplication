@@ -10,9 +10,11 @@ class MainWindowTenant(QMainWindow):
         super().__init__()
         self.setWindowTitle("Quản Lý Nhà Trọ - Tenant Dashboard")
         self.setGeometry(300, 100, 1000, 600)
-
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
+        '''
         self.setStyleSheet("background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);"
                            " border-radius: 15px;")
+       '''
         # Create a central widget to hold the tenant menu
         central_widget = QWidget()
         self.setCentralWidget(central_widget)

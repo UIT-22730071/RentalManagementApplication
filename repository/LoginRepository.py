@@ -10,9 +10,14 @@ class LoginRepository:
 
         user_landlord = {'username': 'lanlord', 'password':'lanlord' ,'role': 'landlord','user_id': 1}
         user_tenant = {'username': 'tenant', 'password':'tenant' ,'role': 'tenant','user_id': 2}
-        print(" dã lấy được truy vấn" + user_landlord['username'] + user_landlord['password'] + user_landlord['role'])
+        #print(" dã lấy được truy vấn" + user_landlord['username'] + user_landlord['password'] + user_landlord['role'])
+        if username == 'lanlord':
+            return user_landlord
+        elif username == 'tenant':
+            return user_tenant
+        else:
+            return None
 
-        return user_landlord
 
     @staticmethod
     def get_role_from_username(username):

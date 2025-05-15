@@ -34,6 +34,7 @@ class LandlordInfo(QWidget):
         title = QLabel("👤 THÔNG TIN CHỦ TRỌ")
         #title.setStyleSheet("font-size: 24px; font-weight: bold;")
         title.setObjectName("Title")  # ✅ sẽ dùng style của QLabel#Title
+        title.setFixedHeight(60)
         title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(title)
 

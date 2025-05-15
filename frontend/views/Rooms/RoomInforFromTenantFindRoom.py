@@ -17,7 +17,7 @@ class RoomsInforViewFromTenant(QDialog):
 
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.setWindowTitle("Chi tiết phòng")
-        self.setMinimumWidth(650)
+        self.setMinimumWidth(700)
         self.setMinimumHeight(800)
         self.setModal(True)  # Để chặn thao tác với cửa sổ chính
 
@@ -115,6 +115,7 @@ class RoomsInforViewFromTenant(QDialog):
             }
         """)
         '''
+        exit_btn.setObjectName('CancelBtn')
         exit_btn.clicked.connect(self.close)
         btn_layout.addWidget(exit_btn)
 

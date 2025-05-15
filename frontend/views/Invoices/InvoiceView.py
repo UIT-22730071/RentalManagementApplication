@@ -22,6 +22,7 @@ class InvoiceView(QWidget):
 
     def __init__(self, main_window=None, invoice_data=None, landlord_data=None, tenant_data=None, room_data=None):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
         self.id_lanlord = InvoiceRepository.get_id_lanlord_from_id_invoice(invoice_data['invoice_id'])
         self.user_id = LanlordRepository.get_user_id_lanlord_from_lanlord_id(landlord_data['id_lanlord'])
@@ -124,8 +125,9 @@ class InvoiceView(QWidget):
     def createHeaderSection(self, parent_layout):
         # Title
         title = QLabel("📝 HÓA ĐƠN GIÁ TRỊ GIA TĂNG")
-        title.setFont(QFont("Arial", 20, QFont.Bold))
-        title.setFixedHeight(50)
+        #title.setFont(QFont("Arial", 20, QFont.Bold))
+        title.setObjectName("Title")
+        title.setFixedHeight(60)
         title.setStyleSheet("color: white; background-color: #2C3E50; border-radius: 10px; padding: 10px;")
         title.setAlignment(Qt.AlignCenter)
         parent_layout.addWidget(title)
@@ -643,39 +645,26 @@ class InvoiceView(QWidget):
         # Exit button
         exit_btn = QPushButton("Thoát")
         exit_btn.setFixedSize(120, 40)
-        exit_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #e74c3c;
-                color: white;
-                border-radius: 8px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #c0392b;
-            }
-            QPushButton:pressed {
-                background-color: #a33025;
-            }
-        """)
+        exit_btn.setObjectName('CancelBtn')
         exit_btn.clicked.connect(self.go_back_to_landlord_menu)
 
         # Save button
         save_btn = QPushButton("Lưu hóa đơn")
-        save_btn.setFixedSize(120, 40)
-        save_btn.setStyleSheet("""
-            QPushButton {
-                background-color: #3498db;
-                color: white;
-                border-radius: 8px;
-                font-weight: bold;
+        save_btn.setFixedSize(160, 40)
+        save_btn.setStyleSheet('''
+        QPushButton{
+            background-color: #2158B6;
+            color: white;
+            font-size: 12px;
+            font-weight: 400;
+            font-family: 'Be Vietnam';
+            border-radius: 9px;
+            padding: 12px 38px;
             }
-            QPushButton:hover {
-                background-color: #2980b9;
-            }
-            QPushButton:pressed {
-                background-color: #1e6091;
-            }
-        """)
+        QPushButton:hover {
+            background-color: #1D4DA5;
+        }
+        ''')
         save_btn.clicked.connect(self.saveInvoice)
 
         button_layout.addStretch()

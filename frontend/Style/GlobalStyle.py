@@ -1,9 +1,15 @@
 
 
 # global_styles.py
-# self.setStyleSheet(GlobalStyle.global_stylesheet())
-# title.setObjectName("Title")
-# title.setFixedHeight(60)
+'''
+self.setStyleSheet(GlobalStyle.global_stylesheet())
+title.setObjectName("Title")
+title.setFixedHeight(60)
+
+cancel_button.setObjectName("CancelBtn")
+
+'''
+
 class GlobalStyle:
     # Color palette
     MAIN_BG = "#FFFFFF"  # trắng nền
@@ -35,7 +41,16 @@ class GlobalStyle:
             color: {GlobalStyle.TEXT_COLOR};
             font-family: {GlobalStyle.FONT_FAMILY};
         }}
+        
+        
+        QFrame#separator {{
+            background-color: #E9FBFC;
+            min-height: 2px;
+            max-height: 2px;
+            margin: 10px 0px;
+                }}
 
+        
         QLabel#Title {{
             color: {GlobalStyle.LABEL_TEXT_COLOR};
             font-size: {GlobalStyle.TITLE_FONT_SIZE};
@@ -74,8 +89,6 @@ class GlobalStyle:
             background-color: #B0B0B0;
         }}
 
-        
-        
         
         QTableWidget QHeaderView::section {{
             background-color: {GlobalStyle.TABLE_HEADER_BG};
@@ -208,7 +221,30 @@ class GlobalStyle:
             min-height: 120px;
             min-width: 120px;
         }}
+        
+        QLabel#keyLabel {{
+            font-size: 14px;
+            color: #2c3e50;
+            font-weight: bold;
+        }}
+        
+        QLabel#valueLabel {{
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #2158B6;
+            border-radius: 5px;
+            padding: 8px;
+            margin: 2px;
+        }}
 
+
+        QLabel#valueLabel[highlight] {{
+            background-color: #e74c3c;
+        }}
+
+
+        
         QGroupBox {{
             border: 1px solid #ddd;
             border-radius: 8px;
@@ -224,6 +260,25 @@ class GlobalStyle:
             background-color: transparent;
         }}
 
+        QGroupBox[theme="blue"] {{
+            font-weight: bold;
+            border: 1px solid #333333;   
+            border-radius: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            background-color: white;
+            color: #2c3e50;
+        }}
+        
+        QGroupBox[theme="blue"]::title {{
+            subcontrol-origin: margin;
+            left: 10px;
+            padding: 0 10px;
+            color: #2c3e50;
+            font-size: 16px;
+            background-color: white;
+            border-radius: 5px;
+        }}
 
         """
 

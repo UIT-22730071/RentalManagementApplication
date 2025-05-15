@@ -11,6 +11,7 @@ from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import In
 from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
 from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import LandlordController
 from QLNHATRO.RentalManagementApplication.controller.TenantController.TenantController import TenantController
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
 
 
@@ -23,6 +24,7 @@ class TenantInvoices(QWidget):
 
     def __init__(self, main_window=None, invoice_data=None, landlord_data=None, tenant_data=None, room_data=None):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
         self.id_lanlord = InvoiceRepository.get_id_lanlord_from_id_invoice(invoice_data['invoice_id'])
         self.id_tenant = InvoiceRepository.get_id_tenant_from_id_invoice(invoice_data['invoice_id'])

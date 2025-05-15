@@ -2,11 +2,13 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QSizePoli
     QHeaderView
 from PyQt5.QtCore import Qt
 from QLNHATRO.RentalManagementApplication.frontend.Component.DashboardCard import DashboardCard
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class TenantHome(QWidget):
     def __init__(self, main_window=None, id_tenant=None, information_data=None, chart=None):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
         self.id_tenant = id_tenant
         ''' information_data được trả về
@@ -32,12 +34,14 @@ class TenantHome(QWidget):
 
         main_layout = QVBoxLayout()
         main_layout.setAlignment(Qt.AlignTop)
-        self.setStyleSheet("background-color: #2c3e50; border-radius: 15px; padding: 20px;")
+        #self.setStyleSheet("background-color: #2c3e50; border-radius: 15px; padding: 20px;")
 
 
         # Tiêu đề chính
         title = QLabel("📊 THỐNG KÊ TIÊU DÙNG")
-        title.setStyleSheet("font-size: 24px; font-weight: bold; color: white;")
+        #title.setStyleSheet("font-size: 24px; font-weight: bold; color: white;")
+        title.setObjectName("Title")
+        title.setFixedHeight(60)
         title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(title)
 

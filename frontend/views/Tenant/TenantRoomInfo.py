@@ -2,11 +2,14 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QGridLayout, QGroupBox
     QFrame
 from PyQt5.QtCore import Qt
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class TenantRoomInfo(QWidget):
     def __init__(self, main_window,data_room, id_tenant):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
+
         self.main_window = main_window
         self.data_room = data_room or {}
         self.id_tenant = id_tenant
@@ -53,29 +56,14 @@ class TenantRoomInfo(QWidget):
 
 
         # Improved styling with backgrounds for all information areas
-        self.setStyleSheet("""
-            QWidget {
-                background-color: #E9FBFC;
-                color: white;
-                border-radius: 15px;
-            }
-            QGroupBox {
-                font-weight: bold;
-                border: 2px solid #3498db;
-                border-radius: 10px;
-                margin-top: 15px;
-                padding-top: 15px;
-                background-color: #E9FBFC;
-            }
+        '''
+        self.setStyleSheet( GlobalStyle.global_stylesheet() + """
             QGroupBox::title {
                 subcontrol-origin: margin;
                 left: 10px;
                 padding: 0 5px 0 5px;
                 color: #3498db;
                 font-size: 16px;
-            }
-            QLabel {
-                padding: 5px;
             }
             QLabel#sectionTitle {
                 font-size: 18px;
@@ -103,11 +91,8 @@ class TenantRoomInfo(QWidget):
                 max-height: 2px;
                 margin: 10px 0px;
             }
-            QScrollArea {
-                border: none;
-            }
         """)
-
+        '''
         # Create main layout
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(20, 20, 20, 20)
@@ -117,7 +102,7 @@ class TenantRoomInfo(QWidget):
         scroll_area = QScrollArea()
         scroll_area.setWidgetResizable(True)
         scroll_area.setFrameShape(QFrame.NoFrame)
-        scroll_area.setStyleSheet("background-color: transparent;")
+        #scroll_area.setStyleSheet("background-color: transparent;")
 
         # Widget containing all content
         content_widget = QWidget()
@@ -127,8 +112,8 @@ class TenantRoomInfo(QWidget):
         # === Title ===
         title_label = QLabel("THÔNG TIN PHÒNG THUÊ")
         title_label.setAlignment(Qt.AlignCenter)
-        title_label.setStyleSheet(
-            "font-size: 24px; font-weight: bold; color: white; margin-bottom: 10px; padding: 15px; background-color: #2c3e50; border-radius: 10px;")
+        title_label.setObjectName("Title")
+        title_label.setFixedHeight(60)
         content_layout.addWidget(title_label)
 
         # === Basic information ===
@@ -219,12 +204,11 @@ class TenantRoomInfo(QWidget):
 
         # Total cost
         total_label = QLabel("TỔNG CỘNG:")
-        total_label.setStyleSheet("font-size: 16px; font-weight: bold; color: #2c3e50;")
+        #total_label.setStyleSheet("font-size: 16px; font-weight: bold; color: #2c3e50;")
         total_grid.addWidget(total_label, 7, 0)
 
         total_value = QLabel()
-        total_value.setStyleSheet(
-            "font-size: 18px; font-weight: bold; color: #2c3e50; background-color: #f39c12; border-radius: 5px; padding: 10px;")
+        #total_value.setStyleSheet("font-size: 18px; font-weight: bold; color: #2c3e50; background-color: #f39c12; border-radius: 5px; padding: 10px;")
         total_value.setText(self.data_room.get("Tổng cộng", "---"))
         total_grid.addWidget(total_value, 7, 1)
 
@@ -261,8 +245,7 @@ class TenantRoomInfo(QWidget):
             "• Giữ gìn vệ sinh chung khu vực xung quanh"
         )
         rules_text.setWordWrap(True)
-        rules_text.setStyleSheet(
-            "background-color: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 12px; font-size: 14px;")
+        rules_text.setStyleSheet("background-color: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 12px; font-size: 14px;")
         rules_layout.addWidget(rules_text)
 
         rules_group.setLayout(rules_layout)
@@ -273,30 +256,8 @@ class TenantRoomInfo(QWidget):
         main_layout.addWidget(scroll_area)
 
     def create_info_section(self, title, background_color):
-        """
-        Create a styled GroupBox with specified background color
-        """
         group_box = QGroupBox(title)
-        group_box.setStyleSheet(f"""
-            QGroupBox {{
-                font-weight: bold;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                border-radius: 10px;
-                margin-top: 15px;
-                padding-top: 15px;
-                background-color: {background_color};
-                color: #2c3e50;
-            }}
-            QGroupBox::title {{
-                subcontrol-origin: margin;
-                left: 10px;
-                padding: 0 10px;
-                color: #2c3e50;
-                font-size: 16px;
-                background-color: white;
-                border-radius: 5px;
-            }}
-        """)
+        group_box.setProperty("theme", "blue")
         return group_box
 
     def add_info_pair(self, grid, row, key, value, highlight=False):
@@ -306,7 +267,8 @@ class TenantRoomInfo(QWidget):
         """
         key_label = QLabel(key)
         key_label.setObjectName("keyLabel")
-        key_label.setStyleSheet("color: #2c3e50; font-weight: bold;")
+
+        #key_label.setStyleSheet("color: #2c3e50; font-weight: bold;")
         grid.addWidget(key_label, row, 0, Qt.AlignLeft)
 
         value_label = QLabel(value)
@@ -314,10 +276,5 @@ class TenantRoomInfo(QWidget):
 
         # Highlight important values if needed
         if highlight:
-            value_label.setStyleSheet(
-                "font-size: 16px; font-weight: bold; color: white; background-color: #e74c3c; border-radius: 5px; padding: 8px; margin: 2px;")
-        else:
-            value_label.setStyleSheet(
-                "font-size: 16px; font-weight: bold; color: white; background-color: rgba(44, 62, 80, 0.6); border-radius: 5px; padding: 8px; margin: 2px;")
-
+            value_label.setProperty("highlight", True)
         grid.addWidget(value_label, row, 1, Qt.AlignLeft)

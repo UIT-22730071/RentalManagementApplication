@@ -5,16 +5,17 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class FindNewRoom(QWidget):
     def __init__(self, main_window, advertised_rooms=None):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
         self.advertised_rooms = advertised_rooms or []
 
-        self.setStyleSheet(
-            "background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);")
+        #self.setStyleSheet("background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);")
 
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -22,7 +23,7 @@ class FindNewRoom(QWidget):
         layout_main.addWidget(scroll)
 
         container = QWidget()
-        container.setStyleSheet("background-color: #EAF9F6; border-radius: 20px; padding: 32px;")
+        #container.setStyleSheet("background-color: #EAF9F6; border-radius: 20px; padding: 32px;")
         scroll.setWidget(container)
 
         layout = QVBoxLayout(container)
@@ -30,7 +31,9 @@ class FindNewRoom(QWidget):
 
         # Title
         title = QLabel("🏠 Danh sách phòng đang được quảng cáo")
-        title.setStyleSheet("font-size: 22px; font-weight: bold; color: #2c3e50;")
+        title.setObjectName("Title")
+        title.setFixedHeight(60)
+        #title.setStyleSheet("font-size: 22px; font-weight: bold; color: #2c3e50;")
         title.setAlignment(Qt.AlignCenter)
         layout.addWidget(title)
 
@@ -44,7 +47,7 @@ class FindNewRoom(QWidget):
         # No rooms message
         if not self.advertised_rooms:
             no_rooms_label = QLabel("Hiện tại không có phòng nào được quảng cáo.")
-            no_rooms_label.setStyleSheet("font-size: 16px; color: #7f8c8d; font-style: italic;")
+            #no_rooms_label.setStyleSheet("font-size: 16px; color: #7f8c8d; font-style: italic;")
             no_rooms_label.setAlignment(Qt.AlignCenter)
             layout.addWidget(no_rooms_label)
 
@@ -68,6 +71,7 @@ class FindNewRoom(QWidget):
     def create_room_card(self, stt, room):
         # Room card container
         card = QFrame()
+
         card.setStyleSheet("""
             QFrame {
                 background-color: white;
@@ -149,6 +153,7 @@ class FindNewRoom(QWidget):
 
         # View details button
         view_btn = QPushButton("📋 Xem chi tiết")
+        '''
         view_btn.setStyleSheet("""
             QPushButton {
                 background-color: #6c63ff;
@@ -162,6 +167,7 @@ class FindNewRoom(QWidget):
                 background-color: #5a52d5;
             }
         """)
+        '''
         view_btn.setProperty("room_id", room.get('id', None))
         view_btn.clicked.connect(lambda: self.view_room_details(room))
 

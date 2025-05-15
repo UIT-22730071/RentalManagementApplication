@@ -5,23 +5,26 @@ from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import Ten
 from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import LandlordController
 from QLNHATRO.RentalManagementApplication.controller.TenantController.TenantController import TenantController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
 class TenantMenu(QWidget):
     def __init__(self, main_window=None, user_id = None):
         super().__init__()
         print("[DEBUG] TenantMenu khởi tạo")
-
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
         self.current_page = None
         self.id_tenant = TenantRepository.get_tenant_id_from_user_id(user_id)
 
         self.main_window.setWindowTitle("Dashboard Người Thuê trọ")
         self.main_window.setGeometry(300, 100, 1000, 600)
+        '''
         self.main_window.setStyleSheet("""
                     background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);
                     border-radius: 15px;
                 """)
+        '''
         self.main_layout = QHBoxLayout()
 
         # ------------ LEFT MENU FRAME ------------

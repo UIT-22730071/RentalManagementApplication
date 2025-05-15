@@ -5,12 +5,14 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame, QMessageBox
 
 from QLNHATRO.RentalManagementApplication.controller.InvoiceController.InvoiceController import InvoiceController
 from QLNHATRO.RentalManagementApplication.frontend.Component.tableUI import TableUI
+from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.Invoices.TenantInvoices import TenantInvoices
 
 
 class TenantListInvoices(QWidget):
     def __init__(self, main_window, invoice_list, id_tenant):
         super().__init__()
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
         self.id_tenant = id_tenant
 
@@ -55,14 +57,17 @@ class TenantListInvoices(QWidget):
             }]
 
         main_layout = QVBoxLayout()
-        self.setStyleSheet("background-color: #ecf0f1;")
+        #self.setStyleSheet("background-color: #ecf0f1;")
 
         title = QLabel("🧾 Danh sách hóa đơn của bạn")
-        title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 10px;")
+        title.setObjectName("Title")
+        #title.setStyleSheet("font-size: 24px; font-weight: bold; color: #2c3e50; margin-bottom: 10px;")
+        title.setFixedHeight(60)
         title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(title)
 
         frame = QFrame()
+        '''
         frame.setStyleSheet("""
             QFrame {
                 background-color: white;
@@ -72,7 +77,7 @@ class TenantListInvoices(QWidget):
                 box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
             }
         """)
-
+        '''
         headers = [
             "STT", "Hóa đơn tháng", "Chỉ số điện", "Chỉ số nước",
             "Tổng Tiền", "Ngày xuất hóa đơn", "Tình trạng thanh toán", "Xem chi tiết"
