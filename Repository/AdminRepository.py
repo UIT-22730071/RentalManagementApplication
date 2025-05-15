@@ -49,17 +49,20 @@ class AdminRepository:
             }
         ]
 
-    @staticmethod
-    def count_landlords():
-        # TODO: Tạo SQL truy xuất Database
-        ...
+
+
 
     @staticmethod
-    def count_tenants():
-        # TODO: Tạo SQL truy xuất Database
-        ...
+    def count_landlords_by_month(month, year):
+        # TODO: Truy vấn SQL để đếm số chủ trọ đăng ký theo tháng
+        return 2  # Giả lập
 
     @staticmethod
-    def count_rooms():
-        # TODO: Tạo SQL truy xuất Database
-        ...
+    def count_tenants_by_month(month, year):
+        # TODO: Truy vấn SQL để đếm số người thuê mới theo tháng
+        return 2  # Giả lập
+
+    @staticmethod
+    def count_rooms_by_month(month, year):
+        # TODO: Truy vấn SQL để đếm số phòng tạo mới theo tháng
+        return 2  # Giả lập

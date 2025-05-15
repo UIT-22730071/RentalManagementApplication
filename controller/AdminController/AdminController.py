@@ -20,7 +20,7 @@ class AdminController:
         from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminHomePage import AdminHome
         from QLNHATRO.RentalManagementApplication.services.AdminService import AdminService
 
-        summary_data = AdminService.get_summary_dashboard_data()
+        summary_data = AdminService.get_summary_dashboard_data_with_growth()
         view.set_right_frame(lambda: AdminHome(view.main_window, summary_data))
 
     @staticmethod

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from QLNHATRO.RentalManagementApplication.Repository.AdminRepository import AdminRepository
 from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import InvoiceRepository
 
@@ -59,14 +61,63 @@ class AdminService:
             })
         return result
 
+
+
     @staticmethod
-    def get_summary_dashboard_data():
-        """Trả về dữ liệu thống kê hệ thống AdminHomePage"""
+    def get_previous_month_and_year(month, year):
+        if month == 1:
+            return 12, year - 1
+        else:
+            return month - 1, year
+
+    @staticmethod
+    def calc_percent(current, previous):
+        if previous == 0:
+            return 0.0
+        return round((current - previous) / previous * 100, 1)
+
+    @staticmethod
+    def get_summary_dashboard_data_with_growth():
+        """
+        Trả về dữ liệu thống kê tổng quát kèm phần trăm tăng trưởng cho dashboard admin
+        Gồm: landlord, tenant, room, paid_invoice
+        """
+        # Lấy tháng hiện tại và tháng trước
+        now = datetime.now()
+        this_month, this_year = now.month, now.year
+        last_month, last_year = AdminService.get_previous_month_and_year(this_month, this_year)
+
+        # Dữ liệu tháng này
+        current_landlords = AdminRepository.count_landlords_by_month(this_month, this_year)
+        current_tenants = AdminRepository.count_tenants_by_month(this_month, this_year)
+        current_rooms = AdminRepository.count_rooms_by_month(this_month, this_year)
+        current_paid = InvoiceRepository.count_paid_invoices_by_month(this_month, this_year)
+
+        # Dữ liệu tháng trước
+        last_landlords = AdminRepository.count_landlords_by_month(last_month, last_year)
+        last_tenants = AdminRepository.count_tenants_by_month(last_month, last_year)
+        last_rooms = AdminRepository.count_rooms_by_month(last_month, last_year)
+        last_paid = InvoiceRepository.count_paid_invoices_by_month(last_month, last_year)
+
+        # Tính % tăng trưởng
+        percent_landlords = AdminService.calc_percent(current_landlords, last_landlords)
+        percent_tenants = AdminService.calc_percent(current_tenants, last_tenants)
+        percent_rooms = AdminService.calc_percent(current_rooms, last_rooms)
+        percent_paid = AdminService.calc_percent(current_paid, last_paid)
+
+        # Trả về dữ liệu thống kê
         return {
-            "num_landlords": AdminRepository.count_landlords(),
-            "num_tenants": AdminRepository.count_tenants(),
-            "num_rooms": AdminRepository.count_rooms(),
-            "num_paid_invoices": InvoiceRepository.count_paid_invoices()
+            "num_landlords": current_landlords,
+            "percent_landlords": percent_landlords,
+
+            "num_tenants": current_tenants,
+            "percent_tenants": percent_tenants,
+
+            "num_rooms": current_rooms,
+            "percent_rooms": percent_rooms,
+
+            "num_paid_invoices": current_paid,
+            "percent_paid_invoices": percent_paid,
         }
 
     @staticmethod

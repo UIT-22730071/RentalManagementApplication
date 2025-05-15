@@ -1,4 +1,5 @@
 from QLNHATRO.RentalManagementApplication.Repository.LoginRepository import LoginRepository
+
 from QLNHATRO.RentalManagementApplication.services.LoginService import LoginService
 
 
@@ -40,6 +41,8 @@ class LoginController:
                 main_window.switch_to_page(TenantMenu, user_id)
 
             elif role == 'admin':
+                from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminMenu import AdminMenu
+                main_window.switch_to_page(AdminMenu,user_id)
                 print("[LoginController] Tạm thời chưa có giao diện Admin")
 
             else:

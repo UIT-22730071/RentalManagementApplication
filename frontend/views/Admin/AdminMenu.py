@@ -10,22 +10,28 @@ from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import Glob
 class AdminMenu(QWidget):
     def __init__(self, main_window=None, user_id=None):
         super().__init__()
-        print("[DEBUG] AdminMenu khởi tạo")
+
+        self.setStyleSheet(GlobalStyle.global_stylesheet())
 
         self.main_window = main_window
         self.current_page = None
         self.user_id = user_id
 
-        self.main_window.setWindowTitle("Dashboard Admin")
-        self.main_window.setGeometry(300, 100, 1000, 600)
 
+
+        self.main_window.setWindowTitle("Dashboard Admin")
+        self.main_window.setObjectName("AdminMainWindow")
+        self.main_window.resize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+        self.main_window.setMinimumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+        self.main_window.setMaximumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+        '''
         self.main_window.setStyleSheet(GlobalStyle.global_stylesheet() + """
             QMainWindow {
                 background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8E2DE2, stop:1 #4A00E0);
                 border-radius: 15px;
             }
         """)
-
+        '''
         self.main_layout = QHBoxLayout()
 
         # ------------ LEFT MENU FRAME ------------
@@ -97,7 +103,7 @@ class AdminMenu(QWidget):
         from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminHomePage import AdminHome
         from QLNHATRO.RentalManagementApplication.services.AdminService import AdminService
 
-        summary_data = AdminService.get_summary_dashboard_data()
+        summary_data = AdminService.get_summary_dashboard_data_with_growth()
         self.set_right_frame(lambda: AdminHome(self.main_window, summary_data))
 
         self.main_layout.addWidget(self.left_frame)
