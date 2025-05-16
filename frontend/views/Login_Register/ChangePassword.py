@@ -26,6 +26,7 @@ class ChangePasswordView(QWidget):
 
         header_label = QLabel("🔒 Đổi mật khẩu")
         header_label.setObjectName("Title")  # Sẽ dùng style QLabel#Title từ GlobalStyle
+        header_label.setFixedHeight(60)
         header_label.setAlignment(Qt.AlignCenter)
 
         header_layout.addWidget(header_label)

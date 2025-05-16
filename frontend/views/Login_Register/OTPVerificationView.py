@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import (QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
                              QFrame, QApplication, QLineEdit, QSizePolicy, QMessageBox)
-from PyQt5.QtCore import Qt, QRegExp
+from PyQt5.QtCore import Qt, QRegExp, QTimer
 from PyQt5.QtGui import QFont, QRegExpValidator
 import sys
 
@@ -15,9 +15,9 @@ class OTPVerificationView(QWidget):
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.setWindowTitle("Nhập mã OTP")
         #self.setStyleSheet("background-color: white; border-radius: 40px;")
-        self.setMinimumSize(800, 700)
-
+        self.setMinimumSize(400, 300)
         self.email = email
+
 
         # Main layout
         main_layout = QVBoxLayout(self)
@@ -112,28 +112,27 @@ class OTPVerificationView(QWidget):
             self.otp_fields.append(otp_digit)
             otp_layout.addWidget(otp_digit)
 
+        # Timer
+        self.remaining_seconds = 120
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_timer)
+        self.timer.start(1000)
+
+        # Thêm label hiển thị thời gian còn lại
+        self.timer_label = QLabel("⏳ Thời gian còn lại: 02:00")
+        self.timer_label.setAlignment(Qt.AlignCenter)
+        self.timer_label.setStyleSheet("color: red; font-size: 14px; font-weight: bold;")
+        content_layout.addWidget(self.timer_label)
+
+        # Thiết lập thời gian đếm ngược
+        self.remaining_seconds = 120
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_timer)
+        self.timer.start(1000)  # 1 giây
+
         # Confirm button
         self.confirm_button = QPushButton("Xác nhận mã OTP")
         self.confirm_button.setFixedSize(300, 50)
-        '''
-        self.confirm_button.setStyleSheet("""
-            QPushButton {
-                background-color: #2158B6;
-                color: white;
-                border-radius: 9px;
-                font-family: 'Be Vietnam Pro';
-                font-size: 18px;
-                font-weight: bold;
-                padding: 9px;
-            }
-            QPushButton:hover {
-                background-color: #1A4A9E;
-            }
-            QPushButton:pressed {
-                background-color: #13397A;
-            }
-        """)
-        '''
         self.confirm_button.clicked.connect(self.confirm_otp)
 
         # Resend OTP section
@@ -149,8 +148,8 @@ class OTPVerificationView(QWidget):
         resend = QPushButton("Gửi lại OTP")
         resend.setFlat(True)
         resend.setCursor(Qt.PointingHandCursor)
-        resend.setFont(QFont("Be Vietnam", 14, QFont.Bold))
-        resend.setStyleSheet("color: #2158B6; border: none; text-align: left;")
+        #resend.setFont(QFont("Be Vietnam", 14, QFont.Bold))
+        #resend.setStyleSheet("color: #2158B6; border: none; text-align: left;")
         resend.clicked.connect(self.resend_otp)
 
         resend_layout.addWidget(not_received)
@@ -186,17 +185,33 @@ class OTPVerificationView(QWidget):
             QMessageBox.warning(self, "Thiếu mã", "⚠️ Vui lòng nhập đủ 4 chữ số của mã OTP")
 
     def resend_otp(self):
-        print(f"🔄 Resending OTP to {self.email}")
-        # Here you would trigger the OTP resend logic
-        # For demo purposes, we'll just clear the fields
+        print(f"🔄 Gửi lại OTP to {self.email}")
+
+        # Reset lại các ô nhập mã
         for field in self.otp_fields:
             field.clear()
         self.otp_fields[0].setFocus()
+
+        # ⏱️ Reset thời gian đếm ngược
+        self.remaining_seconds = 120
+        self.timer_label.setText("⏳ Thời gian còn lại: 02:00")
+        self.timer.start(1000)  # restart timer nếu bị stop
 
     def go_to_reset_password(self):
         self.hide()
         self.reset_password_view = ResetPasswordView()
         self.reset_password_view.show()
+
+    def update_timer(self):
+        self.remaining_seconds -= 1
+        minutes = self.remaining_seconds // 60
+        seconds = self.remaining_seconds % 60
+        self.timer_label.setText(f"⏳ Thời gian còn lại: {minutes:02}:{seconds:02}")
+
+        if self.remaining_seconds <= 0:
+            self.timer.stop()
+            QMessageBox.warning(self, "Hết thời gian", "⏰ Hết thời gian nhập mã OTP. Vui lòng thử lại.")
+            self.close()
 
 
 # Demo code to connect the two screens

@@ -3,6 +3,8 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QFrame, QVBoxLayout, QPushButton, QStackedWidget, QLabel, QLineEdit, \
     QRadioButton
+
+from QLNHATRO.RentalManagementApplication.controller.LoginRegister.LoginController import LoginController
 from QLNHATRO.RentalManagementApplication.controller.LoginRegister.RegisterController import RegisterController
 from QLNHATRO.RentalManagementApplication.frontend.Component.InputTextUI import InputTextUI
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
@@ -93,15 +95,19 @@ class LoginWindow(QWidget):
         self.password_input.setFixedHeight(40)
         self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
 
-        forgot_password = QLabel('<a href="#">Forgot Password?</a>')
+        forgot_password = QLabel('<a href="#">❓ Quên mật khẩu?</a>')
         forgot_password.setStyleSheet("color: #FF6B6B; font-size: 12px;")
-        forgot_password.setOpenExternalLinks(True)
-        forgot_password.setAlignment(Qt.AlignmentFlag.AlignRight)
+        forgot_password.setTextInteractionFlags(Qt.TextBrowserInteraction)
+        forgot_password.setOpenExternalLinks(False)
+        forgot_password.setAlignment(Qt.AlignRight)
+        forgot_password.linkActivated.connect(lambda: LoginController.go_to_forgot_password_view())
 
-        change_password = QLabel('<a href="#">Change Password?</a>')
+        change_password = QLabel('<a href="#">🔐 Đổi mật khẩu?</a>')
         change_password.setStyleSheet("color: #FF6B6B; font-size: 12px;")
-        change_password.setOpenExternalLinks(True)
-        change_password.setAlignment(Qt.AlignmentFlag.AlignLeft)
+        change_password.setTextInteractionFlags(Qt.TextBrowserInteraction)
+        change_password.setOpenExternalLinks(False)
+        change_password.setAlignment(Qt.AlignLeft)
+        change_password.linkActivated.connect(lambda: LoginController.go_to_change_password_view())
 
         login_btn = QPushButton("Đăng nhập")
         login_btn.setFixedHeight(45)

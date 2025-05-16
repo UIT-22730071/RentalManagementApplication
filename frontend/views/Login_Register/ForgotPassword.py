@@ -10,6 +10,7 @@ from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import Glob
 class ForgotPasswordView(QWidget):
     def __init__(self, on_success_callback=None):
         super().__init__()
+
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.setWindowTitle("Quên mật khẩu")
         self.setMinimumSize(850, 500)
@@ -54,10 +55,10 @@ class ForgotPasswordView(QWidget):
 
         # OTP button
         otp_button = QPushButton("Nhận OTP")
-        #otp_button.setStyleSheet("background-color: #2158B6; color: white; border-radius: 9px; font-size: 14px; padding: 12px 38px;")
-        otp_button.setFixedWidth(256)
-        otp_button.setFixedHeight(45)
-        otp_button.clicked.connect(self.on_submit)
+        otp_button.setFixedSize(256, 45)
+
+        otp_button.clicked.connect(self.on_submit) # xử lý button nhận OTP chuyển sang page nhập OTP
+
         otp_wrapper = QHBoxLayout()
         otp_wrapper.addStretch()
         otp_wrapper.addWidget(otp_button)
@@ -128,14 +129,21 @@ class ForgotPasswordView(QWidget):
 
     def on_submit(self):
         selected_id = self.radio_group.checkedId()
+
         if selected_id == 1:
             print("✅ Gửi OTP đến SĐT")
-            if self.on_success_callback:
-                self.on_success_callback()
+            from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.OTPVerificationView import \
+                OTPVerificationView
+            otp_window = OTPVerificationView(email="Gửi qua SĐT")
+            otp_window.show()
+
         elif selected_id == 2:
             print("✅ Gửi OTP đến Email")
-            if self.on_success_callback:
-                self.on_success_callback()
+            from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.OTPVerificationView import \
+                OTPVerificationView
+            otp_window = OTPVerificationView(email="phuctran@gmail.com")  # Có thể thay bằng email thật
+            otp_window.show()
+
         else:
             print("⚠️ Vui lòng chọn 1 phương thức để nhận OTP")
 
@@ -148,9 +156,10 @@ class ForgotPasswordView(QWidget):
         else:
             print("⚠️ Vui lòng chọn phương thức để gửi lại OTP")
 
-
+'''
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = ForgotPasswordView()
     window.show()
     sys.exit(app.exec_())
+'''

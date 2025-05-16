@@ -1,4 +1,5 @@
 from QLNHATRO.RentalManagementApplication.Repository.LoginRepository import LoginRepository
+from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.OTPVerificationView import PasswordRecoveryFlow
 
 from QLNHATRO.RentalManagementApplication.services.LoginService import LoginService
 
@@ -51,6 +52,18 @@ class LoginController:
         else:
             print("[LoginController] Đăng nhập thất bại: Sai tài khoản hoặc mật khẩu")
 
+    @staticmethod
+    def go_to_change_password_view():
+        from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.ChangePassword import ChangePasswordView
+        change_password_window = ChangePasswordView()
+        change_password_window.show()
+
+    @staticmethod
+    def go_to_forgot_password_view():
+        from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.OTPVerificationView import \
+            PasswordRecoveryFlow
+        flow = PasswordRecoveryFlow()
+        flow.start_flow()  # KHÔNG gọi flow.run()
 
     '''
     def go_to_main_windown_lanlord(self,main_window ,user_id):
