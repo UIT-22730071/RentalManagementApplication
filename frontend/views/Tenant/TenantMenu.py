@@ -1,5 +1,6 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton
+from torch.distributed.fsdp.wrap import lambda_auto_wrap_policy
 
 from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
 from QLNHATRO.RentalManagementApplication.controller.AdminController.AdminController import AdminController
@@ -73,11 +74,11 @@ class TenantMenu(QWidget):
 
         self.logout_btn = QPushButton("🚪 Đăng xuất")
         button_ui.apply_style(self.logout_btn)
-        self.logout_btn.clicked.connect(lambda: AdminController.handel_exit_window(self))
+        self.logout_btn.clicked.connect(lambda: LandlordController.handle_logout(self))
 
         self.exit_btn = QPushButton("❌ Thoát")
         button_ui.apply_style(self.exit_btn)
-        self.exit_btn.clicked.connect(LandlordController.handle_exit)
+        self.exit_btn.clicked.connect(lambda: self.close_window_menu())
 
         # Add buttons to layout
         left_layout.addWidget(self.home_btn)
@@ -119,3 +120,6 @@ class TenantMenu(QWidget):
 
         self.right_layout.addWidget(self.current_page)
         return self.current_page
+
+    def close_window_menu(self):
+        self.main_window.close()

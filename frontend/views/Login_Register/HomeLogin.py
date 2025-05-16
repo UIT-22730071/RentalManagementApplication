@@ -191,9 +191,10 @@ class LoginWindow(QWidget):
 
         self.exist_btn_signup = QPushButton("Thoát")
         self.exist_btn_signup.setFixedHeight(40)
+        #self.exist_btn_signup.setObjectName("CancelBtn")
         self.exist_btn_signup.setStyleSheet("background-color: #FF6B6B; color: white; font-weight: bold; border-radius: 20px;")
         ## TODO: Xử lý nhẹ phương thức sau
-        self.exist_btn_signup.clicked.connect(lambda: self.close())
+        self.exist_btn_signup.clicked.connect(lambda: self.close_window_menu())
 
 
 
@@ -224,3 +225,6 @@ class LoginWindow(QWidget):
 
     def get_selected_role(self):
         return "Người thuê trọ" if self.tenant_selection.isChecked() else "Chủ trọ"
+
+    def close_window_menu(self):
+        self.main_window.close()

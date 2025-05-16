@@ -22,12 +22,8 @@ class MainWindowRoom(QMainWindow):
         # Giao diện chính được xử lý hoàn toàn bên trong RoomMenu
         self.setCentralWidget(RoomMenu(self, room_id))
 
-    def go_to_exs(self):
-        """
-        Xử lý chức năng thoát (trở về login hoặc thoát app)
-        """
-        print("Exiting application")
-        self.close()
+    def close_window_menu(self):
+        self.main_window.close()
 
 '''
 if __name__ == "__main__":

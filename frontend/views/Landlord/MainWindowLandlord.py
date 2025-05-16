@@ -26,3 +26,6 @@ class MainWindowLandlord(QMainWindow):
         layout = QVBoxLayout(central_widget)
         self.landlord_menu = LandlordMenu(self, id_lanlord)
         layout.addWidget(self.landlord_menu)
+
+    def close_window_menu(self):
+        self.main_window.close()

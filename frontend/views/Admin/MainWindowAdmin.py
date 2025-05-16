@@ -30,10 +30,9 @@ class MainWindowAdmin(QMainWindow):
         self.admin_menu = AdminMenu(self, user_id)
         layout.addWidget(self.admin_menu)
 
-    def go_to_exs(self, main_window):
-        print("❌ Đóng MainWindowAdmin")
-        self.close()
 
+    def close_window_menu(self):
+        self.main_window.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

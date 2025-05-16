@@ -9,6 +9,7 @@ from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import Glob
 from QLNHATRO.RentalManagementApplication.frontend.views.Invoices.InvoiceView import InvoiceView
 
 
+
 class   ListInvoices(QWidget):
     def __init__(self, main_window,invoice_list, id_lanlord):
         super().__init__()
@@ -75,22 +76,16 @@ class   ListInvoices(QWidget):
             if id_invoice:
                 print(f"🧾 ID hóa đơn được chọn: {id_invoice}")
 
-                # Gọi controller để chuẩn bị dữ liệu
-                invoice_data, landlord_data, tenant_data, room_data = InvoiceController.open_view_invoice(
-                    id_invoice)
 
-                # Tạo giao diện hóa đơn và hiển thị
-                view = InvoiceView(
-                    main_window=self.main_window,
-                    invoice_data=invoice_data,
-                    landlord_data=landlord_data,
-                    tenant_data=tenant_data,
-                    room_data=room_data
-                )
+                invoice_data, landlord_data, tenant_data, room_data = InvoiceController.open_view_invoice(id_invoice)
 
-                self.main_window.setCentralWidget(view)
+                from QLNHATRO.RentalManagementApplication.frontend.views.Invoices.MainWindowInvoice import \
+                    MainWindowInvoice
+                # Mở hóa đơn trong cửa sổ mới
+                self.invoice_window = MainWindowInvoice(invoice_data, landlord_data, tenant_data, room_data)
+                self.invoice_window.show()
+
             else:
                 print("⚠️ Không tìm thấy ID hóa đơn.")
         except IndexError:
             print("❌ Không tìm thấy dòng hóa đơn.")
-

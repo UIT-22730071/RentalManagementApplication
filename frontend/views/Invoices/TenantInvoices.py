@@ -24,6 +24,7 @@ class TenantInvoices(QWidget):
 
     def __init__(self, main_window=None, invoice_data=None, landlord_data=None, tenant_data=None, room_data=None):
         super().__init__()
+
         self.setStyleSheet(GlobalStyle.global_stylesheet())
 
         self.main_window = main_window

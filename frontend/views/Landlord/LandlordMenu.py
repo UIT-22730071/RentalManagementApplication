@@ -89,7 +89,7 @@ class LandlordMenu(QWidget):
 
         self.exist_btn = QPushButton("❌ Thoát")
         button_ui.apply_style(self.exist_btn)
-        self.exist_btn.clicked.connect(lambda: AdminController.handel_exit_window(self))
+        self.exist_btn.clicked.connect(lambda: self.close_window_menu())
 
         # Thêm tất cả các button vào layout
         left_layout.addWidget(self.home_btn)
@@ -144,3 +144,5 @@ class LandlordMenu(QWidget):
 
 
 
+    def close_window_menu(self):
+        self.main_window.close()

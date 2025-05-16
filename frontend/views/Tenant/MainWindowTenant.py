@@ -26,10 +26,8 @@ class MainWindowTenant(QMainWindow):
         self.tenant_menu = TenantMenu(self, self.id_tenant)
         main_layout.addWidget(self.tenant_menu)
 
-    def go_to_exs(self, main_window):
-        """Đóng cửa sổ hiện tại"""
-        print("Đóng dashboard người thuê")
-        self.close()
+    def close_window_menu(self):
+        self.main_window.close()
 
 '''
 if __name__ == "__main__":

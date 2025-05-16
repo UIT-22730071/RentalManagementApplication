@@ -651,7 +651,7 @@ class InvoiceView(QWidget):
         exit_btn.setFixedSize(120, 40)
         exit_btn.setObjectName('CancelBtn')
         exit_btn.clicked.connect(self.go_back_to_landlord_menu)
-
+        #exit_btn.clicked.connect(self.close)
         # Save button
         save_btn = QPushButton("Lưu hóa đơn")
         save_btn.setFixedSize(160, 40)
@@ -731,6 +731,11 @@ class InvoiceView(QWidget):
                 QMessageBox.critical(self, "Lỗi", f"Đã xảy ra lỗi khi lưu hóa đơn: {str(e)}")
 
     def go_back_to_landlord_menu(self):
+        self.main_window.close()
+
+
+    '''
+    def go_back_to_landlord_menu(self):
         from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordMenu import LandlordMenu
         from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import \
             LandlordController
@@ -746,6 +751,7 @@ class InvoiceView(QWidget):
         LandlordController.go_to_invoice_list(landlord_menu, self.id_lanlord)
         self.main_window.setCentralWidget(landlord_menu)
 
+    '''
 
 '''
 # main.py

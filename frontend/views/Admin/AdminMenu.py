@@ -81,7 +81,7 @@ class AdminMenu(QWidget):
 
         self.exit_btn = QPushButton("❌ Thoát")
         button_ui.apply_style(self.exit_btn)
-        self.exit_btn.clicked.connect(lambda: AdminController.handle_exit(self))
+        self.exit_btn.clicked.connect(lambda: self.close_window_menu())
 
         # Thêm nút vào layout
         left_layout.addWidget(self.home_btn)
@@ -127,3 +127,6 @@ class AdminMenu(QWidget):
 
         self.right_layout.addWidget(self.current_page)
         return self.current_page
+
+    def close_window_menu(self):
+        self.main_window.close()

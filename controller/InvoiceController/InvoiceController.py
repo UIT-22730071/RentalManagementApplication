@@ -9,10 +9,10 @@ class InvoiceController:
         self.invoice_window = None
         self.invoice_service = InvoiceService()
     #TODO: Lỗi chưa tìm ra nguyên nhân không mở được View InvoiceView
-
+    '''
     def get_invoice_data_for_view(self, invoice_id):
         return self.invoice_service.get_invoice_data_for_view(invoice_id)
-
+    '''
     def go_to_update_database(self, invoice_data_update_database):
         id_room = invoice_data_update_database['id_room']
         id_tenant = invoice_data_update_database['id_tenant']
@@ -50,3 +50,4 @@ class InvoiceController:
         room_data = total_data_invoice_view['room_data']
 
         return invoice_data, landlord_data, tenant_data, room_data
+

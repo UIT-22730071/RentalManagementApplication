@@ -64,20 +64,17 @@ class AdminInvoiceList(QWidget):
             invoice = self.invoices[row]
             id_invoice = invoice.get("id_invoice", None)
             if id_invoice:
-                #print(f"[ADMIN] 🧾 Xem hóa đơn ID: {id_invoice}")
+                print(f"🧾 ID hóa đơn được chọn: {id_invoice}")
+                from QLNHATRO.RentalManagementApplication.frontend.views.Invoices.MainWindowInvoice import \
+                    MainWindowInvoice
+
                 invoice_data, landlord_data, tenant_data, room_data = InvoiceController.open_view_invoice(id_invoice)
 
-                view = InvoiceView(
-                    main_window=self.main_window,
-                    invoice_data=invoice_data,
-                    landlord_data=landlord_data,
-                    tenant_data=tenant_data,
-                    room_data=room_data
-                )
-                self.main_window.setCentralWidget(view)
+                # Mở hóa đơn trong cửa sổ mới
+                self.invoice_window = MainWindowInvoice(invoice_data, landlord_data, tenant_data, room_data)
+                self.invoice_window.show()
+
             else:
-                QMessageBox.warning(self, "Thông báo", "Không tìm thấy ID hóa đơn.")
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
-            QMessageBox.critical(self, "Lỗi", f"Không thể hiển thị chi tiết hóa đơn: {e}")
+                print("⚠️ Không tìm thấy ID hóa đơn.")
+        except IndexError:
+            print("❌ Không tìm thấy dòng hóa đơn.")
