@@ -20,6 +20,12 @@ class RoomMenu(QWidget):
         self.main_layout = QHBoxLayout()
         self.setLayout(self.main_layout)
 
+        self.main_window.setWindowTitle("Dashboard Room")
+        # self.main_window.setGeometry(300, 100, 1000, 600)
+        self.main_window.resize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+        self.main_window.setMinimumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+        self.main_window.setMaximumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
+
         # ------------ LEFT MENU FRAME ------------
         self.left_frame = QWidget()
         self.left_frame.setFixedWidth(250)
