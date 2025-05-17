@@ -2,7 +2,7 @@
 
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QHBoxLayout, QFrame, QVBoxLayout, QPushButton, QStackedWidget, QLabel, QLineEdit, \
-    QRadioButton
+    QRadioButton, QMessageBox
 
 from QLNHATRO.RentalManagementApplication.controller.LoginRegister.LoginController import LoginController
 from QLNHATRO.RentalManagementApplication.controller.LoginRegister.RegisterController import RegisterController
@@ -113,6 +113,9 @@ class LoginWindow(QWidget):
         login_btn.setFixedHeight(45)
         login_btn.setStyleSheet("background-color: #233FF3; color: white; font-weight: bold; border-radius: 20px;")
 
+
+
+
         #TODO đang xử lý lỗi ở đây
 
         #login_btn.clicked.connect(lambda: LoginController.go_to_check_login_window(main_window,self,email_input.text(), password_input.text()))
@@ -170,6 +173,7 @@ class LoginWindow(QWidget):
         signup_btn = QPushButton("Đăng ký")
         signup_btn.setFixedHeight(45)
         signup_btn.setStyleSheet("background-color: #233FF3; color: white; font-weight: bold; border-radius: 20px;")
+
         signup_btn.clicked.connect(lambda: RegisterController.register_tenant(
             username_input.text(),
             password_input.text(),

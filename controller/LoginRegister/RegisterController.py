@@ -24,6 +24,8 @@ class RegisterController:
     @staticmethod
     def register_tenant(username, password,confirm_password ,role, main_window):
         from QLNHATRO.RentalManagementApplication.services.LoginService import LoginService
+
+
         if not username or not password or not confirm_password:
             print("Username and password are required.")
             return

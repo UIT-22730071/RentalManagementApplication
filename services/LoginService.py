@@ -70,3 +70,10 @@ class LoginService:
                 password=password,
                 user_id = user_id
             )'''
+
+    @staticmethod
+    def check_change_password(username, current_password):
+        #TODO: kiểm tra user name và passowrd người dùng nhập vào nếu đúng thì retuen True
+        # nếu sai return false
+        return True
+

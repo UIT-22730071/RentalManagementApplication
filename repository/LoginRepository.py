@@ -53,3 +53,9 @@ class LoginRepository:
         # TODO: Tạo truy vấn SQL để get user_id
         user_id = "01"
         return user_id
+    @staticmethod
+    def change_password_into_database(username,password):
+        #TODO: Tạo truy vấn upate cho table user để cập nhật CSDL thay đoi9r mật khẩu
+        print("mật khẩu đã được thay đổi")
+
+

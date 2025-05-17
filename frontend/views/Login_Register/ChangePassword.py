@@ -4,7 +4,10 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 import sys
 
+from QLNHATRO.RentalManagementApplication.Repository.LoginRepository import LoginRepository
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+from QLNHATRO.RentalManagementApplication.services.LoginService import LoginService
+from QLNHATRO.RentalManagementApplication.utils.Validators import Validators
 
 
 class ChangePasswordView(QWidget):
@@ -13,7 +16,7 @@ class ChangePasswordView(QWidget):
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.setWindowTitle("Đổi mật khẩu")
         #self.setStyleSheet("background-color: white; border-radius: 40px;")
-        self.setMinimumSize(850, 700)
+        self.setMinimumSize(850, 820)
         self.on_success_callback = on_success_callback
 
         layout = QVBoxLayout(self)
@@ -39,6 +42,7 @@ class ChangePasswordView(QWidget):
         layout.addWidget(header_frame)
 
         # Form fields
+        self.create_username_field(layout, "Tên người dùng:", "username")
         self.create_password_field(layout, "Mật khẩu hiện tại:", "current_password", True)
         self.create_password_field(layout, "Mật khẩu mới:", "new_password", True)
         self.create_password_field(layout, "Xác nhận mật khẩu mới:", "confirm_password", True)
@@ -60,10 +64,33 @@ class ChangePasswordView(QWidget):
         # Add spacer at bottom
         layout.addStretch()
 
+    def create_username_field(self, parent_layout, label_text, object_name):
+        field_frame = QFrame()
+        field_frame.setFixedHeight(100)
+        field_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+
+        layout = QVBoxLayout(field_frame)
+        layout.setContentsMargins(20, 10, 20, 10)
+        layout.setSpacing(5)
+
+        label = QLabel(label_text)
+        label.setFont(QFont("Be Vietnam", 14, QFont.Bold))
+        layout.addWidget(label)
+
+        text_field = QLineEdit()
+        text_field.setObjectName(object_name)
+        text_field.setFixedHeight(40)
+        text_field.setFixedWidth(600)  # ⬅️ Thêm dòng này
+
+        layout.addWidget(text_field)
+        setattr(self, object_name + "_input", text_field)  # Gán để dễ truy cập
+        parent_layout.addWidget(field_frame)
+
     def create_password_field(self, parent_layout, label_text, object_name, is_password=False):
         field_frame = QFrame()
         field_frame.setFixedHeight(100)
         field_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+
 
         layout = QVBoxLayout(field_frame)
         layout.setContentsMargins(20, 10, 20, 10)
@@ -80,6 +107,7 @@ class ChangePasswordView(QWidget):
         text_field.setObjectName(object_name)
         #text_field.setFont(QFont("Be Vietnam", 12))
         text_field.setFixedHeight(40)
+        setattr(self, object_name + "_input", text_field)
 
         if is_password:
             text_field.setEchoMode(QLineEdit.Password)
@@ -100,6 +128,7 @@ class ChangePasswordView(QWidget):
             layout.addLayout(input_layout)
         else:
             layout.addWidget(text_field)
+
 
         parent_layout.addWidget(field_frame)
         return text_field
@@ -135,40 +164,44 @@ class ChangePasswordView(QWidget):
 
         layout.addWidget(req_frame)
 
-    def validate_password(self, password):
-        has_upper = any(c.isupper() for c in password)
-        has_digit = any(c.isdigit() for c in password)
-        has_special = any(not c.isalnum() for c in password)
-        has_length = len(password) >= 8
-
-        if not all([has_upper, has_digit, has_special, has_length]):
-            return False
-        return True
-
     def on_submit(self):
-        current_password = self.findChild(QLineEdit, "current_password").text()
-        new_password = self.findChild(QLineEdit, "new_password").text()
-        confirm_password = self.findChild(QLineEdit, "confirm_password").text()
+        username = self.username_input.text().strip()
+        current_password = self.current_password_input.text()
+        new_password = self.new_password_input.text()
+        confirm_password = self.confirm_password_input.text()
 
-        # Check if all fields are filled
-        if not all([current_password, new_password, confirm_password]):
-            QMessageBox.warning(self, "Lỗi", "Vui lòng điền đầy đủ thông tin")
+        # Kiểm tra đầy đủ thông tin
+        if not all([username, current_password, new_password, confirm_password]):
+            QMessageBox.warning(self, "Lỗi", "Vui lòng điền đầy đủ thông tin.")
             return
 
-        # Check if new password matches the confirmation
+        if not Validators.is_alpha_only(username.replace(" ", "")):
+            QMessageBox.warning(self, "Lỗi", "Tên đăng nhập không hợp lệ (chỉ chứa chữ cái và không dấu).")
+            return
+
+        # Kiểm tra định dạng username
+        if " " in username or len(username) < 4:
+            QMessageBox.warning(self, "Lỗi",
+                                "Tên đăng nhập không hợp lệ (không được có khoảng trắng và phải ≥ 4 ký tự).")
+            return
+
+        # Kiểm tra trùng khớp mật khẩu
         if new_password != confirm_password:
-            QMessageBox.warning(self, "Lỗi", "Mật khẩu mới và xác nhận mật khẩu không khớp")
+            QMessageBox.warning(self, "Lỗi", "Mật khẩu mới và xác nhận không khớp.")
             return
 
-        # Check if new password meets requirements
-        if not self.validate_password(new_password):
-            QMessageBox.warning(self, "Lỗi", "Mật khẩu mới không đáp ứng các yêu cầu bảo mật")
+        # Kiểm tra yêu cầu mật khẩu
+        if not Validators.validate_password(new_password):
+            QMessageBox.warning(self, "Lỗi", "Mật khẩu mới không đáp ứng yêu cầu bảo mật.")
             return
 
-        # Here you would typically verify the current password with your backend
-        # For demo purposes, let's assume it's correct
+        if LoginService.check_change_password(username,current_password):  # Đây chỉ là giả lập, bạn nên thay bằng kiểm tra thật
+            QMessageBox.critical(self, "Lỗi", "Mật khẩu hiện tại không đúng.")
+            return
 
-        print("✅ Mật khẩu đã được thay đổi thành công")
+        LoginRepository.change_password_into_database(username,new_password)
+        # Nếu mọi thứ đều hợp lệ
+        #print("✅ Mật khẩu đã được thay đổi thành công.")
         QMessageBox.information(self, "Thành công", "Mật khẩu của bạn đã được thay đổi thành công!")
 
         if self.on_success_callback:

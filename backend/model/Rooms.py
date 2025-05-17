@@ -139,3 +139,29 @@ class Room:
         return room.to_dict()
     '''
 
+    '''
+    Tiện ích cơ bản của phòng trọ
+    Nhà vệ sinh riêng
+    Máy giặt
+    Chổ để xe
+    Dọn vệ sinh
+    An ninh
+    Máy lạnh
+    Tivi
+    Nội thất
+    Giường
+    '''
+    '''
+    Hình ảnh hiển thị
+    '''
+    '''
+    Đối tượng ưu tiên
+    Sinh viên
+    Nữ 
+    Ở ghép
+    '''
+    '''
+    Tên liên hệ
+    số điện thoại liên hệ
+    email
+    '''
