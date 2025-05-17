@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import (
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.LabelUI import LabelUI
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
-from QLNHATRO.RentalManagementApplication.frontend.views.UpdateUI.InforUpdater import InfoUpdater
+from QLNHATRO.RentalManagementApplication.frontend.Component.InforUpdater import InfoUpdater
 
 
 class LandlordInfo(QWidget):

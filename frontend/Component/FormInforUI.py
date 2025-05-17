@@ -7,7 +7,7 @@ from typing import List, Dict, Any
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.LabelUI import LabelUI
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
-from QLNHATRO.RentalManagementApplication.frontend.views.UpdateUI.InforUpdater import InfoUpdater
+from QLNHATRO.RentalManagementApplication.frontend.Component.InforUpdater import InfoUpdater
 
 
 class FormInforUI(QWidget):

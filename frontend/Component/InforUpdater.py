@@ -60,7 +60,7 @@ class InfoUpdater(QDialog):
         '''
         # GroupBox chứa nội dung nhập liệu
         group_box = QGroupBox(f" ✏️ {title}")
-        group_box.setFont(QFont("Arial", 10, QFont.Bold))
+        #group_box.setFont(QFont("Arial", 10, QFont.Bold))
         group_layout = QVBoxLayout()
 
         self.input = QLineEdit()

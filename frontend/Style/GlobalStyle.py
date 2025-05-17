@@ -22,7 +22,7 @@ class GlobalStyle:
     # Font
     FONT_FAMILY = "'Be Vietnam Pro', 'Inter', Arial, sans-serif"
     TITLE_FONT_SIZE = "24px"
-    LABEL_FONT_SIZE = "14px"
+    LABEL_FONT_SIZE = "16px"
 
     # Window size
     WINDOW_WIDTH = 1600

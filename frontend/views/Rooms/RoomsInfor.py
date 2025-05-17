@@ -2,9 +2,9 @@
 from PyQt5.QtWidgets import (QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
                              QScrollArea, QFrame, QGroupBox, QGridLayout, QDialog, QLineEdit)
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont
 
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+from QLNHATRO.RentalManagementApplication.frontend.Component.InforUpdater import InfoUpdater
 
 
 class RoomsInfor(QWidget):
@@ -14,6 +14,8 @@ class RoomsInfor(QWidget):
         self.main_window = main_window
         self.room_id = room_id
         self.room_data = data_room_infor
+        self.label_fields = []  #  để lưu thứ tự key tương ứng cho từng dòng
+
         '''{
             "Tên phòng": "P101",
             "Địa chỉ": "123 Đường ABC, Phường XYZ, Quận Bình Thạnh, TP. Hồ Chí Minh",
@@ -92,6 +94,8 @@ class RoomsInfor(QWidget):
         self.value_labels = {}
 
         for key, value in self.room_data.items():
+            i = row  # row cũng là thứ tự index
+            self.label_fields.append(key)  # lưu key tương ứng cho mỗi dòng
             key_lbl = QLabel(key + ":")
             key_lbl.setFixedWidth(300)
             #key_lbl.setStyleSheet("font-weight: bold;")
@@ -103,7 +107,10 @@ class RoomsInfor(QWidget):
             edit_btn.setFixedWidth(180)
             edit_btn.setFixedHeight(40)
 
-            edit_btn.clicked.connect(lambda _, k=key: self.open_edit_dialog(k))
+            #edit_btn.clicked.connect(lambda _, k=key: self.open_edit_dialog(k))
+
+            edit_btn.clicked.connect(lambda _, index=i: self.update_field(index))
+
 
             grid.addWidget(key_lbl, row, 0)
             grid.addWidget(val_lbl, row, 1)
@@ -114,6 +121,17 @@ class RoomsInfor(QWidget):
         scroll_layout.addWidget(card)
         scroll.setWidget(scroll_content)
         main_layout.addWidget(scroll)
+
+    def update_field(self, index):
+        key = self.label_fields[index]
+        label = self.value_labels[key]
+
+        dialog = InfoUpdater(
+            title=key,
+            current_value=label.text(),
+            on_update_callback=lambda new_val: self.apply_update(index, new_val)
+        )
+        dialog.exec_()
 
     def open_edit_dialog(self, key):
         dialog = QDialog(self)

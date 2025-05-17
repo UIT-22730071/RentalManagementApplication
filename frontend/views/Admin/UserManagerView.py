@@ -111,5 +111,5 @@ class AdminUserManagement(QWidget):
         self.populate_table()
         from QLNHATRO.RentalManagementApplication.frontend.Component.SuccessDialog import SuccessDialog
 
-        SuccessDialog.show_success(f"✅ Đã chuyển '{user['username']}' thành '{user['status']}'", self)
+        SuccessDialog.show_success(f"Đã chuyển '{user['username']}' thành '{user['status']}'",user['status'], self)
 
