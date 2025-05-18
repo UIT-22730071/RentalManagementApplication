@@ -152,6 +152,7 @@ class TenantRepository:
             'citizen_id': '083098103250',
             'gender': 'Nam',
             'occupation': 'Nhân viên',
+            'email':"tranvanthuetro@gmail.com",
             'phone_number': '036513251',
             'marital_status': 'độc toàn thân'
         }

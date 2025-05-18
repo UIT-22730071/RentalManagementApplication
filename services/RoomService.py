@@ -31,8 +31,6 @@ class RoomService:
         return RoomService.map_keys_for_table(number_data)
 
 
-
-
     @staticmethod
     def map_keys_for_table(data):
         """Chuyển đổi key từ dữ liệu gốc sang key UI cần"""
