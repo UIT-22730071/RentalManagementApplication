@@ -2,8 +2,6 @@ from PyQt5.QtWidgets import QMessageBox
 
 from QLNHATRO.RentalManagementApplication.Repository.LoginRepository import LoginRepository
 
-
-
 class LoginService:
     def __init__(self):
         pass
@@ -71,9 +69,4 @@ class LoginService:
                 user_id = user_id
             )'''
 
-    @staticmethod
-    def check_change_password(username, current_password):
-        #TODO: kiểm tra user name và passowrd người dùng nhập vào nếu đúng thì retuen True
-        # nếu sai return false
-        return True
 

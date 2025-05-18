@@ -6,7 +6,7 @@ import sys
 
 from QLNHATRO.RentalManagementApplication.Repository.LoginRepository import LoginRepository
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
-from QLNHATRO.RentalManagementApplication.services.LoginService import LoginService
+from QLNHATRO.RentalManagementApplication.services.OTPService import OTPService
 from QLNHATRO.RentalManagementApplication.utils.Validators import Validators
 
 
@@ -191,11 +191,11 @@ class ChangePasswordView(QWidget):
             return
 
         # Kiểm tra yêu cầu mật khẩu
-        if not Validators.validate_password(new_password):
+        if not Validators.is_valid_password(new_password):
             QMessageBox.warning(self, "Lỗi", "Mật khẩu mới không đáp ứng yêu cầu bảo mật.")
             return
 
-        if LoginService.check_change_password(username,current_password):  # Đây chỉ là giả lập, bạn nên thay bằng kiểm tra thật
+        if OTPService.check_change_password(username,current_password):  # Đây chỉ là giả lập, bạn nên thay bằng kiểm tra thật
             QMessageBox.critical(self, "Lỗi", "Mật khẩu hiện tại không đúng.")
             return
 
