@@ -59,3 +59,21 @@ class LoginRepository:
         print("mật khẩu đã được thay đổi")
 
 
+    @staticmethod
+    def get_sdt_from_username(username):
+        #TODO: trả về sdt user
+        sdt = '0325575333'
+        return sdt
+
+    @staticmethod
+    def get_email_from_username(username):
+        #TODO: trả về email sử dụng cảu username
+        email = 'khonglamthi0diemr@gmail.com'
+        return email
+
+    @staticmethod
+    def is_username_exists(username: str) -> bool:
+        #TODOL Tạo try vấn trả về sự tồn tại cúa username
+        # Trả về True nếu username tồn tại trong bảng Users
+        is_exist = True
+        return is_exist

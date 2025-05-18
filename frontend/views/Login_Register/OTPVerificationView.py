@@ -4,19 +4,24 @@ from PyQt5.QtCore import Qt, QRegExp, QTimer
 from PyQt5.QtGui import QFont, QRegExpValidator
 import sys
 
+from QLNHATRO.RentalManagementApplication.controller.OTPController.OTPController import OTPController
+from QLNHATRO.RentalManagementApplication.frontend.Component.ErrorDialog import ErrorDialog
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.ForgotPassword import ForgotPasswordView
+
+
 
 #TODO cần tách ra xử lý lại từng phần ==> cho ô nhập OTP
 
 class OTPVerificationView(QWidget):
-    def __init__(self, email="phuctran@gmail.com"):
+    def __init__(self, email=None,username=None):
         super().__init__()
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.setWindowTitle("Nhập mã OTP")
         #self.setStyleSheet("background-color: white; border-radius: 40px;")
         self.setMinimumSize(400, 300)
         self.email = email
+        self.username = username
 
 
         # Main layout
@@ -177,30 +182,21 @@ class OTPVerificationView(QWidget):
 
     def confirm_otp(self):
         otp = ''.join([field.text() for field in self.otp_fields])
-        if len(otp) == 4:
-            print(f"✅ OTP Submitted: {otp}")
-            # TODO: xác minh OTP ở backend
-            self.go_to_reset_password()
-        else:
-            QMessageBox.warning(self, "Thiếu mã", "⚠️ Vui lòng nhập đủ 4 chữ số của mã OTP")
+        OTPController.verify_otp(otp, self.username, self)
 
     def resend_otp(self):
-        print(f"🔄 Gửi lại OTP to {self.email}")
+        self.remaining_seconds = 120
+        self.timer_label.setText("⏳ Thời gian còn lại: 02:00")
+        self.timer.start(1000)
+        self.reset_otp_fields()
+        OTPController.resend_otp(self.username, self.email, self)
 
-        # Reset lại các ô nhập mã
+
+
+    def reset_otp_fields(self):
         for field in self.otp_fields:
             field.clear()
         self.otp_fields[0].setFocus()
-
-        # ⏱️ Reset thời gian đếm ngược
-        self.remaining_seconds = 120
-        self.timer_label.setText("⏳ Thời gian còn lại: 02:00")
-        self.timer.start(1000)  # restart timer nếu bị stop
-
-    def go_to_reset_password(self):
-        self.hide()
-        self.reset_password_view = ResetPasswordView()
-        self.reset_password_view.show()
 
     def update_timer(self):
         self.remaining_seconds -= 1
@@ -241,23 +237,11 @@ class PasswordRecoveryFlow:
         self.forgot_password_view.show()
 
     def show_otp_screen(self, email):
-        self.otp_verification_view = OTPVerificationView(email=email)
+        self.otp_verification_view = OTPVerificationView(email=email,username = self.username)
         self.otp_verification_view.show()
 
     def run(self):
         sys.exit(self.app.exec_())
 
-class ResetPasswordView(QWidget):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Đặt lại mật khẩu")
-        label = QLabel("🔐 Giao diện đặt lại mật khẩu")
-        layout = QVBoxLayout(self)
-        layout.addWidget(label)
 
 
-# Khởi chạy toàn bộ luồng quên mật khẩu
-if __name__ == "__main__":
-    flow = PasswordRecoveryFlow()
-    flow.start_flow()
-    flow.run()

@@ -41,16 +41,16 @@ class SuccessDialog(QDialog):
             self.setStyleSheet(GlobalStyle.global_stylesheet() + """
                             QDialog {
                                 background-color: white;
-                                border: 2px solid #E91B50;
+                                border: 2px solid #27ae60;
                                 border-radius: 12px;
                             }
                             QLabel {
-                                color: #E91B50;
+                                color: #27ae60;
                                 font-size: 16px;
                                 font-weight: bold;
                             }
                             QPushButton {
-                                background-color: #E91B50;
+                                background-color: #27ae60;
                                 color: white;
                                 padding: 8px 16px;
                                 font-size: 14px;
@@ -58,7 +58,7 @@ class SuccessDialog(QDialog):
                                 border-radius: 8px;
                             }
                             QPushButton:hover {
-                                background-color: #F88686;
+                                background-color: #27ae60;
                             }
                         """)
 

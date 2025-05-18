@@ -1,10 +1,14 @@
 from PyQt5.QtWidgets import (QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
-                             QFrame, QApplication, QButtonGroup, QRadioButton, QSizePolicy)
+                             QFrame, QApplication, QButtonGroup, QRadioButton, QSizePolicy, QLineEdit, QMessageBox)
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
 import sys
 
+from QLNHATRO.RentalManagementApplication.Repository.LoginRepository import LoginRepository
+from QLNHATRO.RentalManagementApplication.frontend.Component.ErrorDialog import ErrorDialog
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.ChangePassword import ChangePasswordView
+from QLNHATRO.RentalManagementApplication.utils.Validators import Validators
 
 
 class ForgotPasswordView(QWidget):
@@ -40,6 +44,8 @@ class ForgotPasswordView(QWidget):
         header_layout.addWidget(subtext)
 
         layout.addWidget(header_frame)
+
+        self.create_username_field(layout, "Tên người dùng:", "username")
 
         # Recovery Options with selection
         self.radio_group = QButtonGroup(self)
@@ -127,25 +133,45 @@ class ForgotPasswordView(QWidget):
 
         return wrapper
 
+    from QLNHATRO.RentalManagementApplication.utils.Validators import Validators
+    from QLNHATRO.RentalManagementApplication.frontend.Component.ErrorDialog import ErrorDialog
+
     def on_submit(self):
+        username = self.username_input.text().strip()
+
+        if not Validators.is_valid_input(username, allow_spaces=False, min_length=4):
+            ErrorDialog.show_error("⚠️ Vui lòng nhập tên người dùng hợp lệ.", self)
+            return
+
+            # ✅ Kiểm tra username có tồn tại trong CSDL
+        if not LoginRepository.is_username_exists(username):
+            ErrorDialog.show_error("❌ Tên người dùng không tồn tại trong hệ thống.", self)
+            return
+
         selected_id = self.radio_group.checkedId()
 
         if selected_id == 1:
-            print("✅ Gửi OTP đến SĐT")
             from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.OTPVerificationView import \
                 OTPVerificationView
-            otp_window = OTPVerificationView(email="Gửi qua SĐT")
+            sdt = LoginRepository.get_sdt_from_username(username)
+            if not sdt:
+                ErrorDialog.show_error("⚠️ Không tìm thấy số điện thoại cho tên người dùng này.", self)
+                return
+            otp_window = OTPVerificationView(email=sdt, username=username)
             otp_window.show()
 
         elif selected_id == 2:
-            print("✅ Gửi OTP đến Email")
             from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.OTPVerificationView import \
                 OTPVerificationView
-            otp_window = OTPVerificationView(email="phuctran@gmail.com")  # Có thể thay bằng email thật
+            email = LoginRepository.get_email_from_username(username)
+            if not email:
+                ErrorDialog.show_error("⚠️ Không tìm thấy email cho tên người dùng này.", self)
+                return
+            otp_window = OTPVerificationView(email=email, username=username)
             otp_window.show()
 
         else:
-            print("⚠️ Vui lòng chọn 1 phương thức để nhận OTP")
+            ErrorDialog.show_error("⚠️ Vui lòng chọn 1 phương thức để nhận OTP.", self)
 
     def resend_otp(self):
         selected_id = self.radio_group.checkedId()
@@ -156,10 +182,25 @@ class ForgotPasswordView(QWidget):
         else:
             print("⚠️ Vui lòng chọn phương thức để gửi lại OTP")
 
-'''
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = ForgotPasswordView()
-    window.show()
-    sys.exit(app.exec_())
-'''
+    def create_username_field(self, parent_layout, label_text, object_name):
+        field_frame = QFrame()
+        field_frame.setFixedHeight(100)
+        field_frame.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+
+        layout = QVBoxLayout(field_frame)
+        layout.setContentsMargins(20, 10, 20, 10)
+        layout.setSpacing(5)
+
+        label = QLabel(label_text)
+        label.setFont(QFont("Be Vietnam", 14, QFont.Bold))
+        layout.addWidget(label)
+
+        text_field = QLineEdit()
+        text_field.setObjectName(object_name)
+        text_field.setFixedHeight(40)
+        text_field.setFixedWidth(600)  # ⬅️ Thêm dòng này
+
+        layout.addWidget(text_field)
+        setattr(self, object_name + "_input", text_field)  # Gán để dễ truy cập
+        parent_layout.addWidget(field_frame)
+
