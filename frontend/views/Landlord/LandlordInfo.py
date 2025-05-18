@@ -24,6 +24,7 @@ class LandlordInfo(QWidget):
                 'sex': ' None',
                 'job': 'None ',
                 'phone': ' None',
+                'email': 'None',
                 'marriage': 'None',
                 'password': '**********'}
         else:
@@ -46,9 +47,9 @@ class LandlordInfo(QWidget):
 
         field_names = [
             "Họ và Tên", "Ngày Sinh", "CCCD", "Giới tính",
-            "Nghề nghiệp", "Số điện thoại", "Tình trạng hôn nhân"
+            "Nghề nghiệp", "Email" ,"Số điện thoại", "Tình trạng hôn nhân"
         ]
-        field_keys = ['name', 'birth', 'cccd', 'sex', 'job', 'phone', 'marriage']
+        field_keys = ['name', 'birth', 'cccd', 'sex', 'job', 'email','phone', 'marriage']
 
         self.label_fields = []
 

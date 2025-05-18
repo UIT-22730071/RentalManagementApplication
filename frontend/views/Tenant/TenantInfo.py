@@ -26,6 +26,7 @@ class TenantInfo(QWidget):
                 'citizen_id': 'None',
                 'gender': 'None',
                 'occupation': 'None',
+                'email':'None',
                 'phone_number': 'None',
                 'marital_status': 'None'
             }
@@ -48,9 +49,9 @@ class TenantInfo(QWidget):
 
         field_names = [
             "Họ và Tên", "Ngày Sinh", "CCCD", "Giới tính",
-            "Nghề nghiệp", "Số điện thoại", "Tình trạng hôn nhân"
+            "Nghề nghiệp", "Email" ,"Số điện thoại", "Tình trạng hôn nhân"
         ]
-        field_keys = ['full_name', 'birth_date', 'citizen_id', 'gender', 'occupation', 'phone_number', 'marital_status']
+        field_keys = ['full_name', 'birth_date', 'citizen_id', 'gender', 'occupation', 'email' ,'phone_number', 'marital_status']
 
         self.label_fields = []
 
