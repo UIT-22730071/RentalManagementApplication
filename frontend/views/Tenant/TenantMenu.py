@@ -55,7 +55,7 @@ class TenantMenu(QWidget):
         self.info_btn = QPushButton("👤 Thông tin cá nhân")
         button_ui.apply_style(self.info_btn)
         self.info_btn.clicked.connect(lambda: TenantController.go_to_tenant_info_page(self, self.id_tenant))
-        #TODO: fix xong repari call function
+
         self.room_info_btn = QPushButton("🚪 Thông tin phòng")
         button_ui.apply_style(self.room_info_btn)
         self.room_info_btn.clicked.connect(lambda: TenantController.go_to_tenant_room_infor_page(self,self.id_tenant))

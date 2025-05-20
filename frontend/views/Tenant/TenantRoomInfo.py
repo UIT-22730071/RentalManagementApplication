@@ -14,85 +14,11 @@ class TenantRoomInfo(QWidget):
         self.data_room = data_room or {}
         self.id_tenant = id_tenant
 
-        #TODO: handel data than fix code
-        '''
-        
-        # Xử lý rawdata
-        data_room ={
-            "Số phòng":str(raw_data_room['room_name']),
-            "Loại phòng":str(raw_data_room['room_type']),
-            "Ngày bắt đầu thuê":str(raw_data_room['available_date']),
-            "Tiền phòng":str(raw_data_room['rent_price'])+" VNĐ",
-            "Tiền cọc":str(raw_data_room['deposit'])+" VNĐ",
-            "Ngày đến hạn thanh toán":str(date_new_invoice),
-
-            "Chỉ số điện cũ":str(old_data_e_and_w["number_e"])+" kWh",
-            "Chỉ số điện mới":str(current_data_e_and_w["number_e"])+" kWh",
-            "Tiêu thụ điện":str(current_data_e_and_w['number_e']- old_data_e_and_w["number_e"])+" kWh",
-            "Đơn giá điện":str(raw_data_room['electricity_price'])+" VNĐ/kWh",
-            "Thành tiên điện":str((current_data_e_and_w['number_e']- old_data_e_and_w["number_e"])*raw_data_room['electricity_price'])+" VNĐ",
-
-            "Chỉ số nước cũ:":str(old_data_e_and_w["number_w"])+" m³",
-            "Chỉ số nước mới":str(current_data_e_and_w["number_w"])+" m³",
-            "Tiêu thụ nước":str(current_data_e_and_w['number_w']- old_data_e_and_w["number_w"])+" m³",
-            "Đơn giá nước":str(raw_data_room['water_price'])+" VNĐ/m³",
-            "Thành tiên nước": str((current_data_e_and_w['number_w'] - old_data_e_and_w["number_w"]) * raw_data_room[
-                'water_price']) + " VNĐ",
-
-            "Chi phí khác":str(raw_data_room["other_fees"])+" VNĐ",
-            "Internet":str(raw_data_room['internet_price']) + " VNĐ/tháng",
-            "Tiền rác":str(raw_data_room['garbage_price']) + " VNĐ/tháng",
-            "Tổng cộng":str(raw_data_room['rent_price']+(current_data_e_and_w['number_e']- old_data_e_and_w["number_e"])*raw_data_room['electricity_price'] + (current_data_e_and_w['number_w'] - old_data_e_and_w["number_w"]) * raw_data_room[
-                'water_price']+raw_data_room["other_fees"]+raw_data_room['internet_price'])+ " VNĐ",
-            
-            "Tên chủ trọ":str(raw_data_lanlord['name']),
-            "Số điện thoại":str(raw_data_lanlord['phone']),
-            "Email":str(raw_data_lanlord['email']),
-            "Địa chỉ":str(raw_data_room['address']),
-            
-        }
-        '''
 
 
 
         # Improved styling with backgrounds for all information areas
-        '''
-        self.setStyleSheet( GlobalStyle.global_stylesheet() + """
-            QGroupBox::title {
-                subcontrol-origin: margin;
-                left: 10px;
-                padding: 0 5px 0 5px;
-                color: #3498db;
-                font-size: 16px;
-            }
-            QLabel#sectionTitle {
-                font-size: 18px;
-                font-weight: bold;
-                color: #3498db;
-                padding: 10px 0px;
-            }
-            QLabel#valueLabel {
-                font-size: 16px;
-                font-weight: bold;
-                color: white;
-                background-color: rgba(52, 152, 219, 0.7);
-                border-radius: 5px;
-                padding: 8px;
-                margin: 2px;
-            }
-            QLabel#keyLabel {
-                font-size: 14px;
-                color: #bdc3c7;
-                padding-left: 10px;
-            }
-            QFrame#separator {
-                background-color: #E9FBFC;
-                min-height: 2px;
-                max-height: 2px;
-                margin: 10px 0px;
-            }
-        """)
-        '''
+
         # Create main layout
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(20, 20, 20, 20)

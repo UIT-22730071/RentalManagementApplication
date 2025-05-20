@@ -219,3 +219,22 @@ class InvoiceService:
             result += read_group(remainder)
 
         return result.strip() + " đồng"
+
+
+    @staticmethod
+    def map_room_tenant_info(room: dict, tenant: dict) -> dict:
+        """Trả về mapping dữ liệu giữa phòng và người thuê để hiển thị lên view"""
+        return {
+            "Tên phòng": room['ten_phong'],
+            "Mã phòng": room['id'],
+            "Người thuê": tenant['ho_ten'],
+            "CCCD": tenant['cccd'],
+            "Địa chỉ": room.get('dia_chi', '---'),
+            "Giá phòng": f"{room['gia_phong']} VNĐ",
+            "Giá điện": f"{room['gia_dien']} VNĐ/kWh",
+            "Giá nước": f"{room['gia_nuoc']} VNĐ/người",
+            "Internet": f"{room.get('internet', '100000')} VNĐ",
+            "Phí khác": f"{room.get('phi_khac', '20000')} VNĐ",
+            "Số điện cũ": f"{room.get('chi_so_dien', '---')} KWH",
+            "Số nước cũ": f"{room.get('chi_so_nuoc', '---')} m3",
+        }

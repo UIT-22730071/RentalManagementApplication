@@ -355,25 +355,13 @@ class InvoiceInputPage(QWidget):
                                 f"Phòng {room['ten_phong']} chưa có người thuê. Vui lòng cập nhật người thuê trước.")
             # Reset combo box selection
             self.room_combo.setCurrentIndex(0)
-    #TODO: Mapping này phải chuyển qua service để xử lý trả về 1 cụm dữ liệu để view sử dụng
-    def update_room_tenant_info(self, room, tenant):
-        """Update the UI with room and tenant info"""
-        info_mapping = {
-            "Tên phòng": room['ten_phong'],
-            "Mã phòng": room['id'],
-            "Người thuê": tenant['ho_ten'],
-            "CCCD": tenant['cccd'],
-            "Địa chỉ": room.get('dia_chi', '---'),
-            "Giá phòng": f"{room['gia_phong']} VNĐ",
-            "Giá điện": f"{room['gia_dien']} VNĐ/kWh",
-            "Giá nước": f"{room['gia_nuoc']} VNĐ/người",
-            "Internet": f"{room.get('internet', '100000')} VNĐ",
-            "Phí khác": f"{room.get('phi_khac', '20000')} VNĐ",
-            "Số điện cũ": f"{room.get('chi_so_dien', '---')} KWH",
-            "Số nước cũ": f"{room.get('chi_so_nuoc', '---')} m3",
-        }
 
-        # Update all labels with the new information
+    def update_room_tenant_info(self, room, tenant):
+        """Cập nhật UI dựa trên dữ liệu từ service"""
+        # Thêm import ở đầu file
+        from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
+        info_mapping = InvoiceService.map_room_tenant_info(room, tenant)
+
         for key, value in info_mapping.items():
             if key in self.labels:
                 self.labels[key].setText(str(value))
@@ -404,7 +392,6 @@ class InvoiceInputPage(QWidget):
             chi_so_nuoc = float(self.nuoc_input.text()) # chỉ số nước mới nhập
             phi_khac = float(self.phi_khac_input.text() or self.selected_room.get('phi_khac', 0))
 
-            # TODO: lấy số điện và số nước từ hóa đoơn cũ, nễu không có trả về 0
 
             # Additional validation
             old_dien = float(self.selected_room.get('chi_so_dien', 0))
