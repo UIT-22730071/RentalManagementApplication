@@ -1,32 +1,29 @@
 from PyQt5.QtWidgets import (QWidget, QLabel, QPushButton, QVBoxLayout, QHBoxLayout,
                              QFrame, QApplication, QLineEdit, QSizePolicy, QMessageBox)
-from PyQt5.QtCore import Qt, QRegExp, QTimer
+from PyQt5.QtCore import Qt, QRegExp, QTimer, pyqtSignal
 from PyQt5.QtGui import QFont, QRegExpValidator
 import sys
 
 from QLNHATRO.RentalManagementApplication.controller.OTPController.OTPController import OTPController
-from QLNHATRO.RentalManagementApplication.frontend.Component.ErrorDialog import ErrorDialog
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.ForgotPassword import ForgotPasswordView
 
 
 
-#TODO cần tách ra xử lý lại từng phần ==> cho ô nhập OTP
-
 class OTPVerificationView(QWidget):
+    otp_verified_successfully = pyqtSignal()
+
     def __init__(self, email=None,username=None):
         super().__init__()
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.setWindowTitle("Nhập mã OTP")
-        #self.setStyleSheet("background-color: white; border-radius: 40px;")
         self.setMinimumSize(400, 300)
         self.email = email
         self.username = username
 
-
         # Main layout
         main_layout = QVBoxLayout(self)
-        main_layout.setContentsMargins(100, 100, 100, 100)
+        main_layout.setContentsMargins(20, 20, 20, 20)
 
         # Center content wrapper
         content_wrapper = QFrame()
@@ -37,7 +34,7 @@ class OTPVerificationView(QWidget):
         # Header section
         header_frame = QFrame()
         header_layout = QVBoxLayout(header_frame)
-        header_layout.setSpacing(40)
+        header_layout.setSpacing(15)
 
         # Title
         title_label = QLabel("Nhập mã OTP")
@@ -51,7 +48,7 @@ class OTPVerificationView(QWidget):
         subtitle_layout.setSpacing(8)
 
         # "Chúng tôi đã gửi mã OTP vào"
-        subtitle_label = QLabel("Chúng tôi đã gửi mã OPT vào")
+        subtitle_label = QLabel("Chúng tôi đã gửi mã OTP vào")
         #subtitle_label.setFont(QFont("Be Vietnam", 14, QFont.Bold))
         subtitle_label.setStyleSheet("color: #202E66;")
 
@@ -185,13 +182,13 @@ class OTPVerificationView(QWidget):
         OTPController.verify_otp(otp, self.username, self)
 
     def resend_otp(self):
-        self.remaining_seconds = 120
-        self.timer_label.setText("⏳ Thời gian còn lại: 02:00")
-        self.timer.start(1000)
-        self.reset_otp_fields()
-        OTPController.resend_otp(self.username, self.email, self)
+        self.timer.stop()  # ⛔ Dừng timer hiện tại
+        self.close()  # 🔒 Đóng giao diện nhập OTP
 
-
+        # Mở lại giao diện chọn phương thức
+        self.forgot_password_view = ForgotPasswordView()
+        self.forgot_password_view.username_input.setText(self.username)  # Giữ lại username cũ nếu cần
+        self.forgot_password_view.show()
 
     def reset_otp_fields(self):
         for field in self.otp_fields:

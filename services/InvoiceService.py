@@ -5,6 +5,7 @@ from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import Ten
 
 
 class InvoiceService:
+
     @staticmethod
     def create_invoice(invoice_data):
         """Tạo hóa đơn mới"""
@@ -33,20 +34,6 @@ class InvoiceService:
         InvoiceRepository.save_invoice(invoice)
 
         return invoice
-
-    @staticmethod
-    def calculate_total(self):
-        so_dien = self.new_electricity - self.old_electricity
-        so_nuoc = self.new_water - self.old_water
-        tong = (
-                self.rent_price +
-                so_dien * self.electricity_price +
-                so_nuoc * self.water_price +
-                self.internet_price +
-                self.other_fees
-        )
-        return tong
-
 
 
     @staticmethod

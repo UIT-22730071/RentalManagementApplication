@@ -8,7 +8,7 @@ from QLNHATRO.RentalManagementApplication.frontend.views.Admin.UserManagerView i
 
 
 from QLNHATRO.RentalManagementApplication.services.AdminService import AdminService
-from QLNHATRO.TestErrorUI.MainWindowLogin import MainWindow
+
 
 
 class AdminController:
@@ -106,6 +106,11 @@ class AdminController:
         AdminController._user_windows.append(window)
 
     @staticmethod
-    def open_infor_admin_page(view,username):
-        pass
+    def open_infor_admin_page(username):
+        from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminInfor import AdminInfo
+        window = AdminInfo()
+        window.show()
+        window.activateWindow()
+        AdminController._user_windows.append(window)
+
     '''--------------------------------------------------------------------'''

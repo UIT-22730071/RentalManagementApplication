@@ -93,7 +93,7 @@ class AdminUserManagement(QWidget):
             elif role == 'admin':
                 from QLNHATRO.RentalManagementApplication.controller.AdminController.AdminController import \
                     AdminController
-                #AdminController.go_to_infor_admin(username)
+                AdminController.open_infor_admin_page(username)
                 pass
             else:
                 ErrorDialog.show_error(f"Không nhận diện được quyền truy cập: {role}", self)

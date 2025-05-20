@@ -67,8 +67,6 @@ class   ListInvoices(QWidget):
 
         self.setLayout(main_layout)
 
-    ## TODO: cần viết lại hàm show_detail khi có model
-    ## TODO: khi nào hoàn thành cái Bill rồi thì liên kết bấm mở bill
     def show_detail(self, row):
         try:
             invoice = self.invoices[row]

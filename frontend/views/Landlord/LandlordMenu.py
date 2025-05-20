@@ -56,8 +56,6 @@ class LandlordMenu(QWidget):
 
         # Tạo nút và áp dụng style
         button_ui = ButtonUI.landlord_dashboard_button()
-        # TODO: Khi có đối tượng tạo và truy xuất đối tượng và các hàm liên quan thay cho lambda
-
 
         self.home_btn = QPushButton("🏠 Trang chính")
         button_ui.apply_style(self.home_btn)

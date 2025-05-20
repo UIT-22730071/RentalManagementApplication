@@ -6,7 +6,7 @@ from QLNHATRO.RentalManagementApplication.controller.LandlordController.Landlord
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
-#TODO: cần hiệu chỉnh màu nền
+
 
 class AdminMenu(QWidget):
     def __init__(self, main_window=None, user_id=None):

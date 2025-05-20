@@ -159,6 +159,7 @@ class ForgotPasswordView(QWidget):
                 return
             otp_window = OTPVerificationView(email=sdt, username=username)
             otp_window.show()
+            self.close()
 
         elif selected_id == 2:
             from QLNHATRO.RentalManagementApplication.frontend.views.Login_Register.OTPVerificationView import \
@@ -169,6 +170,7 @@ class ForgotPasswordView(QWidget):
                 return
             otp_window = OTPVerificationView(email=email, username=username)
             otp_window.show()
+            self.close()
 
         else:
             ErrorDialog.show_error("⚠️ Vui lòng chọn 1 phương thức để nhận OTP.", self)
