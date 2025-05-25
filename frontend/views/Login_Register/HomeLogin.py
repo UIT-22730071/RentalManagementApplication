@@ -140,6 +140,8 @@ class LoginWindow(QWidget):
 
         self.stacked_widget.addWidget(login_page)
 
+
+
     def Form_sign_up(self):
         """Trang 2: Form Đăng ký"""
         signup_page = QWidget()
@@ -174,13 +176,42 @@ class LoginWindow(QWidget):
         signup_btn.setFixedHeight(45)
         signup_btn.setStyleSheet("background-color: #233FF3; color: white; font-weight: bold; border-radius: 20px;")
 
-        signup_btn.clicked.connect(lambda: RegisterController.register_tenant(
-            username_input.text(),
-            password_input.text(),
-            confirm_password_input.text(),
-            self.get_selected_role(),
+        username = username_input.text().strip()
+        password = password_input.text()
+        confirm_password = confirm_password_input.text()
+        selected_role = self.get_selected_role()
+
+        # if not username or not password or not confirm_password or not selected_role:
+        #     msg_box = QMessageBox()
+        #     msg_box.setIcon(QMessageBox.Icon.Warning)
+        #     msg_box.setText("Vui lòng điền đầy đủ các trường thông tin.")
+        #     msg_box.setWindowTitle("Lỗi Đăng Ký")
+        #     msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
+        #     msg_box.exec()
+        #     print("Lỗi: Vui lòng điền đầy đủ thông tin.") # Thay thế bằng QMessageBox
+        #     return
+        #
+        # if password != confirm_password:
+        #     msg_box = QMessageBox()
+        #     msg_box.setIcon(QMessageBox.Icon.Warning)
+        #     msg_box.setText("Mật khẩu và xác nhận mật khẩu không khớp.")
+        #     msg_box.setWindowTitle("Lỗi Đăng Ký")
+        #     msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
+        #     msg_box.exec()
+        #     print("Lỗi: Mật khẩu và xác nhận mật khẩu không khớp.")  # Thay thế bằng QMessageBox
+        #     return
+        #
+        # if selected_role is None:
+        #     print("Lỗi: Vui lòng chọn vai trò.")  # Thay thế bằng QMessageBox
+        #     return
+
+
+        signup_btn.clicked.connect(lambda: RegisterController.register_user(
+            password,
+            selected_role,
             self.main_window
         ))
+
 
         #TODO: Xử lý lấy thông tin qua page Update thông tin
         #TODO: Cần thêm 1 hàm check correct password , check đúng mới cho chuyển page
@@ -223,6 +254,8 @@ class LoginWindow(QWidget):
 
         self.stacked_widget.addWidget(signup_page)
 
+
+
     def expand_window(self, index):
         """Khi nhấn vào LOGIN hoặc SIGN IN, cửa sổ mở rộng ra"""
         self.right_frame.setVisible(True)
@@ -234,7 +267,14 @@ class LoginWindow(QWidget):
         LoginController.on_click_btn_login_test_new(self.main_window, self.email_input.text(), self.password_input.text())
 
     def get_selected_role(self):
-        return "Người thuê trọ" if self.tenant_selection.isChecked() else "Chủ trọ"
+        if self.role_selection.isChecked():
+            return "Landlord"
+        elif self.tenant_selection.isChecked():
+            return "Tenant"
+        return None
+
 
     def close_window_menu(self):
         self.main_window.close()
+
+

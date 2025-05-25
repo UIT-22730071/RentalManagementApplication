@@ -10,7 +10,13 @@ class RegisterController:
         self.user_model = User
         self.admin_model = Admin
 
-    def register_admin(self, username, password, role, fullname):
+
+    @staticmethod
+    def register_user(username, password, selected_role, main_window):
+        User.add_user(username, password, selected_role)
+
+
+    def register_landlord(self, username, password, role, fullname):
         if not username or not password:
             print("Username and password are required.")
             return

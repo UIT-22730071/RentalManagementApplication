@@ -31,7 +31,12 @@ CREATE TABLE Tenants (
     UserID INT,
     Fullname NVARCHAR(255) ,
     CCCD NVARCHAR(12) UNIQUE ,
-    PhoneNumber NVARCHAR(15) ,
+    Gender NVARCHAR(4),
+    JobTitle NVARCHAR(255),
+    MaritalStatus NVARCHAR(30),
+    Email NVARCHAR(30),
+    PhoneNumber NVARCHAR(15),
+    HomeAddress NVARCHAR(255),
     RentStartDate DATE,
     RentEndDate DATE,
     FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
