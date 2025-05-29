@@ -1,4 +1,4 @@
--- Users table
+-- User's table
 CREATE TABLE IF NOT EXISTS Users (
     UserID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     Username TEXT UNIQUE NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS Admins (
     FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE
 );
 
--- Landlords table
+-- Landlord table
 CREATE TABLE IF NOT EXISTS Landlords (
     LandlordID INTEGER PRIMARY KEY AUTOINCREMENT,
     Fullname TEXT,
@@ -67,11 +67,9 @@ CREATE TABLE IF NOT EXISTS Rooms (
     Utilities TEXT,             -- Tiện ích khác (Wifi, Camera, ...)
     RoomPrice REAL,            -- Giá thuê phòng
     Deposit REAL,              -- Tiền cọc
-    ElectricityPrice REAL,     -- Giá điện
     GarbageServicePrice REAL,  -- Giá dịch vụ rác thải
     CurrentElectricityNum INTEGER, -- Số điện hiện tại
     CurrentWaterNum INTEGER,   -- Số nước hiện tại
-    GarbageServicePrice REAL,  -- Giá dịch vụ rác thải
     ElectricityPrice REAL,      -- Giá điện
     WaterPrice REAL,           -- Giá nước
     InternetPrice REAL,        -- Giá internet
@@ -79,8 +77,6 @@ CREATE TABLE IF NOT EXISTS Rooms (
     MaxTenants INTEGER,        -- Số người tối đa
     PetAllowed TEXT,           -- Thú cưng: "Có", "Không"
     AvailableFrom TEXT,        -- Ngày có thể thuê (dạng YYYY-MM-DD)
-    CurrentElectricityNum INTEGER,
-    CurrentWaterNum INTEGER,
     TenantID INTEGER,          -- Người thuê hiện tại (nullable)
     LandlordID INTEGER,        -- Chủ trọ
     FOREIGN KEY (TenantID) REFERENCES Tenants(TenantID) ON DELETE SET NULL,
@@ -146,25 +142,42 @@ CREATE TABLE IF NOT EXISTS Notifications (
 -- AnalystLanlord table
 CREATE TABLE IF NOT EXISTS AnalystLanlord (
     idAnalysisLanlord INTEGER PRIMARY KEY AUTOINCREMENT,
-    NumberRoom REAL,
-    AveragePrice REAL,
     LandlordID INTEGER,
-    FOREIGN KEY (LandlordID) REFERENCES Landlords(LandlordID) ON DELETE CASCADE
+    Month INTEGER CHECK (Month BETWEEN 1 AND 12),   -- Tháng (1-12)
+    Year INTEGER CHECK (Year >= 2000),              -- Năm
+    TotalIncome REAL DEFAULT 0,                     -- Tổng thu nhập tháng
+    NumberRoom INTEGER,                             -- Số phòng đã cho thuê
+    AveragePrice REAL,                              -- Giá thuê trung bình
+    GrowthRate REAL DEFAULT 0,  -- phần trăm tăng trưởng so với tháng trước
+    FOREIGN KEY (LandlordID) REFERENCES Landlords(LandlordID) ON DELETE CASCADE,
+    UNIQUE (LandlordID, Month, Year)                -- Mỗi landlord chỉ có 1 bản ghi/tháng
 );
+
 
 -- AnalystTenant table
 CREATE TABLE IF NOT EXISTS AnalystTenant (
-    ActivityID INTEGER PRIMARY KEY AUTOINCREMENT,
+    idAnalysisTenant INTEGER PRIMARY KEY AUTOINCREMENT,
     TenantID INTEGER,
-    RoomID INTEGER,
-    LandlordID INTEGER,
-    StartDate TEXT,
-    EndDate TEXT,
-    IsActive INTEGER,
-    ReasonForLeaving TEXT,
-    IncomeTenant REAL,
+    Month INTEGER CHECK (Month BETWEEN 1 AND 12),
+    Year INTEGER CHECK (Year >= 2000),
+    ElectricityCost REAL DEFAULT 0,
+    WaterCost REAL DEFAULT 0,
+    TotalCost REAL GENERATED ALWAYS AS (ElectricityCost + WaterCost) VIRTUAL,
+    DueDate TEXT,  -- Ngày đến hạn thanh toán (nếu cần)
     FOREIGN KEY (TenantID) REFERENCES Tenants(TenantID),
-    FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID)
+    UNIQUE (TenantID, Month, Year)
+);
+
+CREATE TABLE IF NOT EXISTS RoomAnalytics (
+    idRoomAnalytics INTEGER PRIMARY KEY AUTOINCREMENT,
+    RoomID INTEGER,
+    Month INTEGER CHECK (Month BETWEEN 1 AND 12),
+    Year INTEGER CHECK (Year >= 2000),
+    ElectricityCost REAL DEFAULT 0,     -- Tổng tiền điện
+    WaterCost REAL DEFAULT 0,           -- Tổng tiền nước
+    TotalCost REAL GENERATED ALWAYS AS (ElectricityCost + WaterCost) VIRTUAL,
+    FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID) ON DELETE CASCADE,
+    UNIQUE (RoomID, Month, Year)
 );
 
 -- InvoiceAnalytics table
