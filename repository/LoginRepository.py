@@ -27,6 +27,7 @@ class LoginRepository:
     def get_role_from_username(username):
         # TODO: Thay thế bằng truy ván SQL thực tế
         # giả lập truy vấn cho ra kết quả
+
         role = 'landlord'
         return role
 
