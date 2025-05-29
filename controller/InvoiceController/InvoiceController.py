@@ -51,3 +51,8 @@ class InvoiceController:
 
         return invoice_data, landlord_data, tenant_data, room_data
 
+    @staticmethod
+    def pay_invoice(invoice_id):
+        pass
+
+

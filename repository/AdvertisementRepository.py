@@ -3,8 +3,9 @@ from QLNHATRO.RentalManagementApplication.backend.model.Advertisement import Adv
 
 class AdvertisementRepository:
     @staticmethod
-    def save_advertisement(ad: Advertisement):
+    def save_advertisement(ad: Advertisement,RoomID):
         # TODO: Replace with actual SQL insert
+
         print("[DEBUG] Lưu quảng cáo vào DB:")
         print("Phòng:", ad.room_name)
         print("Mô tả:", ad.description)

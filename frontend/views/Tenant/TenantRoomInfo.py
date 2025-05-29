@@ -14,9 +14,6 @@ class TenantRoomInfo(QWidget):
         self.data_room = data_room or {}
         self.id_tenant = id_tenant
 
-
-
-
         # Improved styling with backgrounds for all information areas
 
         # Create main layout
@@ -130,11 +127,11 @@ class TenantRoomInfo(QWidget):
 
         # Total cost
         total_label = QLabel("TỔNG CỘNG:")
-        #total_label.setStyleSheet("font-size: 16px; font-weight: bold; color: #2c3e50;")
+        total_label.setStyleSheet("font-size: 16px; font-weight: bold; color: #2c3e50;")
         total_grid.addWidget(total_label, 7, 0)
 
         total_value = QLabel()
-        #total_value.setStyleSheet("font-size: 18px; font-weight: bold; color: #2c3e50; background-color: #f39c12; border-radius: 5px; padding: 10px;")
+        total_value.setStyleSheet("font-size: 18px; font-weight: bold; color: #2c3e50; background-color: #f39c12; border-radius: 5px; padding: 10px;")
         total_value.setText(self.data_room.get("Tổng cộng", "---"))
         total_grid.addWidget(total_value, 7, 1)
 

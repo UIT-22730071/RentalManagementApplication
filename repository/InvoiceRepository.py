@@ -148,7 +148,7 @@ class InvoiceRepository:
         # SQL would be something like:
         # SELECT i.*, r.room_name
         # FROM invoices i
-        # JOIN rooms r ON i.room_id = r.id
+        # JOIN RoomAdvertisement r ON i.room_id = r.id
         # WHERE i.tenant_id = [tenant_id]
         # ORDER BY i.created_date DESC
 

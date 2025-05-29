@@ -4,6 +4,8 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QFrame, QMessageBox
 
 from QLNHATRO.RentalManagementApplication.controller.InvoiceController.InvoiceController import InvoiceController
+from QLNHATRO.RentalManagementApplication.frontend.Component.ErrorDialog import ErrorDialog
+from QLNHATRO.RentalManagementApplication.frontend.Component.SuccessDialog import SuccessDialog
 from QLNHATRO.RentalManagementApplication.frontend.Component.tableUI import TableUI
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.Invoices.TenantInvoices import TenantInvoices
@@ -162,20 +164,25 @@ class TenantListInvoices(QWidget):
     def pay_invoice(self, row):
         """
         Xử lý khi người dùng thanh toán hóa đơn
-        Chức năng này sẽ được triển khai khi có chức năng thanh toán
+        Gọi đến Controller để cập nhật trạng thái hóa đơn trong database
         """
         try:
             invoice = self.invoices[row]
             id_invoice = invoice.get("id_invoice")
             if id_invoice:
+                if invoice["Tình trạng thanh toán"] == "Đã thanh toán":
+                    QMessageBox.information(self, "Thông báo", "Hóa đơn này đã được thanh toán trước đó.")
+                    return
+
                 # Gọi controller để xử lý thanh toán
-                success = InvoiceController.pay_invoice(id_invoice, self.id_tenant)
+                success = InvoiceController.pay_invoice(id_invoice)
                 if success:
                     self.update_payment_status(id_invoice, "Đã thanh toán")
-                    QMessageBox.information(self, "Thông báo", "Thanh toán hóa đơn thành công!")
+                    SuccessDialog("✅ Thanh toán hóa đơn thành công!", self)
                 else:
-                    QMessageBox.warning(self, "Thông báo", "Thanh toán hóa đơn thất bại!")
+                    ErrorDialog("❌ Thanh toán hóa đơn thất bại!", self)
             else:
-                QMessageBox.warning(self, "Thông báo", "Không tìm thấy ID hóa đơn.")
+                ErrorDialog("❌ Không tìm thấy ID hóa đơn.", self)
         except IndexError:
-            QMessageBox.warning(self, "Thông báo", "Không tìm thấy dòng hóa đơn.")
+            ErrorDialog("❌ Không tìm thấy dòng hóa đơn.", self)
+
