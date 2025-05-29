@@ -106,7 +106,7 @@ CREATE TABLE IF NOT EXISTS Invoices (
     TenantID INTEGER,
     LandlordID INTEGER,
 
-    Date TEXT,              -- Ngày tạo hóa đơn
+    issue_date TEXT NOT NULL,  -- ISO format 'YYYY-MM-DD'              -- Ngày tạo hóa đơn
 
     CurrElectric INTEGER,   -- Số điện hiện tại được lấy từ form tạo hóa đơn
     CurrWater INTEGER,      -- Số nước hiện tại được lấy từ form tạo hóa đơn
@@ -136,32 +136,42 @@ CREATE TABLE IF NOT EXISTS Invoices (
     FOREIGN KEY (LandlordID) REFERENCES Landlords(LandlordID)
 );
 
+
 -- QuangCao table
-CREATE TABLE IF NOT EXISTS QuangCao (
-    id_advertisement INTEGER PRIMARY KEY AUTOINCREMENT,
-    RoomID INTEGER,
-    Description TEXT,
-    Prioritize TEXT,
-    Picture TEXT,
-    DateCreate TEXT DEFAULT CURRENT_TIMESTAMP,
-    Image_path TEXT,  -- Đường dẫn đến hình ảnh quảng cáo, mặc định là 'default_image.png'
-
-    -- DateCreate: Ngày tạo quảng cáo, mặc định là thời điểm hiện tại
-    FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID) ON DELETE CASCADE
-
+CREATE TABLE IF NOT EXISTS advertisements (
+    ad_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    RoomID INTEGER NOT NULL,
+    description TEXT,
+    priority TEXT,
+    image_path TEXT DEFAULT 'default_image.png',
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (RoomID) REFERENCES rooms(RoomID) ON DELETE CASCADE
 );
+
 
 -- MaintenanceRequests table
-CREATE TABLE IF NOT EXISTS MaintenanceRequests (
-    RequestID INTEGER PRIMARY KEY AUTOINCREMENT,
-    TenantID INTEGER,
-    RoomID INTEGER,
-    Description TEXT,
-    Status TEXT CHECK (Status IN ('Pending', 'In Progress', 'Resolved')) DEFAULT 'Pending',
-    RequestDate TEXT DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (TenantID) REFERENCES Tenants(TenantID),
-    FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID)
+CREATE TABLE IF NOT EXISTS maintenance_requests (
+    request_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tenant_id INTEGER NOT NULL,
+    room_id INTEGER NOT NULL,
+
+    issue_type TEXT NOT NULL,           -- VD: "Điện", "Nước", "Cấu trúc", v.v.
+    urgency_level TEXT NOT NULL,        -- VD: "Bình thường", "Khẩn cấp"
+    description TEXT NOT NULL,          -- Nội dung mô tả chi tiết
+
+    contact_phone TEXT,    -- Số điện thoại liên hệ/ nếu không có sẽ tự load số điện thoại của người tạo
+    available_time TEXT,   -- Thời gian thuận tiện liên hệ
+
+    discovery_date TEXT,                -- Ngày phát hiện sự cố
+    image_path TEXT,                    -- Đường dẫn ảnh minh họa (nếu có)
+
+    status TEXT DEFAULT 'Pending' CHECK (status IN ('Pending', 'In Progress', 'Resolved', 'Đang xử lý', 'Đã hoàn thành')),
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (tenant_id) REFERENCES tenants(tenant_id),
+    FOREIGN KEY (room_id) REFERENCES rooms(room_id)
 );
+
 
 -- Notifications table
 CREATE TABLE IF NOT EXISTS Notifications (
@@ -174,33 +184,35 @@ CREATE TABLE IF NOT EXISTS Notifications (
 );
 
 -- AnalystLanlord table
-CREATE TABLE IF NOT EXISTS AnalystLanlord (
-    idAnalysisLanlord INTEGER PRIMARY KEY AUTOINCREMENT,
-    LandlordID INTEGER,
-    Month INTEGER CHECK (Month BETWEEN 1 AND 12),   -- Tháng (1-12)
-    Year INTEGER CHECK (Year >= 2000),              -- Năm
-    TotalIncome REAL DEFAULT 0,                     -- Tổng thu nhập tháng
-    NumberRoom INTEGER,                             -- Số phòng đã cho thuê
-    AveragePrice REAL,                              -- Giá thuê trung bình
-    GrowthRate REAL DEFAULT 0,  -- phần trăm tăng trưởng so với tháng trước
-    FOREIGN KEY (LandlordID) REFERENCES Landlords(LandlordID) ON DELETE CASCADE,
-    UNIQUE (LandlordID, Month, Year)                -- Mỗi landlord chỉ có 1 bản ghi/tháng
+CREATE TABLE IF NOT EXISTS landlord_analytics (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    LandlordID INTEGER NOT NULL,
+    month INTEGER CHECK (month BETWEEN 1 AND 12),
+    year INTEGER CHECK (year >= 2000),
+    total_income REAL DEFAULT 0,
+    number_of_rented_rooms INTEGER,
+    average_price REAL,
+    growth_rate REAL DEFAULT 0,
+    FOREIGN KEY (LandlordID) REFERENCES landlords(LandlordID) ON DELETE CASCADE,
+    UNIQUE (LandlordID, month, year)
 );
+
 
 
 -- AnalystTenant table
-CREATE TABLE IF NOT EXISTS AnalystTenant (
-    idAnalysisTenant INTEGER PRIMARY KEY AUTOINCREMENT,
-    TenantID INTEGER,
-    Month INTEGER CHECK (Month BETWEEN 1 AND 12),
-    Year INTEGER CHECK (Year >= 2000),
-    ElectricityCost REAL DEFAULT 0,
-    WaterCost REAL DEFAULT 0,
-    TotalCost REAL GENERATED ALWAYS AS (ElectricityCost + WaterCost) VIRTUAL,
-    DueDate TEXT,  -- Ngày đến hạn thanh toán (nếu cần)
-    FOREIGN KEY (TenantID) REFERENCES Tenants(TenantID),
-    UNIQUE (TenantID, Month, Year)
+CREATE TABLE IF NOT EXISTS tenant_analytics (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    TenantID INTEGER NOT NULL,
+    month INTEGER CHECK (month BETWEEN 1 AND 12),
+    year INTEGER CHECK (year >= 2000),
+    electricity_cost REAL DEFAULT 0,
+    water_cost REAL DEFAULT 0,
+    total_cost REAL GENERATED ALWAYS AS (electricity_cost + water_cost) VIRTUAL,
+    due_date TEXT,
+    FOREIGN KEY (TenantID) REFERENCES tenants(TenantID),
+    UNIQUE (TenantID, month, year)
 );
+
 
 CREATE TABLE IF NOT EXISTS RoomAnalytics (
     idRoomAnalytics INTEGER PRIMARY KEY AUTOINCREMENT,

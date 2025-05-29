@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QLab
 from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
 from QLNHATRO.RentalManagementApplication.controller.AdminController.AdminController import AdminController
 from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import LandlordController
+from QLNHATRO.RentalManagementApplication.controller.MaintenanceController.MaintenanceController import \
+    MaintenanceController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordCreateNewRoom import CreateNewRoom
@@ -81,6 +83,10 @@ class LandlordMenu(QWidget):
         button_ui.apply_style(self.add_adv_find_tenant_btn)
         self.add_adv_find_tenant_btn.clicked.connect(lambda: LandlordController.go_to_LanlordFindNewTenant(self,self.id_lanlord))
 
+        self.add_list_maintenance_btn = QPushButton("🛠️ Danh sách bảo trì")
+        button_ui.apply_style(self.add_list_maintenance_btn)
+        self.add_list_maintenance_btn.clicked.connect(lambda: MaintenanceController.go_to_maintenance_list(self, self.id_lanlord))
+
         self.logout_btn = QPushButton("🚪 Đăng xuất")
         button_ui.apply_style(self.logout_btn)
         self.logout_btn.clicked.connect(lambda: LandlordController.handle_logout(self))
@@ -94,6 +100,7 @@ class LandlordMenu(QWidget):
         left_layout.addWidget(self.info_btn)
         left_layout.addWidget(self.infor_list_room_btn)
         left_layout.addWidget(self.create_new_room_btn)
+        left_layout.addWidget(self.add_list_maintenance_btn)
         left_layout.addWidget(self.infor_list_invoice_btn)
         left_layout.addWidget(self.add_adv_find_tenant_btn)
         left_layout.addWidget(self.logout_btn)
