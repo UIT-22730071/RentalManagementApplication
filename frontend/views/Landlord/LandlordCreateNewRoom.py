@@ -229,6 +229,14 @@ class CreateNewRoom(QWidget):
         self.cb_security = QCheckBox("Bảo vệ 24/7")
         self.cb_tv = QCheckBox("TV")
         self.cb_kitchen = QCheckBox("Bếp")
+        # ---
+        self.cb_floor = QCheckBox("Tầng lầu")
+        self.cb_hasLoft = QCheckBox("Gác lửng")
+        self.cb_bathroom = QCheckBox("Phòng tắm")
+        self.cb_balcony = QCheckBox("Ban công")
+
+        self.cb_funiture = QCheckBox("Nội thất cơ bản")
+        self.cb_pet = QCheckBox("Thú cưng")
 
         # Thêm vào layout
         amenities_layout.addWidget(self.cb_wifi, 0, 0)
@@ -240,6 +248,14 @@ class CreateNewRoom(QWidget):
         amenities_layout.addWidget(self.cb_security, 1, 1)
         amenities_layout.addWidget(self.cb_tv, 1, 2)
         amenities_layout.addWidget(self.cb_kitchen, 1, 3)
+
+        amenities_layout.addWidget(self.cb_floor, 2, 0)
+        amenities_layout.addWidget(self.cb_hasLoft, 2, 1)
+        amenities_layout.addWidget(self.cb_bathroom, 2, 2)
+        amenities_layout.addWidget(self.cb_balcony, 2, 3)
+
+        amenities_layout.addWidget(self.cb_funiture, 3, 0)
+
 
         scroll_layout.addWidget(amenities_box)
 

@@ -54,54 +54,81 @@ CREATE TABLE IF NOT EXISTS Rooms (
     RoomID INTEGER PRIMARY KEY AUTOINCREMENT,
     RoomName TEXT,
     Address TEXT,
-    RoomType TEXT,              -- Loại phòng: ví dụ "Phòng trọ trong dãy trọ"
-    Status TEXT,                -- Trạng thái: "Còn trống" hoặc "Đã thuê"
+    RoomType TEXT check (RoomType IN ('Phòng trọ','Chung cư','Chung cư mini','Nhà nguyên căn','Nhà mặt phố','khác')),              -- Loại phòng: ví dụ "Phòng trọ trong dãy trọ"
+    Status TEXT check ( Status IN ('Đã thuê','Đang sửa chữa','Đặt cọc','Trống')),                -- Trạng thái: "Còn trống" hoặc "Đã thuê"
     Area REAL,                  -- Diện tích (m²)
-    Floor INTEGER,              -- Tầng
-    HasLoft INTEGER,            -- Gác lửng: 0 hoặc 1
-    Bathroom TEXT,              -- Phòng tắm: "Riêng", "Chung",...
-    Kitchen TEXT,               -- Nhà bếp: mô tả
-    Balcony TEXT,               -- Ban công
-    Furniture TEXT,             -- Nội thất cơ bản
-    ElectricalDevices TEXT,     -- Thiết bị điện
-    Utilities TEXT,             -- Tiện ích khác (Wifi, Camera, ...)
+
+    Floor INTEGER DEFAULT 0,              -- Tầng
+    HasLoft INTEGER DEFAULT 0,            -- Gác lửng: 0 hoặc 1
+    Bathroom INTEGER DEFAULT 0,              -- Phòng tắm: "Riêng", "Chung",...
+    Kitchen INTEGER DEFAULT 0,              -- Nhà bếp: mô tả
+    FreeWifi INTEGER DEFAULT 0,             -- Wifi miễn phí
+    Parking INTEGER DEFAULT 0,              -- Chổ đậu xe
+    AirConditioner INTEGER DEFAULT 0,       -- Máy điều hòa
+    Fridge INTEGER DEFAULT 0,               -- Tủ lạnh
+    WashingMachine INTEGER DEFAULT 0,       -- Máy giặt
+    Security INTEGER DEFAULT 0,             -- Có bảo vệ
+    Television INTEGER DEFAULT 0,           -- Có tivi
+    Furniture INTEGER DEFAULT 0,             -- Nội thất cơ bản
+    Balcony INTEGER DEFAULT 0,-- Ban công   -- Có ban công
+    PetAllowed INTEGER DEFAULT 0,           -- Thú cưng: " 0: không cho phép", "1: cho phép"
+    -- giá cả
     RoomPrice REAL,            -- Giá thuê phòng
-    Deposit REAL,              -- Tiền cọc
-    GarbageServicePrice REAL,  -- Giá dịch vụ rác thải
-    CurrentElectricityNum INTEGER, -- Số điện hiện tại
-    CurrentWaterNum INTEGER,   -- Số nước hiện tại
     ElectricityPrice REAL,      -- Giá điện
     WaterPrice REAL,           -- Giá nước
     InternetPrice REAL,        -- Giá internet
     OtherFees TEXT,            -- Phí khác: "Phí vệ sinh: 20000 VNĐ"
-    MaxTenants INTEGER,        -- Số người tối đa
-    PetAllowed TEXT,           -- Thú cưng: "Có", "Không"
-    AvailableFrom TEXT,        -- Ngày có thể thuê (dạng YYYY-MM-DD)
+    GarbageServicePrice REAL,  -- Giá dịch vụ rác thải
+    Deposit REAL,              -- Tiền cọc // load vào sau
+    --  Chỉ số điện
+    CurrentElectricityNum INTEGER, -- Số điện hiện tại, được cập nhật khi tạo phòng và tạo Invoice
+    CurrentWaterNum INTEGER,       -- Số nước hiện tại, được cập nhật khi tạo phòng và tạo Invoice
+    -- Thông tin thêm
+    MaxTenants INTEGER,         -- Số người tối đa
+    RentalDate Date,            -- Ngày cho thuê (dạng YYYY-MM-DD) được update khi có người thuê trọ
+    Description TEXT,           -- Mô tả thêm
+
     TenantID INTEGER,          -- Người thuê hiện tại (nullable)
-    LandlordID INTEGER,        -- Chủ trọ
+    LandlordID INTEGER NOT NULL ,        -- Chủ trọ
+
     FOREIGN KEY (TenantID) REFERENCES Tenants(TenantID) ON DELETE SET NULL,
     FOREIGN KEY (LandlordID) REFERENCES Landlords(LandlordID) ON DELETE CASCADE
 );
-
+-- CurrentE or CUrrentW khi tạo phòng đã phải nhập, vậy khi hoạt động chỉ cần cập nhật cho nó ở Invoices
+-- Lưu ý: PreElectricityNum là ở Invoices là số điện hiện tại tức là CurentElectricityNum ở Rooms
+    -- Còn CurrentElectroniccityNum ở Invoices là số điện được nhập vào ở tháng hiện tại
 -- Invoices table
 CREATE TABLE IF NOT EXISTS Invoices (
     InvoiceID INTEGER PRIMARY KEY AUTOINCREMENT,
     RoomID INTEGER,
     TenantID INTEGER,
     LandlordID INTEGER,
-    Date TEXT,
-    PrevElectric INTEGER,
-    CurrElectric INTEGER,
-    PrevWater INTEGER,
-    CurrWater INTEGER,
-    ElectricPrice REAL,
-    WaterPrice REAL,
-    RoomPrice REAL,
-    InternetFee REAL,
-    GarbageFee REAL,
-    OtherFee REAL,
+
+    Date TEXT,              -- Ngày tạo hóa đơn
+
+    CurrElectric INTEGER,   -- Số điện hiện tại được lấy từ form tạo hóa đơn
+    CurrWater INTEGER,      -- Số nước hiện tại được lấy từ form tạo hóa đơn
+    PreElectric  INTEGER, -- Số điện trước đó (CurrentElectricityNum ở Rooms)
+    PreWater  INTEGER,    -- Số nước trước đó (CurrentWaterNum ở Rooms)
+
+    -- Số điện đã sử dụng (CurrElectric - PreElectricityNum)
+    --ElectricPrice REAL,   -- Lấy giá từ Rooms
+    --WaterPrice REAL,      -- Lấy giá từ Rooms
+    --RoomPrice REAL,       -- Lấy giá từ Rooms
+    -- InternetFee REAL,     -- Lấy giá từ Rooms
+    -- GarbageFee REAL,      -- Lấy giá từ Rooms
+
+    TotalElectronicCost REAL,   -- Current - PreElectricityNum
+    TotalWaterCost REAL,    -- Current - PreWaterNum
+    TotalRoomPrice REAL,    -- Giá thuê phòng từ Rooms
+    InternetFee REAL,       -- Giá internet từ Rooms
+    TotalGarbageFee REAL,   -- Giá dịch vụ rác thải từ Rooms
+    TotalAnotherFee REAL,   -- Phí khác từ Rooms
+
     Discount REAL DEFAULT 0,
-    Status TEXT CHECK (Status IN ('Đã thanh toán', 'Chưa thanh toán')),
+
+    Status TEXT DEFAULT 'Chưa thanh toán'CHECK (Status IN ('Đã thanh toán', 'Chưa thanh toán')),
+
     FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID),
     FOREIGN KEY (TenantID) REFERENCES Tenants(TenantID),
     FOREIGN KEY (LandlordID) REFERENCES Landlords(LandlordID)
