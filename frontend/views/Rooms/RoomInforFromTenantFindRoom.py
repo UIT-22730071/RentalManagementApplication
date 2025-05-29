@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (
     QScrollArea, QFrame, QGroupBox, QGridLayout, QDialog
 )
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QFont
+
 
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 

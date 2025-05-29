@@ -13,7 +13,7 @@ class InvoiceInputPage(QWidget):
         super().__init__()
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
-        self.room_data_list = room_data_list  # List of all rooms
+        self.room_data_list = room_data_list  # List of all RoomAdvertisement
         self.tenant_finder_callback = tenant_finder_callback
         self.go_to_preview_callback = go_to_preview_callback
         self.selected_room = None

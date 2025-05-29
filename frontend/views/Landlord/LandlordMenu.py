@@ -79,7 +79,7 @@ class LandlordMenu(QWidget):
 
         self.add_adv_find_tenant_btn = QPushButton("🔍 Tìm người thuê mới")
         button_ui.apply_style(self.add_adv_find_tenant_btn)
-        self.add_adv_find_tenant_btn.clicked.connect(lambda: self.set_right_frame(FindNewTenant))
+        self.add_adv_find_tenant_btn.clicked.connect(lambda: LandlordController.go_to_LanlordFindNewTenant(self,self.id_lanlord))
 
         self.logout_btn = QPushButton("🚪 Đăng xuất")
         button_ui.apply_style(self.logout_btn)

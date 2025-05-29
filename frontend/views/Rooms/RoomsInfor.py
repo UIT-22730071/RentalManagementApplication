@@ -16,36 +16,6 @@ class RoomsInfor(QWidget):
         self.room_data = data_room_infor
         self.label_fields = []  #  để lưu thứ tự key tương ứng cho từng dòng
 
-        '''{
-            "Tên phòng": "P101",
-            "Địa chỉ": "123 Đường ABC, Phường XYZ, Quận Bình Thạnh, TP. Hồ Chí Minh",
-            "Loại phòng": "Phòng trọ trong dãy trọ",
-            "Trạng thái": "Còn trống",
-            "Diện tích": "25.5 m²",
-            "Tầng": "1",
-            "Gác lửng": "Có",
-            "Phòng tắm": "Riêng trong phòng",
-            "Nhà bếp": "Khu bếp riêng",
-            "Ban công": "Có",
-            "Nội thất cơ bản": "Giường, Tủ quần áo, Bàn học",
-            "Thiết bị điện": "Điều hòa, Máy nước nóng",
-            "Tiện ích": "Wifi, Camera, Chỗ để xe, Giờ giấc tự do",
-            "Số điện":"365 KWH",
-            "Số nước": "365 m3",
-            "Giá thuê": "3.500.000 VNĐ/tháng",
-            "Tiền đặt cọc": "3.500.000 VNĐ",
-            "Giá điện": "3.800 VNĐ/kWh",
-            "Giá nước": "100.000 VNĐ/người",
-            "Internet": "100.000 VNĐ",
-            "Phí rác": "50.000 VNĐ",
-            "Phí khác": "Phí vệ sinh: 20.000 VNĐ",
-            "Số người tối đa": "2",
-            "Thú cưng": "Không",
-            "Ngày có thể thuê": "2025-04-05",
-            "Chủ trọ": "Cô Ba Chủ Trọ",
-            "SĐT": "090x xxx xxx"
-        }
-        '''
         #self.setStyleSheet("QWidget { background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #FFDEE9, stop:1 #B5FFFC); }")
 
         main_layout = QVBoxLayout(self)

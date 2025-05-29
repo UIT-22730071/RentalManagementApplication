@@ -54,41 +54,41 @@ class RoomRepository:
 
     @staticmethod
     def get_room_by_id(room_id):
-        """Retrieve room data by ID (stub version)"""
-        # TODO: Thay thế bằng truy vấn SQL thực tế
+        """Retrieve room data by ID (stub version with updated mock data)"""
         room = Room(
-            room_id="P101",
-            room_name="Room 101",
-            address="123 ABC Street",
-            room_type="Boarding Room",
-            status="Occupied",
-            area=25,
-            floor=1,
-            has_loft="Yes",
-            bathroom="Private",
-            kitchen="With kitchen",
-            balcony="Yes",
-            furniture="Bed, Closet",
-            appliances="Air Conditioner, Water Heater",
-            utilities="Wi-Fi, Camera",
-            rent_price=3500000,
-            deposit=3500000,
-            electricity_price=3800,
-            water_price=100000,
+            room_id="P302",
+            room_name="Phòng 302 - Chung cư mini",
+            address="456 Nguyễn Văn Linh, Quận 7, TP.HCM",
+            room_type="Chung cư mini",
+            status="Đã thuê",
+            area=32.5,
+            floor=3,
+            has_loft="Có gác lửng",
+            bathroom="Có phòng tắm riêng",
+            kitchen="Có nhà bếp",
+            balcony="Có ban công",
+            furniture="Giường, Tủ, Bàn làm việc",
+            appliances="Máy giặt, Điều hòa, Tivi",
+            utilities="Wifi miễn phí, Chỗ để xe",
+            rent_price=4200000,
+            deposit=4200000,
+            electricity_price=3500,
+            water_price=60000,
             internet_price=100000,
             other_fees=20000,
-            max_tenants=2,
-            pets_allowed="No",
-            contact_name="Ms. Ba",
-            contact_phone="090x xxx xxx",
-            available_date="2025-04-06",
-            image_path="images/p101.png",
-            current_electricity=245,
-            current_water=32,
-            tenant_id="TNT001",
-            landlord_id="CT001"
+            max_tenants=3,
+            pets_allowed="Không",
+            contact_name="Anh Tuấn",
+            contact_phone="0909 123 456",
+            available_date="2025-05-01",
+            image_path="images/p302.png",
+            current_electricity=425,
+            current_water=70,
+            tenant_id="TNT002",
+            landlord_id="CT002"
         )
         return room.to_dict()
+
 
     @staticmethod
     def update_room_tenant(room_id, tenant_id):
@@ -154,42 +154,99 @@ class RoomRepository:
     @staticmethod
     def get_data_for_handle_room_infor(room_id):
         #TODO tạo truy cấp SQL để select các thông tin cần thiết
-        # bên dưới là giả lập dữ liệu cần
-        room_data = {
-            "room_name": "P101",
-            "address": "123 Đường ABC, Phường XYZ, Quận Bình Thạnh, TP. Hồ Chí Minh",
-            "room_type": "Phòng trọ trong dãy trọ",
-            "status": "Còn trống",
-            "area": 25.5,
-            "floor": "1",
-            "has_loft": "Có",
-            "bathroom": "Riêng trong phòng",
-            "kitchen": "Khu bếp riêng",
-            "balcony": "Có",
-            "furniture": "Giường, Tủ quần áo, Bàn học",
-            "appliances": "Điều hòa, Máy nước nóng",
-            "utilities": "Wifi, Camera, Chỗ để xe, Giờ giấc tự do",
-            "current_electricity": "365 KWH",
-            "current_water": 365,
-            "rent_price": 3500000,
-            "deposit": 3500000,
-            "electricity_price": 3800,
-            "water_price": 100000 ,
-            "internet_price": 100000,
-            "garbage_price": 50000,
-            "other_fees": 20000,
-            "max_tenants": 2,
-            "pets_allowed": "Không",
-            "available_date": "2025-04-05",
-            "lanlord_name": "Cô Ba Chủ Trọ",
-            "phone_lanlord": "032 5575 333"
-        }
-        # lanlord_name, lanlord_name  lấy từ tenant tooong qua id_tenant có trong room
+        '''SELECT
+        r.RoomName AS room_name,
+        r.Address AS address,
+        r.RoomType AS room_type,
+        r.Status AS status,
+        r.Area AS area,
+        r.Floor AS floor,
+        r.HasLoft AS has_loft,
+        r.Bathroom AS bathroom,
+        r.Kitchen AS kitchen,
+        r.Balcony AS balcony,
+        r.Furniture AS furniture,
+        r.FreeWifi AS free_wifi,
+        r.Parking AS parking,
+        r.AirConditioner AS air_conditioner,
+        r.Fridge AS fridge,
+        r.WashingMachine AS washing_machine,
+        r.Security AS security,
+        r.Television AS television,
+        r.CurrentElectricityNum AS current_electricity,
+        r.CurrentWaterNum AS current_water,
+        r.RoomPrice AS rent_price,
+        r.Deposit AS deposit,
+        r.ElectricityPrice AS electricity_price,
+        r.WaterPrice AS water_price,
+        r.InternetPrice AS internet_price,
+        r.OtherFees AS other_fees,
+        r.GarbageServicePrice AS garbage_price,
+        r.MaxTenants AS max_tenants,
+        r.PetAllowed AS pets_allowed,
+        r.RentalDate AS available_date,
+        l.Fullname AS lanlord_name,
+        l.PhoneNumber AS phone_lanlord
+        FROM Rooms r
+        LEFT JOIN Landlords l ON r.LandlordID = l.LandlordID '''
 
-        return room_data
+        # bên dưới là giả lập dữ liệu cần
+        data = {
+            "RoomName": "P302",
+            "Address": "456 Đường Nguyễn Văn Linh, Quận 7, TP.HCM",
+            "RoomType": "Chung cư mini",
+            "Status": "Đã thuê",
+            "Area": 32.5,
+
+            "Floor": 3,
+            "HasLoft": 1,
+            "Bathroom": 1,
+            "Kitchen": 1,
+            "Balcony": 1,
+            "Furniture": 1,
+
+            # Thiết bị điện & tiện ích (dạng cờ bit 0/1)
+            "AirConditioner": 1,
+            "Fridge": 0,
+            "WashingMachine": 1,
+            "Television": 1,
+            "Security": 1,
+            "FreeWifi": 1,
+            "Parking": 0,
+
+            "CurrentElectricityNum": 425,
+            "CurrentWaterNum": 70,
+            "RoomPrice": 4200000,
+            "Deposit": 4200000,
+            "ElectricityPrice": 3500,
+            "WaterPrice": 60000,
+            "InternetPrice": 100000,
+            "GarbageServicePrice": 30000,
+            "OtherFees": 20000,
+
+            "MaxTenants": 3,
+            "PetAllowed": 0,
+            "RentalDate": "2025-05-01",
+            "Description": "Phòng view đẹp, có ban công rộng, gần trung tâm mua sắm",
+            # trích từ lanlord data
+            "Fullname": "Anh Tuấn",
+            "PhoneNumber": "0909 123 456",
+            "Email": "tuan.chutro@gmail.com"
+        }
+        return data
 
     @staticmethod
     def update_tenant_rent_room(room_id, tenant_id):
         #TODO Tao hàm truy vấn update data
         print(f"✅ Cập nhật người thuê {tenant_id} vào phòng {room_id}")
         return True
+    @staticmethod
+    def get_list_room_by_id_landlord(id_lanlord):
+        """Cập nhật thông tin phòng"""
+        ds_phong = [
+        {"RoomID": 1, "RoomName": "Phòng A1"},
+        {"RoomID": 2, "RoomName": "Phòng B2"}
+        ]
+
+        ''' trả về 1 danh sách các tên phòng kèm RoomID để hiển thị trên giao diện tìm người'''
+        return ds_phong

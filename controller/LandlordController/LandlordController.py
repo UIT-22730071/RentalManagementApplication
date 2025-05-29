@@ -72,3 +72,10 @@ class LandlordController:
     def handle_exit():
         print("[INFO] Đóng ứng dụng")
         QApplication.quit()
+
+    @staticmethod
+    def go_to_LanlordFindNewTenant(view, id_lanlord):
+        from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordFindNewTenant import FindNewTenant
+        ds_phong = RoomService.get_list_room_by_id_landlord(id_lanlord)
+        find_new_tenant_view = FindNewTenant(view.main_window, ds_phong=ds_phong)
+        view.set_right_frame(lambda *_: find_new_tenant_view)

@@ -44,7 +44,7 @@ class FindNewRoom(QWidget):
         # Populate room list
         self.populate_rooms()
 
-        # No rooms message
+        # No RoomAdvertisement message
         if not self.advertised_rooms:
             no_rooms_label = QLabel("Hiện tại không có phòng nào được quảng cáo.")
             #no_rooms_label.setStyleSheet("font-size: 16px; color: #7f8c8d; font-style: italic;")

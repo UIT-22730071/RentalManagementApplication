@@ -112,63 +112,100 @@ class RoomService:
     @staticmethod
     def get_translated_room_info(room_id):
         """Chuyển đổi key tiếng Anh → tiếng Việt để dùng trong giao diện RoomsInfor"""
-        room_data = RoomRepository.get_data_for_handle_room_infor(room_id)
+        row = RoomRepository.get_data_for_handle_room_infor(room_id)  # dữ liệu thô
+        if not row:
+            return {}
+
+        def yes_no_meaning(value, content):
+            return content if str(value) == "1" or value == 1 else "Không"
+
+        # Xử lý các tiện ích riêng biệt
+        row["HasLoft"] = yes_no_meaning(row.get("HasLoft"), "Có gác lửng")
+        row["Bathroom"] = yes_no_meaning(row.get("Bathroom"), "Có phòng tắm riêng")
+        row["Kitchen"] = yes_no_meaning(row.get("Kitchen"), "Có nhà bếp")
+        row["Balcony"] = yes_no_meaning(row.get("Balcony"), "Có ban công")
+        row["Furniture"] = yes_no_meaning(row.get("Furniture"), "Có nội thất")
+        row["PetAllowed"] = yes_no_meaning(row.get("PetAllowed"), "Cho phép thú cưng")
+
+        # Thiết bị điện
+        appliances = {
+            "Điều hòa": row.get("AirConditioner"),
+            "Máy giặt": row.get("WashingMachine"),
+            "Tủ lạnh": row.get("Fridge"),
+            "Tivi": row.get("Television"),
+            "Bảo vệ": row.get("Security"),
+        }
+        row["appliances"] = ", ".join([name for name, v in appliances.items() if str(v) == "1"])
+
+        # Tiện ích
+        utilities = {
+            "Wifi miễn phí": row.get("FreeWifi"),
+            "Chỗ để xe": row.get("Parking"),
+        }
+        row["utilities"] = ", ".join([name for name, v in utilities.items() if str(v) == "1"])
+
+        # Mapping hiển thị
         mapping = {
-            "room_name": "Tên phòng",
-            "address": "Địa chỉ",
-            "room_type": "Loại phòng",
-            "status": "Trạng thái",
-            "area": "Diện tích",
-            "floor": "Tầng",
-            "has_loft": "Gác lửng",
-            "bathroom": "Phòng tắm",
-            "kitchen": "Nhà bếp",
-            "balcony": "Ban công",
-            "furniture": "Nội thất cơ bản",
+            "RoomName": "Tên phòng",
+            "Address": "Địa chỉ",
+            "RoomType": "Loại phòng",
+            "Status": "Trạng thái",
+            "Area": "Diện tích",
+
+            "Floor": "Tầng",
+            "HasLoft": "Gác lửng",
+            "Bathroom": "Phòng tắm",
+            "Kitchen": "Nhà bếp",
+            "Balcony": "Ban công",
+            "Furniture": "Nội thất cơ bản",
+
+            "CurrentElectricityNum": "Số điện",
+            "CurrentWaterNum": "Số nước",
+            "RoomPrice": "Giá thuê",
+            "Deposit": "Tiền đặt cọc",
+            "ElectricityPrice": "Giá điện",
+            "WaterPrice": "Giá nước",
+            "InternetPrice": "Internet",
+            "GarbageServicePrice": "Phí rác",
+            "OtherFees": "Phí khác",
+            "PetAllowed": "Thú cưng",
+
+            "MaxTenants": "Số người tối đa",
+            "RentalDate": "Ngày có thể thuê",
+            "Description": "Mô tả",
+
             "appliances": "Thiết bị điện",
             "utilities": "Tiện ích",
-            "current_electricity": "Số điện",
-            "current_water": "Số nước",
-            "rent_price": "Giá thuê",
-            "deposit": "Tiền đặt cọc",
-            "electricity_price": "Giá điện",
-            "water_price": "Giá nước",
-            "internet_price": "Internet",
-            "garbage_price": "Phí rác",
-            "other_fees": "Phí khác",
-            "max_tenants": "Số người tối đa",
-            "pets_allowed": "Thú cưng",
-            "available_date": "Ngày có thể thuê",
-            "lanlord_name": "Chủ trọ",
-            "phone_lanlord": "SĐT"
+
+            "Fullname": "Chủ trọ",
+            "PhoneNumber": "SĐT",
+            "Email": "Địa chỉ mail"
         }
 
         translated = {}
         for en_key, vi_key in mapping.items():
-            if en_key in room_data:
-                value = room_data[en_key]
-                # ✅ ép kiểu về string và xử lý đơn vị nếu cần
-                if isinstance(value, float):
-                    value = f"{value:.1f}"  # 1 chữ số thập phân
-                elif isinstance(value, int):
-                    value = f"{value:,}"  # format 3 chữ số một
-                elif isinstance(value, (str,)):
-                    value = str(value)
-                elif isinstance(value, (bytes,)):
-                    value = value.decode('utf-8')
-                elif en_key == "available_date":
-                    value = str(value)  # hoặc format thời gian
+            if en_key in row:
+                value = row[en_key]
 
-                # Thêm đơn vị nếu cần
-                if en_key == "area":
+                if isinstance(value, float):
+                    value = f"{value:.1f}"
+                elif isinstance(value, int):
+                    value = f"{value:,}"
+                elif isinstance(value, str):
+                    value = value.strip()
+
+                # Thêm đơn vị hiển thị
+                if en_key == "Area":
                     value += " m²"
-                if en_key == "current_water":
+                elif en_key == "CurrentWaterNum":
                     value += " m³"
-                if en_key == "current_electricity":
-                    value = str(value) if isinstance(value, str) else f"{value} KWH"
-                if en_key == "rent_price" or en_key == "deposit":
+                elif en_key == "CurrentElectricityNum":
+                    value += " KWH"
+                elif en_key in ["RoomPrice"]:
                     value += " VNĐ/tháng"
-                if en_key in ["electricity_price", "internet_price", "water_price", "garbage_price", "other_fees"]:
+                elif en_key in ["Deposit"]:
+                    value += " VNĐ"
+                elif en_key in ["ElectricityPrice", "InternetPrice", "WaterPrice", "GarbageServicePrice", "OtherFees"]:
                     value += " VNĐ"
 
                 translated[vi_key] = value
@@ -187,3 +224,8 @@ class RoomService:
         else:
             print("cap nhat khong thanh cong")
             return False
+
+    @staticmethod
+    def get_list_room_by_id_landlord(id_landlord):
+        """Lấy danh sách phòng theo id chủ trọ"""
+        return RoomRepository.get_list_room_by_id_landlord(id_landlord)

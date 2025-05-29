@@ -1,3 +1,9 @@
+import datetime
+from datetime import datetime
+now = datetime.now()
+import os
+import shutil
+
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QComboBox, QTextEdit,
@@ -14,8 +20,6 @@ class FindNewTenant(QWidget):
         super().__init__()
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
-        #self.setStyleSheet(
-           # "background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);")
 
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
@@ -40,8 +44,11 @@ class FindNewTenant(QWidget):
         layout_chonphong = QVBoxLayout()
         label_phong = QLabel("📄 Chọn phòng:")
         #label_phong.setStyleSheet("font-weight: bold; color: #333; font-size: 16px;")
+
+        self.room_id_map = {phong["RoomName"]: phong["RoomID"] for phong in ds_phong}
+
         self.combo_phong = QComboBox()
-        self.combo_phong.addItems(ds_phong or ["Phòng A1", "Phòng B2"])
+        #self.combo_phong.addItems(ds_phong or ["Phòng A1", "Phòng B2"])
         self.combo_phong.setFixedHeight(34)
         self.combo_phong.setFixedWidth(250)
         self.combo_phong.setStyleSheet("""
@@ -68,9 +75,14 @@ class FindNewTenant(QWidget):
             }
         """)
 
+        # Sau khi khởi tạo xong thì mới addItems
+        self.combo_phong.addItems([phong["RoomName"] for phong in ds_phong])
+
         layout_chonphong.addWidget(label_phong)
         layout_chonphong.addWidget(self.combo_phong)
         layout.addLayout(layout_chonphong)
+
+
 
         # Thông tin phòng: Giá phòng, Giá điện, Giá nước, Địa chỉ
         layout.addSpacing(10)
@@ -175,9 +187,10 @@ class FindNewTenant(QWidget):
 
         # Danh sách các tiện ích phổ biến
         tienich_items = [
-            "🚿 Nhà vệ sinh riêng", "🧺 Máy giặt", "🚲 Chỗ để xe",
-            "🧹 Dọn vệ sinh", "🔒 An ninh", "🌡️ Máy lạnh",
-            "📺 TV", "🪑 Nội thất", "🛌 Giường"
+            "Wifi miễn phí", "Chỗ để xe", "Máy lạnh/Điều hòa", "Tủ lạnh",
+            "Máy giặt", "Bảo vệ 24/7", "TV", "Bếp",
+            "Tầng lầu", "Gác lửng", "Phòng tắm", "Ban công",
+            "Nội thất cơ bản", "Thú cưng"
         ]
 
         # Tạo các checkbox tiện ích
@@ -185,32 +198,6 @@ class FindNewTenant(QWidget):
         row, col = 0, 0
         for item in tienich_items:
             checkbox = QCheckBox(item)
-            '''
-            checkbox.setStyleSheet("""
-                QCheckBox {
-                    font-size: 15px;
-                    padding: 4px 8px;
-                    border-radius: 8px;
-                    background-color: #f5f5f5;
-                }
-                QCheckBox:hover {
-                    background-color: #e0e7ff;
-                }
-                QCheckBox::indicator {
-                    width: 16px;
-                    height: 16px;
-                    border-radius: 4px;
-                    background-color: white;
-                    border: 2px solid #6c63ff;
-                }
-                QCheckBox::indicator:checked {
-                    background-color: #6c63ff;
-                }
-                QCheckBox::indicator:unchecked {
-                    background-color: white;
-                }
-            """)
-            '''
             self.tienich_checks[item] = checkbox
             tienich_grid.addWidget(checkbox, row, col)
             col += 1
@@ -377,10 +364,26 @@ class FindNewTenant(QWidget):
     def upload_image(self):
         file_path, _ = QFileDialog.getOpenFileName(self, "Chọn ảnh phòng", "", "Images (*.png *.jpg *.jpeg)")
         if file_path:
-            self.file_image_path = file_path
-            self.label_anh_path.setText(f"📁 {file_path}")
+            # Tạo thư mục lưu nếu chưa có
+            project_root = os.path.dirname(os.path.abspath(__file__))
+            upload_dir = os.path.join(project_root, "../../../../../uploads/RoomAdvertisement")
+            os.makedirs(upload_dir, exist_ok=True)
 
-            pixmap = QPixmap(file_path)
+            # Đặt tên ảnh mới không trùng lặp theo timestamp
+            extension = os.path.splitext(file_path)[1]
+            timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+            new_filename = f"room_{timestamp}{extension}"
+            new_file_path = os.path.join(upload_dir, new_filename)
+
+            # Sao chép ảnh vào thư mục dự án
+            shutil.copy(file_path, new_file_path)
+
+            # Lưu lại path mới (để lưu vào database)
+            self.file_image_path = os.path.abspath(new_file_path)
+            self.label_anh_path.setText(f"📁 {new_filename}")
+
+            # Hiển thị preview ảnh
+            pixmap = QPixmap(new_file_path)
             if pixmap.isNull():
                 self.preview_image.clear()
                 QMessageBox.critical(self, "Lỗi", "❌ Không thể đọc ảnh này.")
@@ -401,6 +404,8 @@ class FindNewTenant(QWidget):
     def submit_quangcao(self):
         # Thu thập dữ liệu cần thiết theo yêu cầu của controller
         phong = self.combo_phong.currentText()
+        room_name = self.combo_phong.currentText()
+        room_id = self.room_id_map.get(room_name)
         mota = self.txt_mota.toPlainText()
 
         # Thu thập các trường thông tin bổ sung để thêm vào mô tả
@@ -466,7 +471,8 @@ class FindNewTenant(QWidget):
             description=full_description,
             image_path=image,
             preferences=uu_tien,
-            view=self  # truyền view để gọi show_error/show_success
+            view=self, # truyền view để gọi show_error/show_success
+            RoomID = room_id,
         )
 
     def show_error(self, message):

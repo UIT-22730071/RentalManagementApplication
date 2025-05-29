@@ -5,9 +5,9 @@ from QLNHATRO.RentalManagementApplication.backend.model.Advertisement import Adv
 
 class AdvertisementService:
     @staticmethod
-    def create_advertisement(room_name, description, image_path, preferences):
+    def create_advertisement(room_name, description, image_path, preferences,RoomID):
         ad = Advertisement(room_name, description, image_path, preferences)
-        AdvertisementRepository.save_advertisement(ad)
+        AdvertisementRepository.save_advertisement(ad,RoomID)
         return ad
 
     @staticmethod

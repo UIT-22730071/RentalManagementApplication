@@ -54,23 +54,25 @@ CREATE TABLE IF NOT EXISTS Rooms (
     RoomID INTEGER PRIMARY KEY AUTOINCREMENT,
     RoomName TEXT,
     Address TEXT,
-    RoomType TEXT check (RoomType IN ('Phòng trọ','Chung cư','Chung cư mini','Nhà nguyên căn','Nhà mặt phố','khác')),              -- Loại phòng: ví dụ "Phòng trọ trong dãy trọ"
-    Status TEXT check ( Status IN ('Đã thuê','Đang sửa chữa','Đặt cọc','Trống')),                -- Trạng thái: "Còn trống" hoặc "Đã thuê"
+    RoomType TEXT,              -- Loại phòng: ví dụ "Phòng trọ trong dãy trọ"
+    Status TEXT,                -- Trạng thái: "Còn trống" hoặc "Đã thuê"
     Area REAL,                  -- Diện tích (m²)
 
     Floor INTEGER DEFAULT 0,              -- Tầng
     HasLoft INTEGER DEFAULT 0,            -- Gác lửng: 0 hoặc 1
     Bathroom INTEGER DEFAULT 0,              -- Phòng tắm: "Riêng", "Chung",...
     Kitchen INTEGER DEFAULT 0,              -- Nhà bếp: mô tả
-    FreeWifi INTEGER DEFAULT 0,             -- Wifi miễn phí
-    Parking INTEGER DEFAULT 0,              -- Chổ đậu xe
-    AirConditioner INTEGER DEFAULT 0,       -- Máy điều hòa
-    Fridge INTEGER DEFAULT 0,               -- Tủ lạnh
-    WashingMachine INTEGER DEFAULT 0,       -- Máy giặt
-    Security INTEGER DEFAULT 0,             -- Có bảo vệ
-    Television INTEGER DEFAULT 0,           -- Có tivi
     Furniture INTEGER DEFAULT 0,             -- Nội thất cơ bản
-    Balcony INTEGER DEFAULT 0,-- Ban công   -- Có ban công
+    Balcony INTEGER DEFAULT 0,          -- Ban công   -- Có ban công
+
+    FreeWifi INTEGER DEFAULT 0,             -- Wifi miễn phí 1
+    Parking INTEGER DEFAULT 0,              -- Chổ đậu xe  1
+    AirConditioner INTEGER DEFAULT 0,       -- Máy điều hòa 1
+    Fridge INTEGER DEFAULT 0,               -- Tủ lạnh 1
+    WashingMachine INTEGER DEFAULT 0,       -- Máy giặt 1
+    Security INTEGER DEFAULT 0,             -- Có bảo vệ 1
+    Television INTEGER DEFAULT 0,           -- Có tivi 1
+
     PetAllowed INTEGER DEFAULT 0,           -- Thú cưng: " 0: không cho phép", "1: cho phép"
     -- giá cả
     RoomPrice REAL,            -- Giá thuê phòng
@@ -141,7 +143,12 @@ CREATE TABLE IF NOT EXISTS QuangCao (
     Description TEXT,
     Prioritize TEXT,
     Picture TEXT,
-    DateCreate TEXT DEFAULT CURRENT_TIMESTAMP
+    DateCreate TEXT DEFAULT CURRENT_TIMESTAMP,
+    Image_path TEXT,  -- Đường dẫn đến hình ảnh quảng cáo, mặc định là 'default_image.png'
+
+    -- DateCreate: Ngày tạo quảng cáo, mặc định là thời điểm hiện tại
+    FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID) ON DELETE CASCADE
+
 );
 
 -- MaintenanceRequests table
