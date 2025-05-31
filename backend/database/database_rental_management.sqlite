@@ -152,8 +152,8 @@ CREATE TABLE IF NOT EXISTS advertisements (
 -- MaintenanceRequests table
 CREATE TABLE IF NOT EXISTS maintenance_requests (
     request_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    tenant_id INTEGER NOT NULL,
-    room_id INTEGER NOT NULL,
+    TenantID INTEGER NOT NULL,
+    RoomID INTEGER NOT NULL,
 
     issue_type TEXT NOT NULL,           -- VD: "Điện", "Nước", "Cấu trúc", v.v.
     urgency_level TEXT NOT NULL,        -- VD: "Bình thường", "Khẩn cấp"
@@ -168,8 +168,8 @@ CREATE TABLE IF NOT EXISTS maintenance_requests (
     status TEXT DEFAULT 'Pending' CHECK (status IN ('Pending', 'In Progress', 'Resolved', 'Đang xử lý', 'Đã hoàn thành')),
     created_at TEXT DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (tenant_id) REFERENCES tenants(tenant_id),
-    FOREIGN KEY (room_id) REFERENCES rooms(room_id)
+    FOREIGN KEY (TenantID) REFERENCES tenants(TenantID),
+    FOREIGN KEY (RoomID) REFERENCES rooms(RoomID)
 );
 
 
@@ -182,6 +182,7 @@ CREATE TABLE IF NOT EXISTS Notifications (
     CreatedAt TEXT DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
+
 
 -- AnalystLanlord table
 CREATE TABLE IF NOT EXISTS landlord_analytics (
