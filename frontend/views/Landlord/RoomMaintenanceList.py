@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import (
 )
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.ConfirmDialog import ConfirmDialog
-from QLNHATRO.RentalManagementApplication.frontend.Component.SuccessDialog import SuccessDialog
+
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 
 
@@ -329,55 +329,14 @@ class RoomMaintenanceList(QWidget):
                 """)
 
             action_btn.clicked.connect(lambda checked, r=row: self.handle_maintenance_request(r))
+
             self.table.setCellWidget(row, action_col, action_btn)
 
     def show_request_details(self, row):
-        """Hiển thị chi tiết yêu cầu bảo trì với style cải tiến"""
-        request = self.maintenance_requests[row]
-
-        detail_text = f"""
-            🏠 Phòng: {request['room_name']}
-            👤 Người thuê: {request['tenant_name']}
-            📞 SĐT liên hệ: {request['contact_phone']}
-            
-            🔧 Loại sự cố: {request['issue_type']}
-            🚨 Mức độ: {request['urgency_level']}
-            📋 Trạng thái: {request['status']}
-            📅 Ngày tạo: {request['created_at']}
-            
-            📝 Mô tả chi tiết:
-            {request['description']}
-        """
-
-        msg = QMessageBox()
-        msg.setWindowTitle("Chi tiết yêu cầu bảo trì")
-        msg.setText(detail_text)
-        msg.setIcon(QMessageBox.Information)
-
-        # Áp dụng style cho MessageBox
-        msg.setStyleSheet(f"""
-            QMessageBox {{
-                background-color: {GlobalStyle.MAIN_BG};
-                color: {GlobalStyle.TEXT_COLOR};
-                font-family: {GlobalStyle.FONT_FAMILY};
-                font-size: 14px;
-            }}
-            QMessageBox QPushButton {{
-                background-color: {GlobalStyle.PRIMARY_COLOR};
-                color: white;
-                font-size: 14px;
-                font-family: {GlobalStyle.FONT_FAMILY};
-                padding: 8px 20px;
-                border-radius: 6px;
-                border: none;
-                min-width: 80px;
-            }}
-            QMessageBox QPushButton:hover {{
-                background-color: #1D4DA5;
-            }}
-        """)
-
-        msg.exec_()
+        request_data = self.maintenance_requests[row]
+        from QLNHATRO.RentalManagementApplication.controller.MaintenanceController.MaintenanceController import \
+            MaintenanceController
+        MaintenanceController.go_to_maintenance_detail_page(self, request_data)
 
     def handle_maintenance_request(self, row):
         """Xử lý yêu cầu bảo trì với style MessageBox cải tiến"""
@@ -435,6 +394,7 @@ class RoomMaintenanceList(QWidget):
 
             # TODO: Gọi controller để cập nhật database
             # MaintenanceController.update_status(request_id, 'Đang xử lý')
+
 
     def refresh_table(self):
         """Refresh lại bảng sau khi cập nhật dữ liệu"""
