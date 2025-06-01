@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QFrame, QPushButton,
     QScrollArea, QTextEdit, QGridLayout, QGroupBox, QMessageBox,
-    QComboBox, QDateEdit, QLineEdit
+    QComboBox
 )
 from PyQt5.QtCore import Qt, QDate, pyqtSignal
 from PyQt5.QtGui import QPixmap, QFont
@@ -20,12 +20,14 @@ class MaintenanceRequestDetail(QWidget):
     # Signal để thông báo khi có thay đổi trạng thái
     status_updated = pyqtSignal(int, str)  # request_id, new_status
 
-    def __init__(self, request_data, parent=None):
+    def __init__(self, request_data ,parent=None):
         super().__init__(parent)
         self.request_data = request_data
+        self.main_window = parent  # Giả sử parent là main window
         self.setWindowTitle(f"Chi tiết yêu cầu bảo trì - {request_data.get('room_name', 'N/A')}")
         self.resize(GlobalStyle.WINDOW_WIDTH - 300, GlobalStyle.WINDOW_HEIGHT - 100)
         self.setMinimumSize(800, 600)
+
         self.setStyleSheet(GlobalStyle.global_stylesheet())
 
         self.setup_ui()
@@ -100,18 +102,18 @@ class MaintenanceRequestDetail(QWidget):
         # Trạng thái hiện tại
         status = self.request_data.get('status', 'N/A')
         status_color = self.get_status_color(status)
-        status_label = QLabel(f"📊 Trạng thái: {status}")
-        status_label.setStyleSheet(f"""
-            QLabel {{
-                font-size: 16px;
-                font-weight: 600;
-                color: white;
-                padding: 8px 12px;
-                background-color: {status_color};
-                border-radius: 8px;
-            }}
-        """)
-        info_layout.addWidget(status_label)
+        self.status_label = QLabel(f"📊 Trạng thái: {status}")
+        self.status_label.setStyleSheet(f"""
+                QLabel {{
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: white;
+                    padding: 8px 12px;
+                    background-color: {status_color};
+                    border-radius: 8px;
+                }}
+            """)
+        info_layout.addWidget(self.status_label)
 
         # Mức độ khẩn cấp
         urgency = self.request_data.get('urgency_level', 'N/A')
@@ -360,7 +362,8 @@ class MaintenanceRequestDetail(QWidget):
         # Nút đóng
         close_btn = QPushButton("❌ Đóng")
         close_btn.setObjectName("CancelBtn")
-        close_btn.clicked.connect(self.close)
+        #close_btn.clicked.connect(self.close_window_menu)
+        close_btn.clicked.connect(self.close_window_menu)
         btn_layout.addWidget(close_btn)
 
         layout.addLayout(btn_layout)
@@ -399,33 +402,18 @@ class MaintenanceRequestDetail(QWidget):
 
         if confirmed == QMessageBox.Yes:
             try:
-                # Cập nhật trạng thái trong data
-                self.request_data['status'] = new_status
-
-                # Emit signal để thông báo cho parent widget
-                self.status_updated.emit(
-                    self.request_data.get('request_id', 0),
-                    new_status
-                )
-
-                # Hiển thị thông báo thành công
-                SuccessDialog.show(
-                    self,
-                    f"Đã cập nhật trạng thái thành '{new_status}' thành công!"
-                )
-
-                # Cập nhật lại header để reflect trạng thái mới
-                self.refresh_header()
-
-                # TODO: Gọi service để cập nhật database
-                # MaintenanceService.update_status(request_id, new_status)
-
+                # Gọi Service cập nhật DB
+                from QLNHATRO.RentalManagementApplication.services.MaintenanceService import MaintenanceService
+                result = MaintenanceService.update_maintenance_status(self.request_data.get('request_id'), new_status)
+                if result.get('success'):
+                    self.request_data['status'] = new_status
+                    self.status_updated.emit(self.request_data.get('request_id', 0), new_status)
+                    SuccessDialog.show(self, f"Đã cập nhật trạng thái thành '{new_status}' thành công!")
+                    self.refresh_header()
+                else:
+                    QMessageBox.critical(self, "Lỗi", result.get('message', 'Không thể cập nhật trạng thái'))
             except Exception as e:
-                QMessageBox.critical(
-                    self,
-                    "Lỗi",
-                    f"Không thể cập nhật trạng thái: {str(e)}"
-                )
+                QMessageBox.critical(self, "Lỗi", f"Không thể cập nhật trạng thái: {str(e)}")
 
     def save_notes(self):
         """Lưu ghi chú quản lý"""
@@ -494,9 +482,60 @@ class MaintenanceRequestDetail(QWidget):
 
     def refresh_header(self):
         """Refresh lại header sau khi cập nhật trạng thái"""
-        # TODO: Implement logic refresh header nếu cần
-        pass
+        if not hasattr(self, "status_label"):
+            return
+        new_status = self.request_data.get('status', 'N/A')
+        new_color = self.get_status_color(new_status)
+        self.status_label.setText(f"📊 Trạng thái: {new_status}")
+        self.status_label.setStyleSheet(f"""
+            QLabel {{
+                font-size: 16px;
+                font-weight: 600;
+                color: white;
+                padding: 8px 12px;
+                background-color: {new_color};
+                border-radius: 8px;
+            }}
+        """)
 
-    def closeEvent(self, event):
-        """Xử lý khi đóng cửa sổ"""
-        event.accept()
+    def close_window_menu(self):
+        """Đóng cửa sổ và quay về danh sách maintenance"""
+        try:
+            from QLNHATRO.RentalManagementApplication.controller.MaintenanceController.MaintenanceController import \
+                MaintenanceController
+
+            # Kiểm tra xem main_window có tồn tại không
+            if not hasattr(self, 'main_window') or self.main_window is None:
+                self.close()
+                return
+
+            # Lấy id_landlord từ request_data
+            id_landlord = self.request_data.get("id_landlord")
+
+            # Kiểm tra loại main_window và điều hướng phù hợp
+            if hasattr(self.main_window, "set_right_frame"):
+                # Trường hợp main_window có method set_right_frame (layout với right frame)
+                MaintenanceController.go_to_maintenance_list(self, id_landlord)
+            elif hasattr(self.main_window, "setCentralWidget"):
+                # Trường hợp main_window là QMainWindow với setCentralWidget
+                from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.RoomMaintenanceList import \
+                    RoomMaintenanceList
+                from QLNHATRO.RentalManagementApplication.services.MaintenanceService import MaintenanceService
+
+                # Lấy danh sách maintenance mới nhất
+                maintenance_list = MaintenanceService.get_maintenance_list(id_landlord)
+                maintenance_list_view = RoomMaintenanceList(self.main_window, maintenance_list, id_landlord)
+
+                # Set lại central widget
+                self.main_window.setCentralWidget(maintenance_list_view)
+            else:
+                # Trường hợp không xác định được loại main_window, đóng cửa sổ hiện tại
+                self.close()
+
+        except Exception as e:
+            # Nếu có lỗi xảy ra, chỉ đóng cửa sổ hiện tại
+            print(f"Lỗi khi đóng cửa sổ: {str(e)}")
+            self.close()
+
+
+

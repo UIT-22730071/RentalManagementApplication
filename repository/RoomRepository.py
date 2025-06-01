@@ -1,3 +1,4 @@
+from QLNHATRO.RentalManagementApplication.backend.database.Database import Database
 from QLNHATRO.RentalManagementApplication.backend.model.Rooms import Room
 
 
@@ -250,3 +251,22 @@ class RoomRepository:
 
         ''' trả về 1 danh sách các tên phòng kèm RoomID để hiển thị trên giao diện tìm người'''
         return ds_phong
+
+    @staticmethod
+    def delete_room(room_id):
+        from QLNHATRO.RentalManagementApplication.frontend.Component.ErrorDialog import ErrorDialog
+
+        db = Database()
+        db.connect()
+        try:
+            query = "DELETE FROM Rooms WHERE RoomID = ?"
+            cursor = db.execute(query, (room_id,))
+            if cursor and cursor.rowcount > 0:
+                msg = {'success': True, 'message': 'Đã xóa phòng thành công'}
+            else:
+                msg = {'success': False, 'message': 'Không tìm thấy phòng để xóa'}
+        except Exception as e:
+            msg = {'success': False, 'message': f'Lỗi: {str(e)}'}
+        finally:
+            db.close()
+        return msg

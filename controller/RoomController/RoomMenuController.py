@@ -1,4 +1,4 @@
-
+from QLNHATRO.RentalManagementApplication.Repository.RoomRepository import RoomRepository
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.ManageInvoicePage import InvoiceInputPage
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomUpdateTenantPage import RoomUpdateTenantPage
 from QLNHATRO.RentalManagementApplication.frontend.views.Rooms.RoomsHome import RoomsHome
@@ -116,7 +116,14 @@ class RoomMenuController:
     def go_to_handel_data_for_create_room(id_lanlord, room_create_data):
         RoomService.handle_data_for_create_new_room(id_lanlord, room_create_data)
 
-
+    def delete_room(self, room_id, callback_success=None, callback_fail=None):
+        result = RoomRepository.delete_room(room_id)
+        if result.get('success'):
+            if callback_success:
+                callback_success(result)
+        else:
+            if callback_fail:
+                callback_fail(result)
 
 
 '''

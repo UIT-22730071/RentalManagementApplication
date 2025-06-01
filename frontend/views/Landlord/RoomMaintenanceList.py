@@ -25,39 +25,57 @@ class RoomMaintenanceList(QWidget):
             self.maintenance_requests = [
                 {
                     "stt": 1,
-                    "request_id": 1,
+                    "request_id": 101,
+                    "room_id": 1,
                     "room_name": "Phòng 101",
+                    "tenant_id": 10,
                     "tenant_name": "Nguyễn Văn A",
+                    "tenant_phone": "0912345678",
                     "issue_type": "Điện",
                     "urgency_level": "Khẩn cấp",
                     "description": "Mất điện toàn bộ phòng",
+                    "contact_phone": "0912345678",
+                    "available_time": "08:00-12:00",
+                    "discovery_date": "2025-06-01",
+                    "image_path": "",
                     "status": "Pending",
-                    "created_at": "2025-01-15",
-                    "contact_phone": "0912345678"
+                    "created_at": "2025-06-01T13:00:00"
                 },
                 {
                     "stt": 2,
-                    "request_id": 2,
-                    "room_name": "Phòng 203",
-                    "tenant_name": "Trần Thị B",
-                    "issue_type": "Nước",
-                    "urgency_level": "Bình thường",
-                    "description": "Vòi nước bị rỉ nhỏ giọt",
-                    "status": "Đang xử lý",
-                    "created_at": "2025-01-14",
-                    "contact_phone": "0987654321"
+                    "request_id": 102,
+                    "room_id": 2,
+                    "room_name": "Phòng 102",
+                    "tenant_id": 2,
+                    "tenant_name": "Nguyễn Văn C",
+                    "tenant_phone": "0912345678",
+                    "issue_type": "Điện",
+                    "urgency_level": "Khẩn cấp",
+                    "description": "Mất điện toàn bộ phòng",
+                    "contact_phone": "0912345678",
+                    "available_time": "08:00-12:00",
+                    "discovery_date": "2025-06-01",
+                    "image_path": "",
+                    "status": "Pending",
+                    "created_at": "2025-06-01T13:00:00"
                 },
                 {
                     "stt": 3,
-                    "request_id": 3,
-                    "room_name": "Phòng 305",
-                    "tenant_name": "Lê Văn C",
-                    "issue_type": "Cấu trúc",
+                    "request_id": 103,
+                    "room_id": 3,
+                    "room_name": "Phòng 103",
+                    "tenant_id": 3,
+                    "tenant_name": "Nguyễn Văn C",
+                    "tenant_phone": "0912345678",
+                    "issue_type": "Điện",
                     "urgency_level": "Khẩn cấp",
-                    "description": "Tường bị nứt, có nguy cơ sập",
+                    "description": "Mất điện toàn bộ phòng",
+                    "contact_phone": "0912345678",
+                    "available_time": "08:00-12:00",
+                    "discovery_date": "2025-06-01",
+                    "image_path": "",
                     "status": "Pending",
-                    "created_at": "2025-01-13",
-                    "contact_phone": "0901234567"
+                    "created_at": "2025-06-01T13:00:00"
                 }
             ]
 
@@ -334,6 +352,7 @@ class RoomMaintenanceList(QWidget):
 
     def show_request_details(self, row):
         request_data = self.maintenance_requests[row]
+        request_data["id_landlord"] = self.id_landlord
         from QLNHATRO.RentalManagementApplication.controller.MaintenanceController.MaintenanceController import \
             MaintenanceController
         MaintenanceController.go_to_maintenance_detail_page(self, request_data)
@@ -394,7 +413,8 @@ class RoomMaintenanceList(QWidget):
 
             # TODO: Gọi controller để cập nhật database
             # MaintenanceController.update_status(request_id, 'Đang xử lý')
-
+            from QLNHATRO.RentalManagementApplication.services.MaintenanceService import MaintenanceService
+            result = MaintenanceService.update_maintenance_status(request_id, 'Đang xử lý')
 
     def refresh_table(self):
         """Refresh lại bảng sau khi cập nhật dữ liệu"""

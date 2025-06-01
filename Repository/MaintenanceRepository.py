@@ -57,44 +57,63 @@ class MaintenanceRepository:
 
         conn = MaintenanceRepository.get_database_connection()
         if conn is None:
-            return [
+            raw_requests = [
                 {
                     "stt": 1,
-                    "request_id": 1,
+                    "request_id": 101,
+                    "room_id": 1,
                     "room_name": "Phòng 101",
+                    "tenant_id": 10,
                     "tenant_name": "Nguyễn Văn A",
+                    "tenant_phone": "0912345678",
                     "issue_type": "Điện",
                     "urgency_level": "Khẩn cấp",
                     "description": "Mất điện toàn bộ phòng",
+                    "contact_phone": "0912345678",
+                    "available_time": "08:00-12:00",
+                    "discovery_date": "2025-06-01",
+                    "image_path": "",
                     "status": "Pending",
-                    "created_at": "2025-01-15",
-                    "contact_phone": "0912345678"
+                    "created_at": "2025-06-01T13:00:00"
                 },
                 {
                     "stt": 2,
-                    "request_id": 2,
-                    "room_name": "Phòng 203",
+                    "request_id": 102,
+                    "room_id": 2,
+                    "room_name": "Phòng 102",
+                    "tenant_id": 11,
                     "tenant_name": "Trần Thị B",
+                    "tenant_phone": "0987654321",
                     "issue_type": "Nước",
                     "urgency_level": "Bình thường",
                     "description": "Vòi nước bị rỉ nhỏ giọt",
+                    "contact_phone": "0987654321",
+                    "available_time": "14:00-18:00",
+                    "discovery_date": "2025-05-31",
+                    "image_path": "",
                     "status": "Đang xử lý",
-                    "created_at": "2025-01-14",
-                    "contact_phone": "0987654321"
+                    "created_at": "2025-05-31T09:30:00"
                 },
                 {
                     "stt": 3,
-                    "request_id": 3,
-                    "room_name": "Phòng 305",
+                    "request_id": 103,
+                    "room_id": 3,
+                    "room_name": "Phòng 103",
+                    "tenant_id": 12,
                     "tenant_name": "Lê Văn C",
+                    "tenant_phone": "0901234567",
                     "issue_type": "Cấu trúc",
                     "urgency_level": "Khẩn cấp",
                     "description": "Tường bị nứt, có nguy cơ sập",
-                    "status": "Pending",
-                    "created_at": "2025-01-13",
-                    "contact_phone": "0901234567"
+                    "contact_phone": "0901234567",
+                    "available_time": "07:00-08:00",
+                    "discovery_date": "2025-05-30",
+                    "image_path": "",
+                    "status": "Resolved",
+                    "created_at": "2025-05-30T15:40:00"
                 }
             ]
+            return raw_requests
         try:
             cursor = conn.cursor()
 
@@ -198,6 +217,7 @@ class MaintenanceRepository:
     @staticmethod
     def update_maintenance_status(request_id: int, new_status: str) -> bool:
         """Cập nhật trạng thái yêu cầu bảo trì"""
+        print("đã cập nhật trạng thái yêu cầu bảo trì")
         conn = MaintenanceRepository.get_database_connection()
         if conn is None:
             return False

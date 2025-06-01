@@ -1,25 +1,23 @@
 import sqlite3
 
-conn = sqlite3.connect('rentalmanagement.sqlite')
+# Path to your SQLite database file
+db_path = 'database_rental_management.db'
 
-cursor = conn.cursor()
+# Schema file containing your SQL commands
+schema_file = 'database_rental_management.sql'
 
-# Initialize Database Script
-with open('init_db.sql', 'r') as db_file:
-    init_sql_script = db_file.read()
+# Connect to the SQLite database (creates the file if it doesn't exist)
+conn = sqlite3.connect(db_path)
 
-# Reset Database Script
-with open('query_script.sql', 'r') as reset_database:
-    reset_sql_script = reset_database.read()
+try:
+    # Read the schema from the file
+    with open(schema_file, 'r', encoding='utf-8') as file:
+        schema = file.read()
 
-cursor.executescript(init_sql_script)
-
-conn.commit()
-
-cursor.execute("SELECT * FROM Users")
-
-rows = cursor.fetchall()
-for row in rows:
-    print(row)
-
-conn.close()
+    # Execute the schema
+    conn.executescript(schema)
+    print("Database initialized successfully.")
+except Exception as e:
+    print(f"Error initializing database: {e}")
+finally:
+    conn.close()

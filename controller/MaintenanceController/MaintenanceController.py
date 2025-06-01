@@ -18,8 +18,7 @@ class MaintenanceController:
         from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.MaintenanceRequestDetail import \
             MaintenanceRequestDetail
 
-        detail_view = MaintenanceRequestDetail(request_data)
-
-        # Thay vì view.set_right_frame(...), dùng main_window trực tiếp
+        detail_view = MaintenanceRequestDetail(request_data, parent=view.main_window)
         main_window = view.main_window
         main_window.setCentralWidget(detail_view)
+

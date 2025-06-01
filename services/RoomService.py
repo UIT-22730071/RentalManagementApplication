@@ -1,4 +1,5 @@
 from QLNHATRO.RentalManagementApplication.Repository.RoomRepository import RoomRepository
+from QLNHATRO.RentalManagementApplication.backend.database.Database import Database
 
 
 class RoomService:
@@ -229,3 +230,5 @@ class RoomService:
     def get_list_room_by_id_landlord(id_landlord):
         """Lấy danh sách phòng theo id chủ trọ"""
         return RoomRepository.get_list_room_by_id_landlord(id_landlord)
+
+

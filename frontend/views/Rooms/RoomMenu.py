@@ -62,7 +62,7 @@ class RoomMenu(QWidget):
 
         self.delete_room_btn = QPushButton("Xóa phòng")
         button_ui.apply_style(self.delete_room_btn)
-        self.delete_room_btn.clicked.connect(lambda: print("Clicled Xóa phòng"))
+        self.delete_room_btn.clicked.connect(self.confirm_and_delete_room)
 
 
         self.back_button = QPushButton("Quay lại")
@@ -98,6 +98,18 @@ class RoomMenu(QWidget):
 
         self.current_page = PageClass(*args)
         self.right_layout.addWidget(self.current_page)
+
+    def confirm_and_delete_room(self):
+        from QLNHATRO.RentalManagementApplication.frontend.Component.ConfirmDialog import ConfirmDialog
+        from QLNHATRO.RentalManagementApplication.frontend.Component.SuccessDialog import SuccessDialog
+        from QLNHATRO.RentalManagementApplication.frontend.Component.ErrorDialog import ErrorDialog
+        if ConfirmDialog.ask(self, f"Bạn có chắc muốn xóa phòng {self.room_id}?"):
+            result = self.controller.delete_room(self.room_id)
+            if result.get('success'):
+                SuccessDialog.show_success(result['message'], 'Active', self)
+                self.close()
+            else:
+                ErrorDialog.show_error(result['message'], self)
 
     def close_window_menu(self):
         self.main_window.close()

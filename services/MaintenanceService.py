@@ -163,56 +163,27 @@ class MaintenanceService:
     def update_maintenance_status(request_id: int, new_status: str) -> Dict:
         """
         Cập nhật trạng thái yêu cầu bảo trì
-
-        Args:
-            request_id: ID của yêu cầu bảo trì
-            new_status: Trạng thái mới
-
         Returns:
-            Dict: Kết quả thao tác
+            Dict: {'success': bool, 'message': str}
         """
+        # Validate input đầu vào
+        if not request_id or request_id <= 0:
+            return {'success': False, 'message': 'ID yêu cầu không hợp lệ'}
+        if not new_status:
+            return {'success': False, 'message': 'Trạng thái không được để trống'}
+        valid_statuses = ['Pending', 'In Progress', 'Resolved', 'Đang xử lý', 'Đã hoàn thành']
+        if new_status not in valid_statuses:
+            return {'success': False, 'message': f'Trạng thái không hợp lệ. Chỉ chấp nhận: {", ".join(valid_statuses)}'}
+
+        # Thực hiện update DB, bắt exception rõ ràng
         try:
-            # Validate input
-            if not request_id or request_id <= 0:
-                return {
-                    'success': False,
-                    'message': 'ID yêu cầu không hợp lệ'
-                }
-
-            if not new_status:
-                return {
-                    'success': False,
-                    'message': 'Trạng thái không được để trống'
-                }
-
-            # Validate status
-            valid_statuses = ['Pending', 'In Progress', 'Resolved', 'Đang xử lý', 'Đã hoàn thành']
-            if new_status not in valid_statuses:
-                return {
-                    'success': False,
-                    'message': f'Trạng thái không hợp lệ. Chỉ chấp nhận: {", ".join(valid_statuses)}'
-                }
-
-            # Cập nhật trong database
             success = MaintenanceRepository.update_maintenance_status(request_id, new_status)
-
             if success:
-                return {
-                    'success': True,
-                    'message': f'Đã cập nhật trạng thái thành "{new_status}" thành công'
-                }
-            else:
-                return {
-                    'success': False,
-                    'message': 'Không thể cập nhật trạng thái. Vui lòng thử lại.'
-                }
-
+                return {'success': True, 'message': f'Đã cập nhật trạng thái thành "{new_status}" thành công'}
+            return {'success': False, 'message': 'Không thể cập nhật trạng thái. Vui lòng thử lại.'}
         except Exception as e:
-            print(f"❌ Lỗi trong MaintenanceService.update_maintenance_status: {e}")
-            return {
-                'success': False,
-                'message': f'Lỗi hệ thống: {str(e)}'
-            }
+            # Có thể log lỗi chi tiết ở đây
+            return {'success': False, 'message': f'Lỗi hệ thống: {str(e)}'}
 
     @staticmethod
     def create_maintenance_request(tenant_id: int, room_id: int, request_data: Dict) -> Dict:
