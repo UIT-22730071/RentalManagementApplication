@@ -12,8 +12,8 @@ class User:
 
 
     @staticmethod
-    def add_user(self, username, password, role):
-        if self.check_duplicate_user(username):
+    def add_user (username, password, role):
+        if  User.check_duplicate_user(username):
             print(f"User with username: '{username}' already exists")
             return None
         else:
@@ -28,7 +28,7 @@ class User:
 
 
     @staticmethod
-    def check_duplicate_user(self, username):
+    def check_duplicate_user(username):
         conn = sqlite3.connect('rentalmanagement.sqlite')
         cursor = conn.cursor()
         cursor.execute("""SELECT * FROM Users WHERE Username = ?""", (username,))

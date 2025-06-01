@@ -205,13 +205,12 @@ class LoginWindow(QWidget):
         #     print("Lỗi: Vui lòng chọn vai trò.")  # Thay thế bằng QMessageBox
         #     return
 
-
         signup_btn.clicked.connect(lambda: RegisterController.register_user(
-            password,
+            username_input.text().strip(),
+            password_input.text(),
             selected_role,
             self.main_window
         ))
-
 
         #TODO: Xử lý lấy thông tin qua page Update thông tin
         #TODO: Cần thêm 1 hàm check correct password , check đúng mới cho chuyển page
