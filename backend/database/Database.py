@@ -2,7 +2,7 @@ import sqlite3
 import os
 
 class Database:
-    def __init__(self, db_filename="rentalmanagement.sqlite"):
+    def __init__(self, db_filename="rent_house_database.sqlite"):
         # Lấy đường dẫn tuyệt đối đến thư mục hiện tại
         base_dir = os.path.dirname(os.path.abspath(__file__))
         # Ghép đường dẫn đến file .sqlite

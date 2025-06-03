@@ -1,5 +1,8 @@
+import cursor
 
+from QLNHATRO.RentalManagementApplication.backend.database.Database import Database
 
+db = Database()
 
 class LanlordRepository:
 
@@ -117,3 +120,41 @@ class LanlordRepository:
         #TODO: truy Vấn SQL thực thi lệnh và trả về user id
         user_id = 1
         return user_id
+
+    @staticmethod
+    def get_landlord_monthly_income(landlord_id):
+        try:
+            db.connect()
+            query = """
+                    SELECT month, year, TotalIncome
+                    FROM LandlordAnalytics
+                    WHERE LandlordID = ?
+                    ORDER BY year DESC, month DESC
+                        LIMIT 6 \
+                    """
+            cursor = db.execute(query, (landlord_id,))
+            if cursor is None:
+                print("⚠️ Cursor is None, trả về dữ liệu mẫu")
+                return [
+                    {'month': '01/2024', 'total_income': 5_000_000},
+                    {'month': '02/2024', 'total_income': 6_200_000},
+                    {'month': '03/2024', 'total_income': 5_800_000},
+                    {'month': '04/2024', 'total_income': 7_500_000},
+                    {'month': '05/2024', 'total_income': 8_000_000},
+                    {'month': '06/2024', 'total_income': 9_200_000}
+                ]
+
+            result = cursor.fetchall()
+            db.close()
+
+            if not result:
+                print("⚠️ Không có dữ liệu từ database")
+                return []
+
+            return [
+                {'month': f"{str(row[0]).zfill(2)}/{row[1]}", 'total_income': row[2]}
+                for row in result[::-1]
+            ]
+        except Exception as e:
+            print(f"❌ Lỗi get_landlord_monthly_income: {e}")
+            return []

@@ -44,7 +44,7 @@ class MaintenanceRepository:
     def get_database_connection():
         """Lấy kết nối database"""
         try:
-            conn = sqlite3.connect('QLNHATRO/RentalManagementApplication/database/database_rental_management.sqlite')
+            conn = sqlite3.connect('QLNHATRO/RentalManagementApplication/database/scrip_database.sqlite')
             conn.row_factory = sqlite3.Row  # Cho phép truy cập cột bằng tên
             return conn
         except sqlite3.Error as e:

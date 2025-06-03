@@ -3,13 +3,14 @@ from PyQt5.QtCore import Qt
 
 from QLNHATRO.RentalManagementApplication.frontend.Component.DashboardCard import DashboardCard
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+from QLNHATRO.RentalManagementApplication.frontend.views.Chart.IncomeChartWidget import IncomeChartWidget
 
 
 class LandlordHome(QWidget):
-    def __init__(self, main_window=None, id_lanlord=None, information_data=None,chart = None):
+    def __init__(self, main_window=None, id_lanlord=None, information_data=None,monthly_income = None):
         super().__init__()
         self.setStyleSheet(GlobalStyle.global_stylesheet())
-
+        #print("[DEBUG] Khởi tạo LandlordHome")
         if information_data is None:
             information_data = {
                 "total_income": str(0)+" VNĐ",
@@ -25,7 +26,21 @@ class LandlordHome(QWidget):
             print("information data không None")
             self.information_data = information_data
 
-        self.chart = chart
+        if monthly_income is None:
+            # Data sample truyền vào chart
+            self.monthly_income = [
+                {'month': '01/2024', 'total_income': 5_000_000},
+                {'month': '02/2024', 'total_income': 6_200_000},
+                {'month': '03/2024', 'total_income': 5_800_000},
+                {'month': '04/2024', 'total_income': 7_500_000},
+                {'month': '05/2024', 'total_income': 8_000_000},
+                {'month': '06/2024', 'total_income': 9_200_000}
+            ]
+        else:
+            self.monthly_income = monthly_income
+
+
+        #self.chart = chart
         print("[DEBUG] Khởi tạo LandlordHome")
         self.main_window = main_window
         self.id_lanlord = id_lanlord
@@ -41,19 +56,23 @@ class LandlordHome(QWidget):
         title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(title)
 
-        # Placeholder cho biểu đồ (lớn hơn)
-        chart_placeholder = QLabel("🔶 Biểu đồ thu nhập hàng tháng (Hiển thị sau)")
-        chart_placeholder.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        chart_placeholder.setStyleSheet("""
-            background-color: #1F1F1F;
-            color: white;
-            padding: 80px;
-            border-radius: 15px;
-            font-size: 18px;
-        """)
+        # 1. Thay thế placeholder bằng widget biểu đồ
+        if self.monthly_income:
+            chart_widget = IncomeChartWidget(self.monthly_income)
+            main_layout.addWidget(chart_widget)
+        else:
+            chart_placeholder = QLabel("🔶 Biểu đồ thu nhập hàng tháng (Hiển thị sau)")
+            chart_placeholder.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+            chart_placeholder.setStyleSheet("""
+                        background-color: #1F1F1F;
+                        color: white;
+                        padding: 80px;
+                        border-radius: 15px;
+                        font-size: 18px;
+                    """)
 
-        chart_placeholder.setAlignment(Qt.AlignCenter)
-        main_layout.addWidget(chart_placeholder)
+            chart_placeholder.setAlignment(Qt.AlignCenter)
+            main_layout.addWidget(chart_placeholder)
 
         '''
         from QLNHATRO.RentalManagementApplication.backend.Analyst import ChartWidget

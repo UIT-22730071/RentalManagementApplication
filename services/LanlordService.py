@@ -37,9 +37,32 @@ class LanlordService:
             "percent_grow_total_not_tenant": round(percent_grow_total_not_tenant, 2)
         }
 
-        return information_data,chart
+        return information_data
 
     @staticmethod
     def handle_data_infor_page(id_lanlord):
         information_data = LanlordRepository.get_infor_lanlord(id_lanlord)
         return information_data
+
+    '''---------------Analyst-----------------'''
+    @staticmethod
+    def get_dashboard_analyst(self, id_lanlord):
+        """
+        Lấy dữ liệu phân tích bảng điều khiển cho chủ nhà trọ.
+        Query LandlordAnalytics bảng theo landlord_id, lấy 6 tháng gần nhất
+        Tính tổng thu nhập, growth, số phòng cho thuê, v.v.
+        Trả về dict cho view
+        """
+        pass
+    @staticmethod
+    def get_monthly_income(id_lanlord):
+        """
+        Xử lý dữ liệu phân tích cho chủ nhà trọ.
+        Lấy dữ liệu từ LandlordAnalytics, tính toán các chỉ số cần thiết.
+        Trả về dict chứa thông tin phân tích.
+        """
+        data = LanlordRepository.get_landlord_monthly_income(id_lanlord)
+        return data
+
+
+

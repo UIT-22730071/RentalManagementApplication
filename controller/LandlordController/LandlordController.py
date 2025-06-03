@@ -7,7 +7,7 @@ from QLNHATRO.RentalManagementApplication.services.InvoiceService import Invoice
 from QLNHATRO.RentalManagementApplication.services.LanlordService import LanlordService
 from QLNHATRO.RentalManagementApplication.services.RoomService import RoomService
 
-from QLNHATRO.TestErrorUI.MainWindowLogin import MainWindow
+
 
 
 class LandlordController:
@@ -20,9 +20,9 @@ class LandlordController:
 
     @staticmethod
     def go_to_home_page(view, id_lanlord):
-        information_data, chart = LanlordService.handle_data_for_home_page(id_lanlord)
-        print("đây là information",information_data)
-        lanlord_home = LandlordHome(view.main_window, id_lanlord, information_data, chart)
+        information_data = LanlordService.handle_data_for_home_page(id_lanlord)
+        monthly_income = LanlordService.get_monthly_income(id_lanlord)
+        lanlord_home = LandlordHome(view.main_window, id_lanlord, information_data, monthly_income)
         view.set_right_frame(lambda *_: lanlord_home)  # ✅ truyền widget đã tạo
 
     @staticmethod
