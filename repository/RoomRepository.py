@@ -270,3 +270,23 @@ class RoomRepository:
         finally:
             db.close()
         return msg
+
+    @staticmethod
+    def get_room_monthly_stats(room_id):
+        # Dữ liệu mẫu cho minh họa:
+        data = [
+            {"month": "01/2024", "num_electricity": 120, "num_water": 15, "total": 700000},
+            {"month": "02/2024", "num_electricity": 150, "num_water": 17, "total": 730000},
+            {"month": "03/2024", "num_electricity": 130, "num_water": 16, "total": 720000},
+            {"month": "04/2024", "num_electricity": 140, "num_water": 18, "total": 750000},
+            {"month": "05/2024", "num_electricity": 160, "num_water": 20, "total": 800000},
+            {"month": "06/2024", "num_electricity": 170, "num_water": 22, "total": 850000},
+            {"month": "07/2024", "num_electricity": 180, "num_water": 25, "total": 900000},
+            {"month": "08/2024", "num_electricity": 190, "num_water": 27, "total": 950000},
+            {"month": "09/2024", "num_electricity": 200, "num_water": 30, "total": 1000000},
+            {"month": "10/2024", "num_electricity": 210, "num_water": 32, "total": 1050000},
+            {"month": "11/2024", "num_electricity": 220, "num_water": 35, "total": 1100000},
+            {"month": "12/2024", "num_electricity": 230, "num_water": 37, "total": 1150000}
+        ]
+
+        return data

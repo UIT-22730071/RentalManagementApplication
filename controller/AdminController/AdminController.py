@@ -1,15 +1,8 @@
 from PyQt5.QtWidgets import QApplication
-
 from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
 from QLNHATRO.RentalManagementApplication.Repository.UserRepository import UserRepository
-
-
 from QLNHATRO.RentalManagementApplication.frontend.views.Admin.UserManagerView import AdminUserManagement
-
-
 from QLNHATRO.RentalManagementApplication.services.AdminService import AdminService
-
-
 
 class AdminController:
 
@@ -21,7 +14,9 @@ class AdminController:
         from QLNHATRO.RentalManagementApplication.services.AdminService import AdminService
 
         summary_data = AdminService.get_summary_dashboard_data_with_growth()
-        view.set_right_frame(lambda: AdminHome(view.main_window, summary_data))
+        monthly_data = AdminService.get_system_stats_by_month()
+        admin_home = AdminHome(view.main_window, summary_data, monthly_data)
+        view.set_right_frame(lambda *_: admin_home)
 
     @staticmethod
     def go_to_user_management(view):

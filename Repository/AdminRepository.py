@@ -65,3 +65,19 @@ class AdminRepository:
     def count_rooms_by_month(month, year):
         # TODO: Truy vấn SQL để đếm số phòng tạo mới theo tháng
         return 2  # Giả lập
+
+    @staticmethod
+    def get_system_stats_by_month():
+        # Trả về danh sách dict các tháng với số lượng user/room/invoice (có thể lấy từ DB thực tế)
+        return [
+            {"month": "01/2024", "landlord": 2, "tenant": 5, "room": 8, "invoice": 15},
+            {"month": "02/2024", "landlord": 3, "tenant": 6, "room": 10, "invoice": 16},
+            {"month": "03/2024", "landlord": 4, "tenant": 8, "room": 13, "invoice": 20},
+            {"month": "04/2024", "landlord": 4, "tenant": 10, "room": 15, "invoice": 24},
+            {"month": "05/2024", "landlord": 5, "tenant": 11, "room": 18, "invoice": 28},
+            {"month": "06/2024", "landlord": 6, "tenant": 13, "room": 20, "invoice": 32},
+            {"month": "07/2024", "landlord": 7, "tenant": 15, "room": 22, "invoice": 35},
+            {"month": "08/2024", "landlord": 8, "tenant": 17, "room": 25, "invoice": 40},
+            {"month": "09/2024", "landlord": 9, "tenant": 20, "room": 28, "invoice": 45},
+            {"month": "10/2024", "landlord": 10, "tenant": 22, "room": 30, "invoice": 50}
+        ]

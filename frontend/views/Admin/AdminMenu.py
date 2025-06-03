@@ -18,8 +18,6 @@ class AdminMenu(QWidget):
         self.current_page = None
         self.user_id = user_id
 
-
-
         self.main_window.setWindowTitle("Dashboard Admin")
         self.main_window.setObjectName("AdminMainWindow")
         self.main_window.resize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
@@ -104,8 +102,11 @@ class AdminMenu(QWidget):
         from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminHomePage import AdminHome
         from QLNHATRO.RentalManagementApplication.services.AdminService import AdminService
 
-        summary_data = AdminService.get_summary_dashboard_data_with_growth()
-        self.set_right_frame(lambda: AdminHome(self.main_window, summary_data))
+        #summary_data = AdminService.get_summary_dashboard_data_with_growth()
+        #self.set_right_frame(lambda: AdminHome(self.main_window, summary_data))
+        self.set_right_frame(lambda: AdminController.go_to_home(self))
+
+
 
         self.main_layout.addWidget(self.left_frame)
         self.main_layout.addWidget(self.right_frame)
@@ -117,13 +118,13 @@ class AdminMenu(QWidget):
             self.current_page.setParent(None)
 
         try:
-            if callable(PageClass):
+            if callable(PageClass):  # lambda trả về instance
                 self.current_page = PageClass()
             else:
-                self.current_page = PageClass(self.main_window)
+                self.current_page = PageClass(self.main_window, self.id_lanlord)
         except TypeError as e:
-            print(f"[⚠️ Cảnh báo] {PageClass.__name__} không nhận 1 tham số: {e}")
-            self.current_page = PageClass()
+            print(f"[⚠️ Cảnh báo] {PageClass.__name__} không nhận 2 tham số: {e}")
+            self.current_page = PageClass(self.main_window)
 
         self.right_layout.addWidget(self.current_page)
         return self.current_page

@@ -152,3 +152,6 @@ class AdminService:
             })
         return result
 
+    @staticmethod
+    def get_system_stats_by_month():
+        return AdminRepository.get_system_stats_by_month()
