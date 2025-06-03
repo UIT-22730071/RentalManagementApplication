@@ -158,3 +158,35 @@ class LanlordRepository:
         except Exception as e:
             print(f"❌ Lỗi get_landlord_monthly_income: {e}")
             return []
+
+
+    @staticmethod
+    def get_landlord_room_occupancy(landlord_id):
+        """Lấy dữ liệu số phòng đã thuê theo tháng"""
+        data = LanlordRepository.get_landlord_analytics_data(landlord_id)
+        return [
+            {'month': item['month'], 'rented_rooms': item['rented_rooms']}
+            for item in data
+        ]
+
+    @staticmethod
+    def get_landlord_average_price(landlord_id):
+        """Lấy dữ liệu giá thuê trung bình theo tháng"""
+        data = LanlordRepository.get_landlord_analytics_data(landlord_id)
+        return [
+            {'month': item['month'], 'average_price': item['average_price']}
+            for item in data
+        ]
+
+    @staticmethod
+    def get_landlord_growth_rate(landlord_id):
+        """Lấy dữ liệu tỷ lệ tăng trưởng theo tháng"""
+        data = LanlordRepository.get_landlord_analytics_data(landlord_id)
+        return [
+            {'month': item['month'], 'growth_rate': item['growth_rate']}
+            for item in data
+        ]
+
+    @staticmethod
+    def get_landlord_analytics_data(id_landlord):
+        pass

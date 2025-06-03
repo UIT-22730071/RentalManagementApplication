@@ -11,7 +11,7 @@ class TenantController:
 
     @staticmethod
     def go_to_home_page(view, id_tenant):
-        print(f"[DEBUG] Lấy dữ liệu cho tenant id: {id_tenant}")
+        #print(f"[DEBUG] Lấy dữ liệu cho tenant id: {id_tenant}")
 
         try:
             information_data, chart = TenantService.handle_data_for_tenant_home_page(id_tenant)
@@ -24,8 +24,9 @@ class TenantController:
                                     "percent_nuoc": percent_water,
                                     "percent_total": percent_total
                                 '''
-            print("[DEBUG] Dữ liệu nhận được:", information_data)
-            tenant_home = TenantHome(view.main_window, id_tenant, information_data, chart)
+            #print("[DEBUG] Dữ liệu nhận được:", information_data)
+            monthly_data = TenantService.get_tenant_monthly_costs(id_tenant)
+            tenant_home = TenantHome(view.main_window, id_tenant, information_data, monthly_data)
             view.set_right_frame(lambda *_: tenant_home)
         except Exception as e:
             print(f"[ERROR] Không thể lấy dữ liệu: {e}")

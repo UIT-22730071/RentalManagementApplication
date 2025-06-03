@@ -205,3 +205,15 @@ class TenantRepository:
     def get_tenant_id_from_user_name(username):
         tenant_id = 1
         return tenant_id
+
+    @staticmethod
+    def get_tenant_monthly_costs(id_tenant):
+        # Truy vấn hóa đơn hoặc bảng analytics (nếu có)
+        # Dưới đây là data mẫu:
+        data = [
+            {"month": "01/2024", "tien_dien": 200000, "tien_nuoc": 120000, "tong": 700000},
+            {"month": "02/2024", "tien_dien": 240000, "tien_nuoc": 150000, "tong": 800000},
+            {"month": "03/2024", "tien_dien": 180000, "tien_nuoc": 130000, "tong": 650000},
+            {"month": "04/2024", "tien_dien": 260000, "tien_nuoc": 160000, "tong": 870000},
+        ]
+        return data

@@ -79,7 +79,9 @@ class RoomMenuController:
         # xử lý dữ liệu từ service
         data_room_home = RoomService.handle_data_for_room_home(room_id)
         # truyền dữ liệu vào RoomHomes data_home
-        room_menu_instance.set_right_frame(RoomsHome, main_window, room_id,data_room_home)
+        monthly_data = RoomService.get_room_monthly_stats(room_id)
+        room_menu_instance.set_right_frame(RoomsHome, main_window, room_id,data_room_home,monthly_data)
+
 
     def go_to_open_right_frame_ManagerInvoicePage(self, room_menu_instance, main_window, room_id):
         room_data_list = self.get_room_data_list()  # tất cả các phòng

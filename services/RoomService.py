@@ -231,4 +231,6 @@ class RoomService:
         """Lấy danh sách phòng theo id chủ trọ"""
         return RoomRepository.get_list_room_by_id_landlord(id_landlord)
 
-
+    @staticmethod
+    def get_room_monthly_stats(room_id):
+        return RoomRepository.get_room_monthly_stats(room_id)

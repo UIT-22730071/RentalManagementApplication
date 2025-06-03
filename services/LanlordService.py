@@ -64,5 +64,71 @@ class LanlordService:
         data = LanlordRepository.get_landlord_monthly_income(id_lanlord)
         return data
 
+    @staticmethod
+    def get_complete_analytics_data(id_landlord):
+        """
+        Lấy toàn bộ dữ liệu analytics để hiển thị dashboard
+        """
+        try:
+            analytics_data = LanlordRepository.get_landlord_analytics_data(id_landlord)
 
+            if not analytics_data:
+                print("⚠️ Không có dữ liệu analytics")
+                return None
 
+            return {
+                'monthly_income': [{'month': item['month'], 'total_income': item['total_income']} for item in
+                                   analytics_data],
+                'room_occupancy': [{'month': item['month'], 'rented_rooms': item['rented_rooms']} for item in
+                                   analytics_data],
+                'average_price': [{'month': item['month'], 'average_price': item['average_price']} for item in
+                                  analytics_data],
+                'growth_rate': [{'month': item['month'], 'growth_rate': item['growth_rate']} for item in
+                                analytics_data],
+                'raw_data': analytics_data
+            }
+        except Exception as e:
+            print(f"❌ Lỗi get_complete_analytics_data: {e}")
+            return None
+
+    @staticmethod
+    def get_dashboard_summary(id_landlord):
+        """
+        Tính toán các chỉ số tóm tắt cho dashboard
+        """
+        try:
+            analytics_data = LanlordRepository.get_landlord_analytics_data(id_landlord)
+
+            if not analytics_data or len(analytics_data) < 2:
+                return None
+
+            current_month = analytics_data[-1]  # Tháng gần nhất
+            previous_month = analytics_data[-2] if len(analytics_data) > 1 else analytics_data[-1]
+
+            # Tính các chỉ số
+            total_income = current_month['total_income']
+            income_change = ((current_month['total_income'] - previous_month['total_income']) / previous_month[
+                'total_income'] * 100) if previous_month['total_income'] > 0 else 0
+
+            current_rooms = current_month['rented_rooms']
+            room_change = current_rooms - previous_month['rented_rooms']
+
+            avg_price = current_month['average_price']
+            price_change = ((current_month['average_price'] - previous_month['average_price']) / previous_month[
+                'average_price'] * 100) if previous_month['average_price'] > 0 else 0
+
+            current_growth = current_month['growth_rate']
+
+            return {
+                'total_income': total_income,
+                'income_change_percent': round(income_change, 1),
+                'current_rented_rooms': current_rooms,
+                'room_change': room_change,
+                'average_price': avg_price,
+                'price_change_percent': round(price_change, 1),
+                'growth_rate': current_growth,
+                'trend': 'up' if income_change > 0 else 'down' if income_change < 0 else 'stable'
+            }
+        except Exception as e:
+            print(f"❌ Lỗi get_dashboard_summary: {e}")
+            return None

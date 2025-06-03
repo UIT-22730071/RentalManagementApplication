@@ -220,3 +220,9 @@ class TenantService:
         print(f"[DEBUG][Service] room_id của tenant {tenant_id} là {room_id}")
         return room_id
 
+    @staticmethod
+    def get_tenant_monthly_costs(id_tenant):
+        # Call repository to get monthly costs data
+        monthly_costs = TenantRepository.get_tenant_monthly_costs(id_tenant)
+        #print(f"[DEBUG] Monthly costs for tenant {id_tenant}: {monthly_costs}")
+        return monthly_costs

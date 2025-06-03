@@ -3,24 +3,16 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QHBoxLayout, QSizePoli
 from PyQt5.QtCore import Qt
 from QLNHATRO.RentalManagementApplication.frontend.Component.DashboardCard import DashboardCard
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
+from QLNHATRO.RentalManagementApplication.frontend.views.Chart.TenantCostChartWidget import TenantCostChartWidget
 
 
 class TenantHome(QWidget):
-    def __init__(self, main_window=None, id_tenant=None, information_data=None, chart=None):
+    def __init__(self, main_window=None, id_tenant=None, information_data=None, monthly_data=None):
         super().__init__()
         self.setStyleSheet(GlobalStyle.global_stylesheet())
 
         self.main_window = main_window
         self.id_tenant = id_tenant
-        ''' information_data được trả về
-                "tien_dien": data_this_month['tien_dien'],
-                    "tien_nuoc": data_this_month['tien_nuoc'],
-                    "tong_chi_phi": data_this_month['tong_chi_phi'],
-                    "ngay_den_han": data_this_month['ngay_den_han'],
-                    "percent_dien": percent_electric,
-                    "percent_nuoc": percent_water,
-                    "percent_total": percent_total
-                '''
         self.information_data = information_data or {
 
                     "tien_dien":  str(500000)+" VNĐ",
@@ -31,7 +23,14 @@ class TenantHome(QWidget):
                         "percent_nuoc": str(0)+" %",
                         "percent_total": str(0)+" %"
         }
-        self.chart = chart
+        if monthly_data is None:
+            self.monthly_data = [
+                {"month": "Tháng 1", "tien_dien": 500000, "tien_nuoc": 200000, "tong": 700000},
+                {"month": "Tháng 2", "tien_dien": 600000, "tien_nuoc": 250000, "tong": 850000},
+                {"month": "Tháng 3", "tien_dien": 550000, "tien_nuoc": 300000, "tong": 850000},
+            ]
+        else:
+            self.monthly_data=monthly_data
 
         main_layout = QVBoxLayout()
         main_layout.setAlignment(Qt.AlignTop)
@@ -46,19 +45,27 @@ class TenantHome(QWidget):
         title.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(title)
 
-        # Placeholder cho biểu đồ tiền điện tiền nước
-        chart_placeholder = QLabel("🔶 Biểu đồ chi phí điện nước hàng tháng (Hiển thị sau)")
-        chart_placeholder.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        chart_placeholder.setStyleSheet("""
-            background-color: #1F1F1F;
-            color: white;
-            padding: 80px;
-            border-radius: 15px;
-            font-size: 18px;
-        """)
+        # 1. Thay thế placeholder bằng widget biểu đồ
+        if self.monthly_data:
+            chart_widget = TenantCostChartWidget(self.monthly_data)
+            main_layout.addWidget(chart_widget)
+        else:
+            chart_placeholder = QLabel("🔶 Biểu đồ chi phí điện nước hàng tháng (Hiển thị sau)")
+            chart_placeholder.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+            chart_placeholder.setStyleSheet("""
+                        background-color: #1F1F1F;
+                        color: white;
+                        padding: 80px;
+                        border-radius: 15px;
+                        font-size: 18px;
+                    """)
 
-        chart_placeholder.setAlignment(Qt.AlignCenter)
-        main_layout.addWidget(chart_placeholder)
+            chart_placeholder.setAlignment(Qt.AlignCenter)
+            main_layout.addWidget(chart_placeholder)
+
+
+        # Placeholder cho biểu đồ tiền điện tiền nước
+
         '''
         from QLNHATRO.RentalManagementApplication.backend.Analyst import UtilityChartWidget
         # Thay thế Placeholder bằng biểu đồ tiền điện tiền nước thực tế
