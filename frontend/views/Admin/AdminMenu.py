@@ -104,7 +104,7 @@ class AdminMenu(QWidget):
 
         #summary_data = AdminService.get_summary_dashboard_data_with_growth()
         #self.set_right_frame(lambda: AdminHome(self.main_window, summary_data))
-        self.set_right_frame(lambda: AdminController.go_to_home(self))
+        AdminController.go_to_home(self)
 
 
 

@@ -8,7 +8,7 @@ class AdminSystemChartWidget(QWidget):
     def __init__(self, monthly_data, parent=None):
         super().__init__(parent)
         layout = QVBoxLayout(self)
-        self.figure = Figure(figsize=(10, 4), dpi=100)
+        self.figure = Figure(figsize=(14, 6), dpi=100)
         self.canvas = FigureCanvas(self.figure)
         layout.addWidget(self.canvas)
         self.apply_global_style_matplotlib()
