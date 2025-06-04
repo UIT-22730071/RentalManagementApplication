@@ -11,7 +11,7 @@ class Admin:
 
     @staticmethod
     def add_user_to_admin(self, user_id, fullname):
-        conn = sqlite3.connect('rentalmanagement.sqlite')
+        conn = sqlite3.connect('rent_house_database.sqlite')
         cursor = conn.cursor()
         cursor.execute("""INSERT INTO Admins(Fullname, UserID) VALUES(?, ?)""", (fullname, user_id))
         admin_id = cursor.lastrowid
