@@ -34,6 +34,12 @@ class MainWindow(QMainWindow):
 
         self.setCentralWidget(widget)
 
+    def switch_to_view(self, widget):
+        """Chuyển sang một QWidget đã được tạo sẵn"""
+        self.setCentralWidget(widget)
+
+
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

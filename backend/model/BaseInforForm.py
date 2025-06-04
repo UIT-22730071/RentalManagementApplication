@@ -1,3 +1,5 @@
+db = 'rent_house_database.sqlite'
+# tạm thời không dùng đến
 class BaseFormModel:
     def __init__(self):
         self.user_id = ""

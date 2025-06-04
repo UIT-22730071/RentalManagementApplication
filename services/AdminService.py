@@ -2,6 +2,8 @@ from datetime import datetime
 
 from QLNHATRO.RentalManagementApplication.Repository.AdminRepository import AdminRepository
 from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import InvoiceRepository
+from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
+from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
 
 
 class AdminService:
@@ -17,34 +19,35 @@ class AdminService:
     @staticmethod
     def get_all_landlords():
         """Trả về danh sách chủ trọ với thông tin cơ bản và số phòng đang quản lý"""
-        raw_data = AdminRepository.get_all_landlords()
+        landlord_models = LanlordRepository.get_all_landlords()
         result = []
-        for idx, landlord in enumerate(raw_data, 1):
+        for idx, landlord in enumerate(landlord_models, 1):
             result.append({
                 "stt": idx,
-                "name": landlord.get("name", "N/A"),
-                "cccd": landlord.get("cccd", "N/A"),
-                "phone": landlord.get("phone", "N/A"),
-                "email": landlord.get("email", "N/A"),
-                "so_phong": landlord.get("so_phong", 0),
-                "username":landlord.get("username")
+                "name": landlord.fullname,
+                "cccd": landlord.cccd,
+                "phone": landlord.phone_number,
+                "email": landlord.email,
+                "so_phong": landlord.so_phong,
+                "username": landlord.username,
+                "id_landlord": landlord.landlord_id
             })
         return result
 
     @staticmethod
     def get_all_tenants():
         """Trả về danh sách người thuê trọ"""
-        raw_data = AdminRepository.get_all_tenants()
+        tenant_models = TenantRepository.get_all_tenants()
         result = []
-        for idx, tenant in enumerate(raw_data, 1):
+        for idx, tenant in enumerate(tenant_models, 1):
             result.append({
                 "stt": idx,
-                "name": tenant.get("name", "N/A"),
-                "cccd": tenant.get("cccd", "N/A"),
-                "phone": tenant.get("phone", "N/A"),
-                "email": tenant.get("email", "N/A"),
-                "ngay_thue": tenant.get("ngay_thue", "N/A"),
-                "username":tenant.get("username","N/A")
+                "name": tenant.fullname,
+                "cccd": tenant.cccd,
+                "phone": tenant.phone_number,
+                "email": tenant.email,
+                "ngay_thue": tenant.rent_start_date,
+                "username": tenant.username
             })
         return result
 

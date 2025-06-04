@@ -1,6 +1,7 @@
+from QLNHATRO.RentalManagementApplication.backend.database.Database import Database
+from QLNHATRO.RentalManagementApplication.backend.model.Tenant import Tenant
 
-
-
+db = Database()
 class TenantRepository:
 
     @staticmethod
@@ -54,32 +55,35 @@ class TenantRepository:
         }
         return data
 
-
-
-
     @staticmethod
     def get_all_tenants():
-        """Lấy danh sách tất cả các người thuê từ database"""
-        # TODO: Thay thế bằng truy vấn SQL thực tế
-        tenants = [
-            {
-                'id': 'T001',
-                'ho_ten': 'Nguyễn Văn A',
-                'cccd': '012345678901',
-                'sdt': '0901234567',
-                'email': 'nguyenvana@email.com',
-                'so_nguoi': 2
-            },
-            {
-                'id': 'T002',
-                'ho_ten': 'Trần Thị B',
-                'cccd': '098765432109',
-                'sdt': '0909876543',
-                'email': 'tranthib@email.com',
-                'so_nguoi': 1
-            }
-        ]
-        return tenants
+        try:
+            db.connect()
+            query = """
+                    SELECT T.TenantID, \
+                           T.Fullname, \
+                           T.Birth, \
+                           T.CCCD, \
+                           T.Gender, \
+                           T.JobTitle, \
+                           T.MaritalStatus, \
+                           T.Email, \
+                           T.PhoneNumber, \
+                           T.HomeAddress, \
+                           T.RentStartDate, \
+                           T.RentEndDate, \
+                           T.UserID, \
+                           U.Username
+                    FROM Tenants T
+                             LEFT JOIN Users U ON T.UserID = U.UserID \
+                    """
+            cursor = db.execute(query)
+            rows = cursor.fetchall() if cursor else []
+            db.close()
+            return [Tenant(dict(r)) for r in rows]
+        except Exception as e:
+            print(f"❌ Lỗi get_all_tenants: {e}")
+            return []
 
     @staticmethod
     def get_tenant_by_id(tenant_id):

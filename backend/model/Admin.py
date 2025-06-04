@@ -1,6 +1,6 @@
 import sqlite3
-#TODO ?
 
+db = 'rent_house_database.sqlite'
 class Admin:
     Admin = None
 

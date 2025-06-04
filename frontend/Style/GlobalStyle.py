@@ -269,6 +269,14 @@ class GlobalStyle:
             background-color: white;
             border-radius: 5px;
         }}
+        QFrame#InfoCard {{
+        background-color: white;
+        border-radius: 16px;
+        border: 1px solid #ccc;
+        padding: 24px;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
+        }}
+
 
         """
 

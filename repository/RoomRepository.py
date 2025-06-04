@@ -242,15 +242,22 @@ class RoomRepository:
         print(f"✅ Cập nhật người thuê {tenant_id} vào phòng {room_id}")
         return True
     @staticmethod
-    def get_list_room_by_id_landlord(id_lanlord):
+    def get_list_room_by_id_landlord(id_landlord):
         """Cập nhật thông tin phòng"""
-        ds_phong = [
+        db = Database()
+        db.connect()
+        query = """
+        SELECT RoomID, RoomName FROM Rooms WHERE LandlordID = ?
+        """
+        cursor = db.execute(query, (id_landlord,))
+        rooms = cursor.fetchall() if cursor else [
         {"RoomID": 1, "RoomName": "Phòng A1"},
         {"RoomID": 2, "RoomName": "Phòng B2"}
         ]
+        db.close()
 
         ''' trả về 1 danh sách các tên phòng kèm RoomID để hiển thị trên giao diện tìm người'''
-        return ds_phong
+        return rooms
 
     @staticmethod
     def delete_room(room_id):

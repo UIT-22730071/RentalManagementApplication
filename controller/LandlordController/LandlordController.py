@@ -1,14 +1,8 @@
 from PyQt5.QtWidgets import QApplication
-
-
-from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordHome import LandlordHome
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordListInvoices import ListInvoices
 from QLNHATRO.RentalManagementApplication.services.InvoiceService import InvoiceService
 from QLNHATRO.RentalManagementApplication.services.LanlordService import LanlordService
 from QLNHATRO.RentalManagementApplication.services.RoomService import RoomService
-
-
-
 
 class LandlordController:
     def __init__(self):
@@ -22,8 +16,10 @@ class LandlordController:
     def go_to_home_page(view, id_lanlord):
         information_data = LanlordService.handle_data_for_home_page(id_lanlord)
         monthly_income = LanlordService.get_monthly_income(id_lanlord)
+
+        from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordHome import LandlordHome
         lanlord_home = LandlordHome(view.main_window, id_lanlord, information_data, monthly_income)
-        view.set_right_frame(lambda *_: lanlord_home)  # ✅ truyền widget đã tạo
+        view.set_right_frame(lambda *_: lanlord_home)
 
     @staticmethod
     def go_to_info_page(view,id_lanlord):
@@ -76,6 +72,7 @@ class LandlordController:
     @staticmethod
     def go_to_LanlordFindNewTenant(view, id_lanlord):
         from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordFindNewTenant import FindNewTenant
+
         ds_phong = RoomService.get_list_room_by_id_landlord(id_lanlord)
         find_new_tenant_view = FindNewTenant(view.main_window, ds_phong=ds_phong)
         view.set_right_frame(lambda *_: find_new_tenant_view)

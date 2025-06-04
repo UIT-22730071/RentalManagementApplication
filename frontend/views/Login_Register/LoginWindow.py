@@ -119,6 +119,24 @@ class LoginWindow(QMainWindow):
 
         self.animation.start()
 
+    def switch_to_view(self, view):
+        """Chuyển đổi view với animation smooth"""
+        # Xóa view cũ nếu cần
+        while self.stack_widget.count() > 0:
+            widget = self.stack_widget.widget(0)
+            self.stack_widget.removeWidget(widget)
+            widget.deleteLater()
+
+        # Thêm view mới
+        self.stack_widget.addWidget(view)
+        self.stack_widget.setCurrentWidget(view)
+
+        # Focus vào view mới
+        view.setFocus()
+
+
+
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = LoginWindow()

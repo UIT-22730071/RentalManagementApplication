@@ -1,5 +1,4 @@
 from PyQt5.QtCore import pyqtSignal, Qt
-from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import (QVBoxLayout, QWidget, QScrollArea, QFrame,
                              QLabel, QHBoxLayout, QPushButton)
 
@@ -15,7 +14,10 @@ class UpdateInfoView(QWidget):
 
     def __init__(self, role, username, save_callback=None, cancel_callback=None):
         super().__init__()
+        # Trong __init__ (UpdateInfoView)
+        self.setFixedSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
         self.setStyleSheet(GlobalStyle.global_stylesheet())
+
         #self.setFixedSize(800, 700)  # hoặc kích thước bạn muốn
         self.role = role
         self.username = username
@@ -48,14 +50,7 @@ class UpdateInfoView(QWidget):
 
         # Create card
         card = QFrame()
-        '''
-        card.setStyleSheet("""
-            QFrame {
-                background-color: #FFFFFF;
-                border-radius: 12px;
-            }
-        """)
-        '''
+        card.setObjectName("InfoCard")  # áp dụng style riêng
         card_layout = QVBoxLayout(card)
         card_layout.setContentsMargins(20, 20, 20, 20)
         card_layout.setSpacing(20)
@@ -139,12 +134,6 @@ class UpdateInfoView(QWidget):
         # Save button
         self.btn_save.clicked.connect(self.handle_save_clicked)
 
-
-
-
-        #self.btn_save.clicked.connect(lambda: self.save_clicked.emit())
-
-        # Cancel button
         self.btn_cancel = QPushButton("❌ Hủy")
         #self.btn_cancel.setFont(QFont("Arial", 12, QFont.Weight.Bold))
         '''

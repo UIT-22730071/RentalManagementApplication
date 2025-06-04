@@ -1,23 +1,37 @@
 import sqlite3
+import os
 
-# Path to your SQLite database file
-db_path = 'database_rental_management.db'
+# ✅ Đường dẫn tuyệt đối đến file CSDL
+db_path = r"H:\My Drive\01.UIT\HK7\03.DOAN\QLNHATRO\RentalManagementApplication\backend\database\rent_house_database.sqlite"
 
-# Schema file containing your SQL commands
-schema_file = 'database_rental_management.sql'
+def test_database_connection():
+    if not os.path.exists(db_path):
+        print(f"❌ Database file không tồn tại: {db_path}")
+        return
 
-# Connect to the SQLite database (creates the file if it doesn't exist)
-conn = sqlite3.connect(db_path)
+    try:
+        conn = sqlite3.connect(db_path)
+        conn.row_factory = sqlite3.Row  # Cho phép truy cập theo tên cột
+        cursor = conn.cursor()
 
-try:
-    # Read the schema from the file
-    with open(schema_file, 'r', encoding='utf-8') as file:
-        schema = file.read()
+        print(f"✅ Đã kết nối tới: {db_path}")
 
-    # Execute the schema
-    conn.executescript(schema)
-    print("Database initialized successfully.")
-except Exception as e:
-    print(f"Error initializing database: {e}")
-finally:
-    conn.close()
+        # Lấy danh sách bảng
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
+        tables = cursor.fetchall()
+
+        if not tables:
+            print("⚠️ CSDL chưa có bảng nào.")
+        else:
+            print("📋 Danh sách bảng có trong CSDL:")
+            for t in tables:
+                print("   -", t["name"])
+
+        conn.close()
+        print("🔒 Kết nối đã đóng.")
+    except sqlite3.Error as e:
+        print(f"❌ Lỗi kết nối hoặc truy vấn CSDL: {e}")
+
+# Gọi hàm test
+if __name__ == "__main__":
+    test_database_connection()

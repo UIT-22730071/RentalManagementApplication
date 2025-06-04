@@ -1,16 +1,20 @@
+from QLNHATRO.RentalManagementApplication.backend.database.Database import Database
 from QLNHATRO.RentalManagementApplication.backend.model.Advertisement import Advertisement
 
 
 class AdvertisementRepository:
     @staticmethod
-    def save_advertisement(ad: Advertisement,RoomID):
-        # TODO: Replace with actual SQL insert
-
-        print("[DEBUG] Lưu quảng cáo vào DB:")
-        print("Phòng:", ad.room_name)
-        print("Mô tả:", ad.description)
-        print("Hình ảnh:", ad.image_path)
-        print("Ưu tiên:", ad.preferences)
+    def save_advertisement(ad: Advertisement, room_id):
+        db = Database()
+        db.connect()
+        query = """
+                INSERT INTO Advertisements (RoomID, Description, Priority, ImagePath, CreatedAt)
+                VALUES (?, ?, ?, ?, ?) \
+                """
+        params = (room_id, ad.description, ad.priority, ad.image_path, ad.created_at)
+        result = db.execute(query, params)
+        db.close()
+        return result is not None
 
         # Ví dụ: dùng SQLAlchemy / sqlite3 để lưu vào bảng Advertisements
     @staticmethod
@@ -21,7 +25,26 @@ class AdvertisementRepository:
 
     @staticmethod
     def get_all_advertised_rooms():
-        data = [
+        db = Database()
+        db.connect()
+        query = "SELECT * FROM Advertisements"
+        cursor = db.execute(query)
+        ads = []
+        if cursor:
+            rows = db.fetchall()
+            for row in rows:
+                ad_data = {
+                    'ad_id': row['AdID'],
+                    'RoomID': row['RoomID'],
+                    'description': row['Description'],
+                    'priority': row['Priority'],
+                    'image_path': row['ImagePath'],
+                    'created_at': row['CreatedAt']
+                }
+                ads.append(Advertisement(ad_data))
+        db.close()
+        if ads is None:
+            ads = [
             {
                 "id": 1,
                 "room_name": "Phòng 101",
@@ -47,5 +70,6 @@ class AdvertisementRepository:
                 "preferences": []
             }
         ]
-        return data
+        return ads
+
 

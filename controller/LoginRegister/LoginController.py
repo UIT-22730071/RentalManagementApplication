@@ -22,20 +22,15 @@ class LoginController:
 
     @staticmethod
     def on_click_btn_login_test_new(main_window, username, password):
-        #print("[LoginController] Bắt đầu xử lý đăng nhập...")
+        user = LoginRepository.get_user(username)
 
-        if LoginService.check_login(username, password):  # user tồn tại trong DB
-            user = LoginRepository.get_user(username)
-            role = user['role']
-            user_id = user['user_id']
-
-            #print(f"[LoginController] Login thành công - Role: {role}, User ID: {user_id}")
+        if user and user.password == password:  # kiểm tra đúng mật khẩu
+            role = user.role
+            user_id = user.user_id
 
             if role == 'landlord':
                 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordMenu import LandlordMenu
-                #print("đã import")
                 main_window.switch_to_page(LandlordMenu, user_id)
-                #print("[LoginController] Đã chuyển sang giao diện LandlordMenu")
 
             elif role == 'tenant':
                 from QLNHATRO.RentalManagementApplication.frontend.views.Tenant.TenantMenu import TenantMenu
@@ -43,8 +38,8 @@ class LoginController:
 
             elif role == 'admin':
                 from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminMenu import AdminMenu
-                main_window.switch_to_page(AdminMenu,user_id)
-                print("[LoginController] Tạm thời chưa có giao diện Admin")
+                main_window.switch_to_page(AdminMenu, user_id)
+                print("[LoginController] Đã mở giao diện Admin")
 
             else:
                 print("[LoginController] Vai trò không hợp lệ")

@@ -176,39 +176,12 @@ class LoginWindow(QWidget):
         signup_btn.setFixedHeight(45)
         signup_btn.setStyleSheet("background-color: #233FF3; color: white; font-weight: bold; border-radius: 20px;")
 
-        username = username_input.text().strip()
-        password = password_input.text()
-        confirm_password = confirm_password_input.text()
-        selected_role = self.get_selected_role()
-
-        # if not username or not password or not confirm_password or not selected_role:
-        #     msg_box = QMessageBox()
-        #     msg_box.setIcon(QMessageBox.Icon.Warning)
-        #     msg_box.setText("Vui lòng điền đầy đủ các trường thông tin.")
-        #     msg_box.setWindowTitle("Lỗi Đăng Ký")
-        #     msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
-        #     msg_box.exec()
-        #     print("Lỗi: Vui lòng điền đầy đủ thông tin.") # Thay thế bằng QMessageBox
-        #     return
-        #
-        # if password != confirm_password:
-        #     msg_box = QMessageBox()
-        #     msg_box.setIcon(QMessageBox.Icon.Warning)
-        #     msg_box.setText("Mật khẩu và xác nhận mật khẩu không khớp.")
-        #     msg_box.setWindowTitle("Lỗi Đăng Ký")
-        #     msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
-        #     msg_box.exec()
-        #     print("Lỗi: Mật khẩu và xác nhận mật khẩu không khớp.")  # Thay thế bằng QMessageBox
-        #     return
-        #
-        # if selected_role is None:
-        #     print("Lỗi: Vui lòng chọn vai trò.")  # Thay thế bằng QMessageBox
-        #     return
 
         signup_btn.clicked.connect(lambda: RegisterController.register_user(
             username_input.text().strip(),
-            password_input.text(),
-            selected_role,
+            password_input.text().strip(),
+            confirm_password_input.text().strip(),
+            self.get_selected_role(),
             self.main_window
         ))
 
@@ -267,9 +240,9 @@ class LoginWindow(QWidget):
 
     def get_selected_role(self):
         if self.role_selection.isChecked():
-            return "Landlord"
+            return "landlord"
         elif self.tenant_selection.isChecked():
-            return "Tenant"
+            return "tenant"
         return None
 
 

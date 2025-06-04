@@ -1,5 +1,7 @@
 import re
 
+from sympy.printing.octave import print_octave_code
+
 
 class Validators:
     """
@@ -263,3 +265,19 @@ class Validators:
             return False
 
         return True
+
+    @staticmethod
+    def check_password_confirmpassword(password, confirm_password):
+        """
+        Checks if password and confirm password match
+
+        Args:
+            password (str): Password input
+            confirm_password (str): Confirm password input
+
+        Returns:
+            bool: True if they match, False otherwise
+        """
+        print("password:", password)
+        print("confirm_password:", confirm_password)
+        return password == confirm_password if password and confirm_password else False

@@ -13,24 +13,7 @@ class AdminLandlordList(QWidget):
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
         self._opened_windows = []
-        self.landlord_list = landlord_list or [
-            {
-                "stt": 1,
-                "name": "Nguyễn Văn A",
-                "cccd": "123456789012",
-                "phone": "0901234567",
-                "email": "nguyenvana@example.com",
-                "so_phong": 5
-            },
-            {
-                "stt": 2,
-                "name": "Trần Thị B",
-                "cccd": "987654321098",
-                "phone": "0912345678",
-                "email": "tranthib@example.com",
-                "so_phong": 3
-            }
-        ]
+        self.landlord_list = landlord_list
 
 
 
@@ -79,8 +62,8 @@ class AdminLandlordList(QWidget):
         try:
             landlord = self.landlord_list[row]
             username = landlord['username']
-            id_landlord = LanlordRepository.get_id_landlord_from_user_id(username)
-
+            id_landlord = landlord['id_landlord']
+            print("đã check show detail của chủ trọ:", landlord['name'], "với id:", id_landlord)
             # Mở Dashboard của chủ trọ trong cửa sổ mới
             from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.MainWindowLandlord import \
                 MainWindowLandlord

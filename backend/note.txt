@@ -29,3 +29,6 @@ class AdminRepository:
 Đồng bộ UI toàn bộ App
 Dùng figma vẽ lại
 Lập bảng màu
+
+Chucws năng tạo phòng trọ-
+   - Thêm các chi phí khác vào để thiết lập ban đầu cho phép Null

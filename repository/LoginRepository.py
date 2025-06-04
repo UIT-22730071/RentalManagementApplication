@@ -1,27 +1,14 @@
+from QLNHATRO.RentalManagementApplication.Repository.UserRepository import UserRepository
+from QLNHATRO.RentalManagementApplication.backend.database.Database import Database
 
+
+db = Database()
 class LoginRepository:
 
 
     @staticmethod
     def get_user(username):
-        # TODO: Thay thế bằng truy ván SQL thực tế lấy đối tượng user
-        print("getuser được gọi")
-        # giả lập truy vấn cho ra kết quả
-
-        user_landlord = {'username': 'lanlord', 'password':'lanlord' ,'role': 'landlord','user_id': 1}
-        user_tenant = {'username': 'tenant', 'password':'tenant' ,'role': 'tenant','user_id': 2}
-        admin_user = {'username': 'admin', 'password':'admin' ,'role': 'admin','user_id': 3}
-        #print(" dã lấy được truy vấn" + user_landlord['username'] + user_landlord['password'] + user_landlord['role'])
-
-        if username == 'lanlord':
-            return user_landlord
-        elif username == 'tenant':
-            return user_tenant
-        elif username =='admin':
-            return admin_user
-        else:
-            return None
-
+        return UserRepository.get_user_by_username(username)
 
     @staticmethod
     def get_role_from_username(username):
