@@ -32,7 +32,7 @@ class LandlordController:
     @staticmethod
     def go_to_room_list(view, id_lanlord):
         room_list = RoomService.handle_data_for_room_list_page(id_lanlord)
-        print("đây là room list",room_list)
+        #print("đây là room list",room_list)
         from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.RoomList import RoomList
         room_list_view = RoomList(view.main_window, room_list, id_lanlord)
         view.set_right_frame(lambda *_: room_list_view)

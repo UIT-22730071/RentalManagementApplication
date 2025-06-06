@@ -1,26 +1,94 @@
-from datetime import datetime
+from datetime import datetime, date
 
 from QLNHATRO.RentalManagementApplication.Repository.RoomRepository import RoomRepository
+from QLNHATRO.RentalManagementApplication.backend.database.Database import Database
 
-
-# Thực hiên CRUD
+db = Database()
 
 class InvoiceRepository:
 
     @staticmethod
-    def save_invoice(invoice_data):
-        """Lưu hóa đơn vào database"""
-        # TODO: Thay thế bằng truy vấn SQL INSERT
-        print(f"✅ Đã lưu hóa đơn: {invoice_data['invoice_id']}")
+    def save_invoice(invoice_data: dict) -> bool | None:
+        """
+        Lưu hóa đơn vào database.
+        invoice_data là dict chứa ít nhất các khóa:
+          - room_id          : int hoặc str
+          - tenant_id        : int hoặc str
+          - landlord_id      : int hoặc str
+          - issue_date       : str (định dạng 'YYYY-MM-DD'), nếu không có, sẽ lấy ngày hiện tại
+          - curr_electric    : int
+          - curr_water       : int
+          - pre_electric     : int
+          - pre_water        : int
+          - total_electronic_cost : float
+          - total_water_cost      : float
+          - total_room_price      : float
+          - internet_fee          : float
+          - total_garbage_fee     : float
+          - total_another_fee     : float
+          - discount              : float
+          - status                : str (mặc định 'Chưa thanh toán')
+        """
+        if not db.connect():
+            print(f"[LỖI] Không thể kết nối đến cơ sở dữ liệu để lưu hóa đơn.")
+            return False
 
-        # Cập nhật chỉ số điện nước mới cho phòng
-        RoomRepository.update_room_metrics(
-            invoice_data['room']['id'],
-            invoice_data['chi_so_dien_moi'],
-            invoice_data['chi_so_nuoc_moi']
-        )
+        # Nếu người dùng không truyền 'issue_date', ta tự gán ngày hiện tại
+        issue_date = invoice_data.get('issue_date') or date.today().isoformat()
 
-        return True
+
+        try:
+            query = """
+                    INSERT INTO Invoices (RoomID, TenantID, LandlordID, issue_date, \
+                                          CurrElectric, CurrWater, PreElectric, PreWater, \
+                                          TotalElectronicCost, TotalWaterCost, TotalRoomPrice, \
+                                          InternetFee, TotalGarbageFee, TotalAnotherFee, \
+                                          Discount, Status) \
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) \
+                    """
+            params = (
+                invoice_data['room_id'],
+                invoice_data['tenant_id'],
+                invoice_data['landlord_id'],
+                issue_date,
+                invoice_data['curr_electric'],
+                invoice_data['curr_water'],
+                invoice_data['pre_electric'],
+                invoice_data['pre_water'],
+                invoice_data['total_electronic_cost'],
+                invoice_data['total_water_cost'],
+                invoice_data['total_room_price'],
+                invoice_data['internet_fee'],
+                invoice_data['total_garbage_fee'],
+                invoice_data['total_another_fee'],
+                invoice_data.get('discount', 0.0),
+                invoice_data.get('status', 'Chưa thanh toán')
+            )
+            cursor = db.execute(query, params)
+            if not cursor:
+                print(f"[LỖI] Không thể chèn hóa đơn vào DB.")
+                return False
+
+            # Lấy ID của hóa đơn vừa tạo (nếu cần)
+            new_invoice_id = cursor.lastrowid
+            print(f"✅ Đã lưu hóa đơn mới với ID = {new_invoice_id}")
+
+            # Bước kế: cập nhật chỉ số điện – nước mới cho phòng tương ứng
+            success_update = RoomRepository.update_room_metrics(
+                invoice_data['room_id'],
+                invoice_data['curr_electric'],
+                invoice_data['curr_water']
+            )
+            if not success_update:
+                print(f"[CẢNH BÁO] Lưu hóa đơn thành công nhưng không cập nhật được chỉ số phòng.")
+                # Tùy vào yêu cầu, có thể rollback hoặc không. Ở đây, chúng ta chỉ thông báo.
+
+            return True
+        except Exception as e:
+            print(f"[LỖI] Lỗi khi lưu hóa đơn: {e}")
+            return False
+        finally:
+            db.close()
 
 
     @staticmethod

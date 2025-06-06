@@ -4,6 +4,9 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt
 
+from QLNHATRO.RentalManagementApplication.frontend.Component.ConfirmDialog import ConfirmDialog
+from QLNHATRO.RentalManagementApplication.frontend.Component.ErrorDialog import ErrorDialog
+from QLNHATRO.RentalManagementApplication.frontend.Component.SuccessDialog import SuccessDialog
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.services.RoomService import RoomService
 
@@ -79,7 +82,7 @@ class RoomUpdateTenantPage(QWidget):
         cccd_layout.addWidget(self.cccd_input)
         cccd_layout.addWidget(self.find_tenant_btn)
 
-        # ✅ Căn trái toàn bộ dòng CCCD
+        # Căn trái toàn bộ dòng CCCD
         cccd_layout.setAlignment(Qt.AlignLeft)
 
         layout.addLayout(cccd_layout)
@@ -138,4 +141,7 @@ class RoomUpdateTenantPage(QWidget):
         confirm = QMessageBox.question(self, "Xác nhận", "Bạn chắc chắn muốn cập nhật người thuê vào phòng?")
         if confirm == QMessageBox.Yes & call_update==True:
             self.update_tenant_callback(self.selected_room['id'], self.found_tenant['id'])
-            QMessageBox.information(self, "Thành công", "Đã cập nhật người thuê vào phòng thành công.")
+            SuccessDialog.show_success("Đã cập nhật người thuê vào phòng thành công!", self)
+            #QMessageBox.information(self, "Thành công", "Đã cập nhật người thuê vào phòng thành công.")
+        else:
+            ErrorDialog.show_error("Cập nhật người thuê vào phòng thất bại!", self)

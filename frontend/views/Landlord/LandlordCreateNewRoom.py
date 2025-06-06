@@ -177,6 +177,15 @@ class CreateNewRoom(QWidget):
         price_water_label.setObjectName("keyLabel")
         self.input_price_water, price_water_container = create_input_with_unit("VNĐ/m³", "Nhập giá nước",
                                                                                number_validator)
+        # Giả sử giá Internet là tùy chọn, không bắt buộc
+        price_internet_label = QLabel("Giá Internet:")
+        price_internet_label.setObjectName("keyLabel")
+        self.input_price_internet, price_internet_container = create_input_with_unit("VNĐ/tháng", "Nhập giá Internet", number_validator)
+
+        # Giá rác
+        price_garbage_label = QLabel("Giá rác:")
+        price_garbage_label.setObjectName("keyLabel")
+        self.input_price_garbage, price_garbage_container = create_input_with_unit("VNĐ/tháng", "Nhập giá rác", number_validator)
 
         # Thêm vào layout
         price_info_layout.addWidget(area_label, 0, 0)
@@ -188,6 +197,12 @@ class CreateNewRoom(QWidget):
         price_info_layout.addWidget(price_electric_container, 1, 1)
         price_info_layout.addWidget(price_water_label, 1, 2)
         price_info_layout.addWidget(price_water_container, 1, 3)
+
+        # Thêm dòng mới vào layout hiển thị giá Internet và giá rác
+        price_info_layout.addWidget(price_internet_label, 2, 0)
+        price_info_layout.addWidget(price_internet_container, 2, 1)
+        price_info_layout.addWidget(price_garbage_label, 2, 2)
+        price_info_layout.addWidget(price_garbage_container, 2, 3)
 
         scroll_layout.addWidget(price_info_box)
 

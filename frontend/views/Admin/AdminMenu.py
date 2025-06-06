@@ -13,7 +13,6 @@ class AdminMenu(QWidget):
         super().__init__()
 
         self.setStyleSheet(GlobalStyle.global_stylesheet())
-
         self.main_window = main_window
         self.current_page = None
         self.user_id = user_id
@@ -23,14 +22,7 @@ class AdminMenu(QWidget):
         self.main_window.resize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
         self.main_window.setMinimumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
         self.main_window.setMaximumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
-        '''
-        self.main_window.setStyleSheet(GlobalStyle.global_stylesheet() + """
-            QMainWindow {
-                background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #8E2DE2, stop:1 #4A00E0);
-                border-radius: 15px;
-            }
-        """)
-        '''
+
         self.main_layout = QHBoxLayout()
 
         # ------------ LEFT MENU FRAME ------------

@@ -8,7 +8,7 @@ from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminMenu import 
 class MainWindowAdmin(QMainWindow):
     def __init__(self, user_id):
         super().__init__()
-        #self.setStyleSheet(GlobalStyle.global_stylesheet())
+
         self.user_id = user_id
         self.setWindowTitle("Quản Lý Nhà Trọ - Admin Dashboard")
         self.setGeometry(300, 100, 1000, 600)
@@ -36,6 +36,6 @@ class MainWindowAdmin(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = MainWindowAdmin(user_id=0)  # Giả lập user_id
+    window = MainWindowAdmin(user_id=1)  # Giả lập user_id
     window.show()
     sys.exit(app.exec_())

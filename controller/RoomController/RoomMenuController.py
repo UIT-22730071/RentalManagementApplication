@@ -14,16 +14,19 @@ class RoomMenuController:
         self.tenant_service = TenantService()
         self.invoice_service = InvoiceService()
 
-
-    #TODO : Call hàm lấy thông tin phòng từ id_room ==> Dictionary
     def get_room_data_list(self):
         """Lấy danh sách thông tin phòng"""
-        return self.room_service.get_all_rooms()
+        rooms = self.room_service.get_all_rooms()
+        if not rooms:
+            print("[⚠️ RoomMenuController] Danh sách phòng trống, đang dùng dữ liệu mẫu.")
+        return rooms
 
-    # TODO : Call hàm lấy thông tin người thuê từ CCCD ==> Dictionary
+
     def find_tenant_by_cccd(self, cccd):
         """Tìm người thuê theo CCCD"""
         return self.tenant_service.get_tenant_by_cccd(cccd)
+
+
     def update_tenant_for_room(self, room_id, tenant_id):
         """Cập nhật người thuê cho phòng"""
         return self.room_service.update_room_tenant(room_id, tenant_id)

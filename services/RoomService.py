@@ -1,14 +1,44 @@
 from QLNHATRO.RentalManagementApplication.Repository.RoomRepository import RoomRepository
-from QLNHATRO.RentalManagementApplication.backend.database.Database import Database
+from QLNHATRO.RentalManagementApplication.frontend.Component.ErrorDialog import ErrorDialog
+from QLNHATRO.RentalManagementApplication.frontend.Component.SuccessDialog import SuccessDialog
 
 
 class RoomService:
 
     @staticmethod
     def get_all_rooms():
-        """Lấy danh sách phòng có xử lý logic nếu cần"""
+        """
+        Lấy danh sách phòng (dành cho Admin), đồng thời bổ sung trường 'STT'.
+        Trả về list[dict] với các key:
+          - STT
+          - room_id
+          - room_name
+          - room_style
+          - landlord_name
+          - tenant_name
+          - address
+        """
+        raw_rooms = RoomRepository.get_all_rooms()
+        if not raw_rooms:
+            print("[RoomService] Không có dữ liệu phòng từ DB, trả về danh sách rỗng.")
+            return []
 
-        return RoomRepository.get_all_rooms()
+        # Thêm trường STT (số thứ tự) cho mỗi phòng
+        result = []
+        for idx, room in enumerate(raw_rooms, start=1):
+            # Tạo một dict mới, giữ nguyên các key gốc và thêm 'STT'
+            room_with_stt = {
+                "STT": idx,
+                "room_id": room.get("room_id", ""),
+                "room_name": room.get("room_name", ""),
+                "room_style": room.get("room_style", ""),
+                "landlord_name": room.get("landlord_name", ""),
+                "tenant_name": room.get("tenant_name") or "",  # nếu None thì để chuỗi rỗng
+                "address": room.get("address", "")
+            }
+            result.append(room_with_stt)
+
+        return result
 
     @staticmethod
     def get_room_by_id(room_id):
@@ -215,15 +245,14 @@ class RoomService:
 
     @staticmethod
     def get_data_send_to_update_tenant_rent_room(room_id, tenant_id):
-        # goi reposolity ddeer upate
-        # Đúng ra thì cái return phải trả về true_ false để còn truy ngược về hiển thị cập nhật ok
-        # cập nhật cái id_tenant vào id_room là
         is_update = RoomRepository.update_room_tenant(room_id, tenant_id)
-        if is_update == True:
-            print("cap nhat thanh cong")
+        if is_update:
+            SuccessDialog.show_success("Cập nhật người thuê thành công!", '')
+            #print("[RoomService] Cập nhật thành công.")
             return True
         else:
-            print("cap nhat khong thanh cong")
+            ErrorDialog.show_error("Cập nhật người thuê không thành công!", '')
+            #print("[RoomService] Cập nhật không thành công.")
             return False
 
     @staticmethod

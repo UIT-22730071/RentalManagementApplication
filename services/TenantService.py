@@ -9,25 +9,36 @@ from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import Ten
 
 
 class TenantService:
-    @staticmethod
-    def get_tenant_by_cccd(cccd):
-        """Tìm người thuê theo CCCD"""
-        tenant =  TenantRepository.get_tenant_by_cccd(cccd)
-        for tenant in TenantRepository.get_all_tenants():
-            if tenant['cccd'] == cccd:
-                data_tenant_show = {
-                    'name_tenant': tenant['name'],
-                    'cccd': tenant['cccd'],
-                    'phone': tenant['sdt'],
-                    'email': tenant['email'],
-                }
-                return data_tenant_show
-        return None
 
     @staticmethod
-    def get_tenant_by_room_id(room_id):
-        """Lấy thông tin người thuê theo id phòng"""
-        return TenantRepository.get_tenant_by_room_id(room_id)
+    def get_tenant_by_room_id(room_id: int):
+        """Lấy tenant theo RoomID và trả về dict đơn giản cho UI"""
+        tenant_obj = TenantRepository.get_tenant_by_room_id(room_id)
+        if tenant_obj is None:
+            print(f"[⚠️ TenantService] Không có tenant gắn với RoomID: {room_id}")
+            return None
+
+        return {
+            'name_tenant': tenant_obj.fullname,
+            'cccd': tenant_obj.cccd,
+            'phone': tenant_obj.phone_number,
+            'email': tenant_obj.email
+        }
+
+    @staticmethod
+    def get_tenant_by_cccd(cccd: str):
+        """Trả về dict đơn giản (dùng cho hiển thị UI) từ đối tượng Tenant"""
+        tenant_obj = TenantRepository.get_tenant_by_cccd(cccd)
+        if tenant_obj is None:
+            print(f"[⚠️ TenantService] Không có tenant với CCCD: {cccd}.")
+            return None
+
+        return {
+            'name_tenant': tenant_obj.fullname,
+            'cccd': tenant_obj.cccd,
+            'phone': tenant_obj.phone_number,
+            'email': tenant_obj.email
+        }
 
     @staticmethod
     def handle_data_for_tenant_home_page(id_tenant):

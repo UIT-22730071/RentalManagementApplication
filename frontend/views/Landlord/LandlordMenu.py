@@ -1,17 +1,13 @@
-
-
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QLabel
-
 from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
-from QLNHATRO.RentalManagementApplication.controller.AdminController.AdminController import AdminController
 from QLNHATRO.RentalManagementApplication.controller.LandlordController.LandlordController import LandlordController
 from QLNHATRO.RentalManagementApplication.controller.MaintenanceController.MaintenanceController import \
     MaintenanceController
 from QLNHATRO.RentalManagementApplication.frontend.Component.ButtonUI import ButtonUI
 from QLNHATRO.RentalManagementApplication.frontend.Style.GlobalStyle import GlobalStyle
 from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordCreateNewRoom import CreateNewRoom
-from QLNHATRO.RentalManagementApplication.frontend.views.Landlord.LandlordFindNewTenant import FindNewTenant
+
 
 
 
@@ -31,12 +27,7 @@ class LandlordMenu(QWidget):
         self.main_window.setMinimumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
         self.main_window.setMaximumSize(GlobalStyle.WINDOW_WIDTH, GlobalStyle.WINDOW_HEIGHT)
 
-        #self.main_window.setStyleSheet("""
-            #background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 #FF6B6B, stop:1 #FFA07A);
-           # border-radius: 15px;
-        #""")
         self.main_layout = QHBoxLayout()
-       #self.main_layout.setContentsMargins(0, 0, 0, 0)
 
         # ------------ LEFT MENU FRAME ------------
         self.left_frame = QWidget()
@@ -52,9 +43,6 @@ class LandlordMenu(QWidget):
         # Label chào mừng
         self.label_landlord = QLabel("👋 Chào mừng đến với DASHBOARD Chủ trọ: Nguyễn Văn A")
         self.label_landlord.setObjectName("Title")
-
-        #self.label_landlord.setStyleSheet("color: white; font-weight: bold; padding: 10px;")
-        #left_layout.addWidget(self.label_landlord)
 
         # Tạo nút và áp dụng style
         button_ui = ButtonUI.landlord_dashboard_button()

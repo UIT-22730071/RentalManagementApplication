@@ -3,6 +3,7 @@ from datetime import datetime
 from QLNHATRO.RentalManagementApplication.Repository.AdminRepository import AdminRepository
 from QLNHATRO.RentalManagementApplication.Repository.InvoiceRepository import InvoiceRepository
 from QLNHATRO.RentalManagementApplication.Repository.LandlordRepository import LanlordRepository
+from QLNHATRO.RentalManagementApplication.Repository.RoomRepository import RoomRepository
 from QLNHATRO.RentalManagementApplication.Repository.TenantRepository import TenantRepository
 
 
@@ -54,7 +55,7 @@ class AdminService:
     @staticmethod
     def get_all_rooms():
         """Trả về danh sách phòng trọ"""
-        raw_data = AdminRepository.get_all_rooms()
+        raw_data = RoomRepository.get_all_rooms()
         result = []
         for idx, room in enumerate(raw_data, 1):
             result.append({

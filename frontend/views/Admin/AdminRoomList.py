@@ -11,26 +11,7 @@ class AdminRoomList(QWidget):
         super().__init__()
         self.setStyleSheet(GlobalStyle.global_stylesheet())
         self.main_window = main_window
-        self.room_list = room_list or [
-            {
-                "stt": 1,
-                "room_name": "Phòng A1",
-                "room_type": "Phòng trọ",
-                "landlord": "Nguyễn Văn A",
-                "address": "123 Đường ABC, Quận 1",
-                "status": "Trống",
-                'room_id': "P101"
-            },
-            {
-                "stt": 2,
-                "room_name": "Phòng B2",
-                "room_type": "Chung cư",
-                "landlord": "Trần Thị B",
-                "address": "456 Đường XYZ, Quận 3",
-                "status": "Đã thuê",
-                'room_id': "P102"
-            }
-        ]
+        self.room_list = room_list
 
 
         main_layout = QVBoxLayout()
@@ -54,15 +35,19 @@ class AdminRoomList(QWidget):
             }
         """)
         '''
-        headers = ["STT", "Tên phòng", "Loại phòng", "Chủ trọ", "Địa chỉ", "Trạng thái", "Xem chi tiết"]
+        # File: AdminRoomList.py (đoạn quan trọng)
+        headers = ["STT", "Tên phòng", "Loại phòng", "Chủ trọ", "Người thuê", "Địa chỉ", "Xem chi tiết"]
         header_to_key = {
-            "STT": "stt",
+            "STT": "STT",  # sẽ đính số thứ tự ở view
             "Tên phòng": "room_name",
-            "Loại phòng": "room_type",
-            "Chủ trọ": "landlord",
-            "Địa chỉ": "address",
-            "Trạng thái": "status"
+            "Loại phòng": "room_style",
+            "Chủ trọ": "landlord_name",
+            "Người thuê": "tenant_name",
+            "Địa chỉ": "address"
         }
+
+        # Khi populate, tableUI sẽ đọc đúng các key bên trên.
+        # Đối với khóa "Xem chi tiết", button_callback sẽ dùng key "room_id" để mở chi tiết.
 
         self.table = TableUI(headers)
         self.table.populate(self.room_list, has_button=True, button_callback=self.show_detail, header_to_key=header_to_key)

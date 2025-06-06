@@ -29,27 +29,7 @@ class AdminRepository:
              "ngay_thue": "15/03/2024","username":"tenant"}
         ]
 
-    @staticmethod
-    def get_all_rooms():
-        # TODO: Tạo SQL truy xuất Database
-        return [
-            {
-                "room_name": "Phòng A1",
-                "room_type": "Phòng trọ",
-                "landlord_name": "Nguyễn Văn A",
-                "address": "123 Đường ABC, Quận 1",
-                "status": "Trống",
-                'room_id':"P101"
-            },
-            {
-                "room_name": "Phòng B2",
-                "room_type": "Chung cư",
-                "landlord_name": "Trần Thị B",
-                "address": "456 Đường XYZ, Quận 3",
-                "status": "Đã thuê",
-                'room_id': "P102"
-            }
-        ]
+
 
     @staticmethod
     def count_landlords_by_month(month, year):

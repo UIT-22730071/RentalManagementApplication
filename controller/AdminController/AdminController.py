@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import QApplication
 from QLNHATRO.RentalManagementApplication.Repository.UserRepository import UserRepository
 from QLNHATRO.RentalManagementApplication.frontend.views.Admin.UserManagerView import AdminUserManagement
 from QLNHATRO.RentalManagementApplication.services.AdminService import AdminService
+from QLNHATRO.RentalManagementApplication.services.RoomService import RoomService
+
 
 class AdminController:
 
@@ -40,7 +42,7 @@ class AdminController:
     @staticmethod
     def go_to_room_list(view):
         from QLNHATRO.RentalManagementApplication.frontend.views.Admin.AdminRoomList import AdminRoomList
-        room_list = AdminService.get_all_rooms()  # Dữ liệu thật hoặc giả lập
+        room_list = RoomService.get_all_rooms()  # Dữ liệu thật hoặc giả lập
         view.set_right_frame(lambda: AdminRoomList(view.main_window, room_list))
 
     @staticmethod

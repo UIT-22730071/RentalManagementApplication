@@ -98,30 +98,54 @@ class TenantRepository:
         return None
 
     @staticmethod
-    def get_tenant_by_cccd(cccd):
-        """Lấy thông tin người thuê từ số CCCD"""
-        # TODO: Thay thế bằng truy vấn SQL thực tế
-        tenant = {
-            'name': "Phúc",
-            'cccd': "082098013220",
-            'phone': "0325575333",
-            'email': "hoangphuc@gmail.com",
-        }
+    def get_tenant_by_cccd(cccd: str):
+        """Trả về đối tượng Tenant từ số CCCD"""
+        from QLNHATRO.RentalManagementApplication.backend.database.Database import Database
+        from QLNHATRO.RentalManagementApplication.backend.model.Tenant import Tenant
 
-        return tenant
+        db = Database()
+        db.connect()
+        query = """
+                SELECT * \
+                FROM Tenants \
+                WHERE CCCD = ? \
+                """
+        cursor = db.execute(query, (cccd,))
+        row = cursor.fetchone()
+        db.close()
+
+        if row:
+            columns = [column[0] for column in cursor.description]
+            data = dict(zip(columns, row))
+            return Tenant(data)  # ✅ Trả về đối tượng Tenant
+        else:
+            print(f"[⚠️ TenantRepository] Không tìm thấy tenant với CCCD: {cccd}")
+            return None
 
     @staticmethod
-    def get_tenant_by_room_id(room_id):
-        """Lấy thông tin người thuê từ id phòng"""
-        # TODO: Thay thế bằng truy vấn SQL thực tế JOIN
-        room_tenant_mapping = {
-            'P101': 'T001',
-            'P102': 'T002'
-        }
-        tenant_id = room_tenant_mapping.get(room_id)
-        if tenant_id:
-            return TenantRepository.get_tenant_by_id(tenant_id)
-        return None
+    def get_tenant_by_room_id(room_id: int):
+        from QLNHATRO.RentalManagementApplication.backend.database.Database import Database
+        from QLNHATRO.RentalManagementApplication.backend.model.Tenant import Tenant
+
+        db = Database()
+        db.connect()
+        query = """
+                SELECT t.* \
+                FROM Tenants t \
+                         JOIN Rooms r ON t.TenantID = r.TenantID
+                WHERE r.RoomID = ? \
+                """
+        cursor = db.execute(query, (room_id,))
+        row = cursor.fetchone()
+        db.close()
+
+        if row:
+            columns = [column[0] for column in cursor.description]
+            data = dict(zip(columns, row))
+            return Tenant(data)
+        else:
+            print(f"[⚠️ TenantRepository] Không tìm thấy tenant gắn với RoomID: {room_id}")
+            return None
 
     @staticmethod
     def get_tenant_id_from_user_id(user_id):
